@@ -13,34 +13,34 @@
     </head>
 
     <body>
-        <form action="submit" method="post">
+        <form action="signup" method="post">
             <table>
                 <tr>
-                    <td>First Name <input type="text" name="first_name"></td>
+                    <td>First Name: <input type="text" name="first_name"></td>
                 </tr>
                 <tr>
-                    <td>Last Name <input type="text" name="last_name"></td>
+                    <td>Last Name: <input type="text" name="last_name"></td>
                 </tr>
                 <tr>
-                    <td>Password <input type="password" name="password"></td>
+                    <td>Password: <input type="password" name="password"></td>
                 </tr>
                 <tr>
-                    <td>Confirm password <input type="password" name="confirm_password"></td>
+                    <td>Confirm password: <input type="password" name="confirm_password"></td>
                 </tr>
                 <tr>
-                    <td>Email Address <input type="text" name="email"></td>
+                    <td>Email Address: <input type="text" name="email"></td>
                 </tr>
                 <tr>
-                    <td>Address <input type="text" name="address"></td>
+                    <td>Address: <input type="text" name="address"></td>
                 </tr>
                 <tr>
-                    <td>City <input type="text" name="city"></td>
+                    <td>City: <input type="text" name="city"></td>
                 </tr>
                 <tr>
-                    <td>Province <input type="text" name="province"></td>
+                    <td>Province: <input type="text" name="province"></td>
                 </tr>
                 <tr>
-                    <td>Country <input type="text" name="country"></td>
+                    <td>Country: <input type="text" name="country"></td>
                 </tr>
             </table>
             <input type="submit" value="submit">
