@@ -23,6 +23,6 @@
                     <td>Password: <input type="password" name="password"></td>
                 </tr>
             </table>
-            <input type="submit" value="Login">
-            </body>
-            </html>
+            <input type="submit" value="Login"/>
+    </body>
+</html>

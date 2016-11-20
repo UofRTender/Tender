@@ -100,18 +100,53 @@ public class query {
             query += ";";
             ResultSet rs = stmt.executeQuery(query);
 
-            int rowCount=0;
-            while(rs.next()){
+            int rowCount = 0;
+            while (rs.next()) {
                 rowCount++;
             }
-            
 
             conn.close();
-            return rowCount==1;
+            return rowCount == 1;
         } catch (Exception e) {
             System.out.println(e);
         }
 
         return result;
+    }
+
+    public String getValue(String table, String column,HashMap conditions) {
+        query();
+        String result = "";
+        try {
+            Class.forName(jdbcDriver).newInstance();
+            Connection conn = DriverManager.getConnection(jdbcURL, user, DBpassword);
+            Statement stmt = conn.createStatement();
+
+            String query = "select "+column;
+  
+            query += " from " + table + " where ";
+            for (int i = 0; i < conditions.size(); i++) {
+                query += conditions.keySet().toArray()[i];
+                query += "=";
+                query += "'" + conditions.values().toArray()[i] + "'";
+                if (i < conditions.size() - 1) {
+                    query += " and ";
+                }
+            }
+            query += ";";
+            ResultSet rs = stmt.executeQuery(query);
+            ResultSetMetaData rsmd = rs.getMetaData();
+            //int numOfCols = rsmd.getColumnCount();
+            //result=rs.getString(numOfCols);
+            while(rs.next()){
+                result=rs.getString(column);
+            }
+
+            conn.close();
+            return result;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return "fuck";
     }
 }

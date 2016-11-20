@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import static tender.model.hash.hexEncode;
 import tender.model.query;
 
@@ -51,15 +52,17 @@ public class login extends HttpServlet {
 
                     info.put("email", email);
                     info.put("password", modPass);
-                    
-                    if(data.exists("person", info)){
+
+                    if (data.exists("person", info)) {
                         out.println("login successful!");
-                    }else{
+                        out.println(data.getValue("person", "PK",info));
+                        HttpSession session = request.getSession(true);
+                        session.setAttribute("personPK", data.getValue("person", "pk",info));
+                        request.setAttribute("pk", data.getValue("person", "pk",info));
+                        request.getRequestDispatcher("profile.jsp").forward(request, response);
+                    } else {
                         out.println("login unsuccessful");
                     }
-                    
-                    out.println("<p>"+modPass+"</p>");
-                    out.println(data.exists("person", info));
                 }
             } catch (Exception e) {
                 out.println(e);
