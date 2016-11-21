@@ -53,6 +53,7 @@ public class login extends HttpServlet {
                     info.put("password", modPass);
 
                     if (data.exists("person", info)) {
+                        request.getSession().invalidate();
                         session = request.getSession();
                         session.setAttribute("personPK", data.getValue("person", "pk", info));
                         response.sendRedirect("profile");
