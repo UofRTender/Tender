@@ -14,5 +14,13 @@
     <body>
         <h1><c:out value="${pk}"/></h1>
         <p><c:out value="${sessionScope.personPK}"/></p>
+        <p><c:out value="${firstname}"/> <c:out value="${lastname}"/></p>
+        <p><c:out value="${test}"/></p>
+        <form action="nextpage" method="post">
+            <input type="submit" value="test page"/>
+        </form>
+        <form action="logout" method="post">
+            <input type="submit" value="Logout"/>
+        </form>
     </body>
 </html>

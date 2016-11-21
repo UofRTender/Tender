@@ -7,21 +7,16 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import static tender.model.hash.hexEncode;
-import tender.model.query;
 
 /**
  *
  * @author marlon
  */
-public class login extends HttpServlet {
+public class nextpage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,35 +30,17 @@ public class login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        query data = new query();
-        HashMap info = new HashMap();
-        HttpSession session = request.getSession(false);
         try (PrintWriter out = response.getWriter()) {
-            try {
-                if (email == null || password == null) {
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-                } else {
-                    MessageDigest sha = MessageDigest.getInstance("SHA-1");
-                    byte[] hashOne = sha.digest(password.getBytes());
-                    String modPass = hexEncode(hashOne);
-
-                    info.put("email", email);
-                    info.put("password", modPass);
-
-                    if (data.exists("person", info)) {
-                        session = request.getSession();
-                        session.setAttribute("personPK", data.getValue("person", "pk", info));
-                        response.sendRedirect("profile");
-                        //request.getRequestDispatcher("/profile").forward(request, response);
-                    } else {
-                        out.println("login unsuccessful");
-                    }
-                }
-            } catch (Exception e) {
-                out.println(e);
-            }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet nextpage</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet nextpage at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

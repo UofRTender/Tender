@@ -114,7 +114,7 @@ public class query {
         return result;
     }
 
-    public String getValue(String table, String column,HashMap conditions) {
+    public String getValue(String table, String column, HashMap conditions) {
         query();
         String result = "";
         try {
@@ -135,7 +135,7 @@ public class query {
             }
             query += ";";
             ResultSet rs = stmt.executeQuery(query);
-            ResultSetMetaData rsmd = rs.getMetaData();
+            //ResultSetMetaData rsmd = rs.getMetaData();
             //int numOfCols = rsmd.getColumnCount();
             //result=rs.getString(numOfCols);
             while(rs.next()){
