@@ -25,5 +25,6 @@
             </table>
             <input type="submit" value="Login"/>
         </form>
+        <a href="signup.jsp">Sign up</a>
     </body>
 </html>

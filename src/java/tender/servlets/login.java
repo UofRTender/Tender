@@ -56,6 +56,10 @@ public class login extends HttpServlet {
                         request.getSession().invalidate();
                         session = request.getSession();
                         session.setAttribute("personPK", data.getValue("person", "pk", info));
+                        info.clear();
+                        info.put("pk", session.getAttribute("personPK"));
+                        session.setAttribute("personAddress", data.getValue("location", "address", info));
+                        session.setAttribute("personCity", data.getValue("location", "city", info));
                         response.sendRedirect("profile");
                         //request.getRequestDispatcher("/profile").forward(request, response);
                     } else {
