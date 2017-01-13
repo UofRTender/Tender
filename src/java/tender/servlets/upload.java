@@ -5,21 +5,27 @@
  */
 package tender.servlets;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import tender.model.query;
+import javax.servlet.http.Part;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  *
  * @author marlon
  */
-public class profile extends HttpServlet {
+public class upload extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,28 +39,30 @@ public class profile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
-        
         try (PrintWriter out = response.getWriter()) {
-            if (session.getAttribute("personPK")==null) {
-                response.sendRedirect("notLoggedIn");
-            } else {
-                query data = new query();
-                HashMap info = new HashMap();
-                request.setAttribute("test", session);
-                String pk = request.getSession(false).getAttribute("personPK").toString();
-                info.put("pk", pk);
-                String firstName = data.getValue("person", "firstname", info);
-                String lastName = data.getValue("person", "lastname", info);
+            if (!request.getPart("file").toString().isEmpty()) {
+                Part filePart = request.getPart("file");
+                out.println(filePart);
+                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                InputStream fileContent = filePart.getInputStream();
 
-                request.setAttribute("firstname", firstName);
-                request.setAttribute("lastname", lastName);
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
+                File upload = new File(getServletContext().getInitParameter("uploadDirectory"));
+                File file = new File(upload, request.getSession(false).getAttribute("personPK").toString() + ".jpg");
+                Files.copy(fileContent, file.toPath());
+
+                out.println(getServletContext().getInitParameter("uploadDirectory"));
+                out.println(filePart);
+                out.println(fileName);
+                out.println(request.getSession(false).getAttribute("personPK").toString());
+
+            } else {
+                out.println("invalid image entry");
             }
         }
+
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

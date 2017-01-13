@@ -7,19 +7,19 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import tender.model.query;
 
 /**
  *
  * @author marlon
  */
-public class profile extends HttpServlet {
+public class palette extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,28 +33,26 @@ public class profile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
-        
-        try (PrintWriter out = response.getWriter()) {
-            if (session.getAttribute("personPK")==null) {
-                response.sendRedirect("notLoggedIn");
-            } else {
-                query data = new query();
-                HashMap info = new HashMap();
-                request.setAttribute("test", session);
-                String pk = request.getSession(false).getAttribute("personPK").toString();
-                info.put("pk", pk);
-                String firstName = data.getValue("person", "firstname", info);
-                String lastName = data.getValue("person", "lastname", info);
+        query update = new query();
+        //ArrayList foods=new ArrayList();
+        HashMap id = new HashMap();
+        id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
 
-                request.setAttribute("firstname", firstName);
-                request.setAttribute("lastname", lastName);
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
+        try {
+            for (Object foods : update.getManyRows("palette", "foodtype", id)) {
+                id.put("foodtype", foods);
+                update.update("palette", "preference", id, request.getParameter(foods.toString()));
+                id.clear();
+                id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
             }
+        }catch(Exception e){
+            
         }
+        
+        request.getRequestDispatcher("profile.jsp").forward(request, response);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -66,7 +64,15 @@ public class profile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PrintWriter out = response.getWriter();
+        query select = new query();
+        HashMap id = new HashMap();
+        id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
+
+        request.setAttribute("foodType", select.getManyRows("palette", "foodtype", id));
+        request.setAttribute("preference", select.getManyRows("palette", "preference", id));
+
+        request.getRequestDispatcher("palette.jsp").forward(request, response);
     }
 
     /**

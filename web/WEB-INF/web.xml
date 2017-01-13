@@ -4,6 +4,10 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
+    <context-param>
+        <param-name>uploadDirectory</param-name>
+        <param-value>/opt/tomcat/profilePictures</param-value>
+    </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -36,6 +40,18 @@
         <servlet-name>notLoggedIn</servlet-name>
         <servlet-class>tender.servlets.notLoggedIn</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>upload</servlet-name>
+        <servlet-class>tender.servlets.upload</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>palette</servlet-name>
+        <servlet-class>tender.servlets.palette</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>restaurantSelection</servlet-name>
+        <servlet-class>tender.servlets.restaurantSelection</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -63,6 +79,18 @@
     <servlet-mapping>
         <servlet-name>notLoggedIn</servlet-name>
         <url-pattern>/notLoggedIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>upload</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>palette</servlet-name>
+        <url-pattern>/palette</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>restaurantSelection</servlet-name>
+        <url-pattern>/restaurantSelection</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

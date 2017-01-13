@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -122,8 +123,8 @@ public class query {
             Connection conn = DriverManager.getConnection(jdbcURL, user, DBpassword);
             Statement stmt = conn.createStatement();
 
-            String query = "select "+column;
-  
+            String query = "select " + column;
+
             query += " from " + table + " where ";
             for (int i = 0; i < conditions.size(); i++) {
                 query += conditions.keySet().toArray()[i];
@@ -138,8 +139,8 @@ public class query {
             //ResultSetMetaData rsmd = rs.getMetaData();
             //int numOfCols = rsmd.getColumnCount();
             //result=rs.getString(numOfCols);
-            while(rs.next()){
-                result=rs.getString(column);
+            while (rs.next()) {
+                result = rs.getString(column);
             }
 
             conn.close();
@@ -148,5 +149,66 @@ public class query {
             System.out.println(e);
         }
         return "fuck";
+    }
+
+    public void update(String table, String column, HashMap restraints, String new_values) {
+        query();
+        String execute = "UPDATE ";
+        try {
+            Class.forName(jdbcDriver).newInstance();
+            Connection conn = DriverManager.getConnection(jdbcURL, user, DBpassword);
+            Statement stmt = conn.createStatement();
+
+            execute += table + " SET ";
+            execute += column + " = ";
+            execute += "'" + new_values + "'";
+            execute += " WHERE ";
+            for (int i = 0; i < restraints.size(); i++) {
+                Object key = restraints.keySet().toArray()[i];
+                execute += key + " = " + "'" + restraints.get(key) + "'";
+                if (i + 1 != restraints.size()) {
+                    execute += " and ";
+                }
+            }
+            execute += ";";
+            stmt.executeUpdate(execute);
+
+            conn.close();
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public ArrayList getManyRows(String table, String column, HashMap conditions) {
+        query();
+        ArrayList rows = new ArrayList();
+        String query = "select * from " + table + " where ";
+        
+        for (int i = 0; i < conditions.size(); i++) {
+            query += conditions.keySet().toArray()[i];
+            query += "=";
+            query += "'" + conditions.values().toArray()[i] + "'";
+            if (i < conditions.size() - 1) {
+                query += " and ";
+            }
+        }
+        query += ";";
+        try {
+            Class.forName(jdbcDriver).newInstance();
+            Connection conn = DriverManager.getConnection(jdbcURL, user, DBpassword);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while (rs.next()) {
+                rows.add(rs.getArray(column));
+            }
+            conn.close();
+            return rows;
+        } catch (Exception e) {
+
+        }
+        return rows;
     }
 }
