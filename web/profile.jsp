@@ -39,6 +39,15 @@
             <input type="text" name="friendToAdd"/> 
             <input type="submit" value="Gotoprofile"/>
         </form>
+        <form action="FriendsList" method="post">
+            <input type="submit" value="Friends List"/>
+        </form>
+        <c:if test="${not empty addFriend}">
+            <form action="addFriend" method="post">
+                <input type="hidden" value="${addFriend}" name="friendId">
+                <input type="submit" value="add friend" name="${addFriend}"/>
+            </form>
+        </c:if>
         <form action="logout" method="post">
             <input type="submit" value="Logout"/>
         </form>

@@ -54,7 +54,15 @@
     </servlet>
     <servlet>
         <servlet-name>friendsList</servlet-name>
-        <servlet-class>tender.servlets.friendsList</servlet-class>
+        <servlet-class>tender.servlets.addFriend</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FriendsList</servlet-name>
+        <servlet-class>tender.servlets.FriendsList</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addFriend</servlet-name>
+        <servlet-class>tender.servlets.addFriend</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
@@ -99,6 +107,14 @@
     <servlet-mapping>
         <servlet-name>friendsList</servlet-name>
         <url-pattern>/friendsList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FriendsList</servlet-name>
+        <url-pattern>/FriendsList</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addFriend</servlet-name>
+        <url-pattern>/addFriend</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

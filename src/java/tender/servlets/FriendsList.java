@@ -7,16 +7,18 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tender.model.query;
 
 /**
  *
  * @author marlon
  */
-public class friendsList extends HttpServlet {
+public class FriendsList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,15 +34,31 @@ public class friendsList extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet friendsList</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet friendsList at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            HashMap adder_pk=new HashMap();
+            HashMap addee_pk=new HashMap();
+            query info=new query();
+            
+            adder_pk.put("adder_pk",request.getSession(false).getAttribute("personPK").toString());
+            
+            addee_pk.put("addee_pk", request.getSession(false).getAttribute("personPK").toString());
+
+            for(Object adder:info.getManyRows("friends", "adder_pk", adder_pk)){
+                out.println("adder "+adder);
+            }  
+           
+            for(Object addee:info.getManyRows("friends", "addee_pk", addee_pk)){
+                out.println("addee "+addee);
+            }
+            
+            
+            for(Object con:info.getManyRows("friends", "confirmed", adder_pk)){
+                out.println("confirmed "+con);
+            }
+            for(Object con:info.getManyRows("friends", "confirmed", addee_pk)){
+                out.println("confirmed "+con);
+            }
+            
+            
         }
     }
 

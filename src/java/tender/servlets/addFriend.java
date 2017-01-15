@@ -7,21 +7,17 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import tender.model.friends;
-import tender.model.query;
-import tender.model.user;
 
 /**
  *
  * @author marlon
  */
-public class MyProfile extends HttpServlet {
+public class addFriend extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,45 +31,21 @@ public class MyProfile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
-
-        if (request.getParameterMap().containsKey("friendToAdd") && (request.getParameter("friendToAdd") != null || !request.getParameter("friendToAdd").equals(""))) {
-            request.setAttribute("test", session);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             String pk = request.getSession(false).getAttribute("personPK").toString();
-            String remotePK=request.getParameter("friendToAdd");
-            user dude = new user();
-            dude.user(Integer.parseInt(remotePK));
+            String remotePK=request.getParameter("friendId");
+            friends friendRequest = new friends();
+            friendRequest.friends(Integer.parseInt(pk),Integer.parseInt(remotePK));
             
-            friends requested=new friends(); 
-            requested.friends(Integer.parseInt(pk), Integer.parseInt(remotePK));
-            
-            request.setAttribute("user", dude);
-            if (!pk.equals(remotePK) && requested.showButton()) {
-                request.setAttribute("addFriend", remotePK);
+            if(!friendRequest.checkRequest()){
+                friendRequest.makeFriendRequest();
             }
-            request.getRequestDispatcher("profile.jsp").forward(request, response);
-        } else {
-            try (PrintWriter out = response.getWriter()) {
-                if (session.getAttribute("personPK") == null) {
-                    response.sendRedirect("notLoggedIn");
-                } else {
-                    HashMap info = new HashMap();
-                    request.setAttribute("test", session);
-                    String pk = request.getSession(false).getAttribute("personPK").toString();
-
-                    user dude = new user();
-                    dude.user(Integer.parseInt(pk));
-                    info.put("pk", pk);
-
-                    request.setAttribute("user", dude);
-
-                    request.getRequestDispatcher("profile.jsp").forward(request, response);
-                }
-            }
+            //response.sendRedirect("FriendsList");
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
