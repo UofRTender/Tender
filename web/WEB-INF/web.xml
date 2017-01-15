@@ -26,7 +26,7 @@
     </servlet>
     <servlet>
         <servlet-name>profile</servlet-name>
-        <servlet-class>tender.servlets.profile</servlet-class>
+        <servlet-class>tender.servlets.MyProfile</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
@@ -51,6 +51,10 @@
     <servlet>
         <servlet-name>restaurantSelection</servlet-name>
         <servlet-class>tender.servlets.restaurantSelection</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>friendsList</servlet-name>
+        <servlet-class>tender.servlets.friendsList</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
@@ -91,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>restaurantSelection</servlet-name>
         <url-pattern>/restaurantSelection</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>friendsList</servlet-name>
+        <url-pattern>/friendsList</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

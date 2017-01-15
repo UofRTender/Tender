@@ -31,5 +31,6 @@
                 
                 <input type="submit" value="Update Palette"/>
         </form>
+        <form action="">
     </body>
 </html>

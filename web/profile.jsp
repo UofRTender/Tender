@@ -9,16 +9,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><c:out value="${firstname}"/> <c:out value="${lastname}"/></title>
+        <title><c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/></title>
     </head>
     <body>
-        <h1><c:out value="${pk}"/></h1>
-        <p>test <c:out value="${sessionScope.personPK}"/></p>
-        <p>test <c:out value="${sessionScope.personAddress}"/></p>
-        <p>test <c:out value="${sessionScope.personCity}"/></p>
-        <p><c:out value="${test}"/></p>
-        <p><c:out value="${firstname}"/> <c:out value="${lastname}"/></p>
-        
+        <h1><c:out value="${user.pk}"/></h1>
+        <p><c:out value="${sessionScope.personPK}"/></p>
+        <p><c:out value="${user.email}"/></p>
+        <p><c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/></p>
+        <p><c:out value="${user.address}"/></p>
+        <p><c:out value="${user.city}"/></p>
+        <p><c:out value="${user.province}"/></p>
+        <p><c:out value="${user.country}"/></p>
 
         <form method="post" action="upload" enctype="multipart/form-data" >
             File:
@@ -29,12 +30,14 @@
         <form action="restaurantSelection" method="post">
             <input type="submit" value="Restaurant Selection"/>
         </form>
-        
+
         <form action="palette" method="get">
             <input type="submit" value="Palette"/>
         </form>
-        <form action="friendsList" method="get">
-            <input type="submit" value="friendsList"/>
+
+        <form action="profile" method="get">
+            <input type="text" name="friendToAdd"/> 
+            <input type="submit" value="Gotoprofile"/>
         </form>
         <form action="logout" method="post">
             <input type="submit" value="Logout"/>

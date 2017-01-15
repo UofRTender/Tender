@@ -54,6 +54,7 @@ public class signup extends HttpServlet {
         query data = new query();
         HashMap location = new HashMap();
         HashMap person = new HashMap();
+        HashMap palette = new HashMap();
         int pkLocation = 0;
         int pkPerson = 0;
 
@@ -89,8 +90,20 @@ public class signup extends HttpServlet {
                     person.put("email", emailAddress);
                     person.put("location_pk", pkLocation);
                     pkPerson = data.insert("person", person);
-                }
-                out.println(pkLocation + ", " + pkPerson);
+                    
+                    HashMap id=new HashMap();
+                    id.put("user_id","1");
+                    
+                    for (Object foods : data.getManyRows("palette", "foodtype", id)) {
+                        palette.put("user_id", pkPerson);
+                        palette.put("foodtype", foods);
+                        palette.put("preference", true);
+                        data.insert("palette", palette);
+                        palette.clear();
+                    }
+
+                } 
+               out.println(pkLocation + ", " + pkPerson);
 
             } catch (Exception e) {
 

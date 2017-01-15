@@ -7,19 +7,16 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import tender.model.query;
 
 /**
  *
  * @author marlon
  */
-public class profile extends HttpServlet {
+public class friendsList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,28 +30,21 @@ public class profile extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
-        
         try (PrintWriter out = response.getWriter()) {
-            if (session.getAttribute("personPK")==null) {
-                response.sendRedirect("notLoggedIn");
-            } else {
-                query data = new query();
-                HashMap info = new HashMap();
-                request.setAttribute("test", session);
-                String pk = request.getSession(false).getAttribute("personPK").toString();
-                info.put("pk", pk);
-                String firstName = data.getValue("person", "firstname", info);
-                String lastName = data.getValue("person", "lastname", info);
-
-                request.setAttribute("firstname", firstName);
-                request.setAttribute("lastname", lastName);
-                request.getRequestDispatcher("profile.jsp").forward(request, response);
-            }
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet friendsList</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet friendsList at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

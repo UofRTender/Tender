@@ -7,19 +7,20 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import tender.model.query;
+import tender.model.user;
 
 /**
  *
  * @author marlon
  */
-public class palette extends HttpServlet {
+public class MyProfile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,25 +34,42 @@ public class palette extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        query update = new query();
-        //ArrayList foods=new ArrayList();
-        HashMap id = new HashMap();
-        id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
+        HttpSession session = request.getSession(false);
 
-        try {
-            for (Object foods : update.getManyRows("palette", "foodtype", id)) {
-                id.put("foodtype", foods);
-                update.update("palette", "preference", id, request.getParameter(foods.toString()));
-                id.clear();
-                id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
+        if (request.getParameterMap().containsKey("friendToAdd")&&(request.getParameter("friendToAdd") != null || !request.getParameter("friendToAdd").equals(""))) {
+            HashMap info = new HashMap();
+            request.setAttribute("test", session);
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+
+            user dude = new user();
+            dude.user(Integer.parseInt(request.getParameter("friendToAdd")));
+            info.put("pk", pk);
+
+            request.setAttribute("user", dude);
+
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+        } else {
+            try (PrintWriter out = response.getWriter()) {
+                if (session.getAttribute("personPK") == null) {
+                    response.sendRedirect("notLoggedIn");
+                } else {
+                    HashMap info = new HashMap();
+                    request.setAttribute("test", session);
+                    String pk = request.getSession(false).getAttribute("personPK").toString();
+
+                    user dude = new user();
+                    dude.user(Integer.parseInt(pk));
+                    info.put("pk", pk);
+
+                    request.setAttribute("user", dude);
+
+                    request.getRequestDispatcher("profile.jsp").forward(request, response);
+                }
             }
-        }catch(Exception e){
-            
         }
-        response.sendRedirect("profile");
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -63,15 +81,7 @@ public class palette extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        query select = new query();
-        HashMap id = new HashMap();
-        id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
-
-        request.setAttribute("foodType", select.getManyRows("palette", "foodtype", id));
-        request.setAttribute("preference", select.getManyRows("palette", "preference", id));
-
-        request.getRequestDispatcher("palette.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
