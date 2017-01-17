@@ -5,6 +5,7 @@
  */
 package tender.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -82,5 +83,65 @@ public class friends {
             return false;
         }
         return false;
+    }
+
+    public ArrayList<user> getPendingFriends(int pk) {
+        ArrayList<user> pendingFriends = new ArrayList<user>();
+        query check = new query();
+        HashMap addee_pk = new HashMap();
+        user requester = new user();
+
+        addee_pk.put("addee_pk", pk);
+        addee_pk.put("confirmed", "2");
+
+        for (Object adder : check.getManyRows("friends", "adder_pk", addee_pk)) {
+            requester.user(Integer.parseInt(adder.toString()));
+            pendingFriends.add(requester);
+        }
+
+        return pendingFriends;
+    }
+
+    public ArrayList<user> getConfirmedFriends(int pk) {
+        ArrayList<user> pendingFriends = new ArrayList<user>();
+        query check = new query();
+        HashMap addee_pk = new HashMap();
+        user requester = new user();
+
+        addee_pk.put("addee_pk", pk);
+        addee_pk.put("confirmed", "1");
+
+        for (Object adder : check.getManyRows("friends", "adder_pk", addee_pk)) {
+            requester.user(Integer.parseInt(adder.toString()));
+            pendingFriends.add(requester);
+        }
+        
+        addee_pk.clear();
+        addee_pk.put("adder_pk", pk);
+        addee_pk.put("confirmed", "1");
+        for (Object adder : check.getManyRows("friends", "addee_pk", addee_pk)) {
+            requester.user(Integer.parseInt(adder.toString()));
+            pendingFriends.add(requester);
+        }
+        
+        return pendingFriends;
+    }
+    
+    public void acceptRequest(int pk, int friendPk){
+        query update = new query();
+        HashMap conditions = new HashMap();
+        
+        conditions.put("addee_pk", pk);
+        conditions.put("adder_pk", friendPk);
+        update.update("friends", "confirmed", conditions, "1");
+    }
+
+    public void rejectRequest(int pk, int friendPk) {
+        query update = new query();
+        HashMap conditions = new HashMap();
+        
+        conditions.put("addee_pk", pk);
+        conditions.put("adder_pk", friendPk);
+        update.update("friends", "confirmed", conditions, "0");
     }
 }

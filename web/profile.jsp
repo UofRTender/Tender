@@ -12,6 +12,7 @@
         <title><c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/></title>
     </head>
     <body>
+
         <h1><c:out value="${user.pk}"/></h1>
         <p><c:out value="${sessionScope.personPK}"/></p>
         <p><c:out value="${user.email}"/></p>
@@ -39,7 +40,7 @@
             <input type="text" name="friendToAdd"/> 
             <input type="submit" value="Gotoprofile"/>
         </form>
-        <form action="FriendsList" method="post">
+        <form action="FriendsList" method="get">
             <input type="submit" value="Friends List"/>
         </form>
         <c:if test="${not empty addFriend}">

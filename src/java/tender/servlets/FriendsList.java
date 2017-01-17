@@ -7,12 +7,15 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tender.model.friends;
 import tender.model.query;
+import tender.model.user;
 
 /**
  *
@@ -32,34 +35,21 @@ public class FriendsList extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            HashMap adder_pk=new HashMap();
-            HashMap addee_pk=new HashMap();
-            query info=new query();
-            
-            adder_pk.put("adder_pk",request.getSession(false).getAttribute("personPK").toString());
-            
-            addee_pk.put("addee_pk", request.getSession(false).getAttribute("personPK").toString());
 
-            for(Object adder:info.getManyRows("friends", "adder_pk", adder_pk)){
-                out.println("adder "+adder);
-            }  
-           
-            for(Object addee:info.getManyRows("friends", "addee_pk", addee_pk)){
-                out.println("addee "+addee);
-            }
-            
-            
-            for(Object con:info.getManyRows("friends", "confirmed", adder_pk)){
-                out.println("confirmed "+con);
-            }
-            for(Object con:info.getManyRows("friends", "confirmed", addee_pk)){
-                out.println("confirmed "+con);
-            }
-            
-            
+        /* TODO output your page here. You may use following sample code. */
+        friends newFriend = new friends();
+        String pk = request.getSession(false).getAttribute("personPK").toString();
+        String friendPk = request.getParameter("pendingID");
+        String accepted = request.getParameter("accept");
+
+        if (accepted != null) {
+            newFriend.acceptRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
+        } else {
+            newFriend.rejectRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
         }
+
+        doGet(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -74,7 +64,22 @@ public class FriendsList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        friends friend = new friends();
+        ArrayList<user> pendingRequests;
+        ArrayList<user> confirmedFriends;
+        int pk = Integer.parseInt(request.getSession(false).getAttribute("personPK").toString());
+
+        pendingRequests = friend.getPendingFriends(pk);
+        confirmedFriends = friend.getConfirmedFriends(pk);
+        if (pendingRequests.size() > 0) {
+            request.setAttribute("pending", pendingRequests);
+        }
+        if (confirmedFriends.size() > 0) {
+            request.setAttribute("confirmed", confirmedFriends);
+        }
+
+        request.getRequestDispatcher("friendsList.jsp").forward(request, response);
+
     }
 
     /**
