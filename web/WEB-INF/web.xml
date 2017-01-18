@@ -64,6 +64,14 @@
         <servlet-name>addFriend</servlet-name>
         <servlet-class>tender.servlets.addFriend</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>myGroups</servlet-name>
+        <servlet-class>tender.servlets.myGroups</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>createGroup</servlet-name>
+        <servlet-class>tender.servlets.createGroup</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -115,6 +123,14 @@
     <servlet-mapping>
         <servlet-name>addFriend</servlet-name>
         <url-pattern>/addFriend</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>myGroups</servlet-name>
+        <url-pattern>/myGroups</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createGroup</servlet-name>
+        <url-pattern>/createGroup</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

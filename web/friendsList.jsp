@@ -34,7 +34,7 @@
         <c:if test="${not empty confirmed}">
             <p>Friends</p>
             <c:forEach var="conf" items="${confirmed}">
-                <form method="post" action="profile">
+                <form method="get" action="profile">
                     <input type="hidden" name="friendToAdd" value="${conf.pk}"/> 
                     <p><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out>
                             <input type="submit" value="view profile"></p>

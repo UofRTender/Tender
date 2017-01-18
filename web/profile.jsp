@@ -43,6 +43,9 @@
         <form action="FriendsList" method="get">
             <input type="submit" value="Friends List"/>
         </form>
+        <form action="myGroups" method="post">
+            <input type="submit" value="My Groups"/>
+        </form>
         <c:if test="${not empty addFriend}">
             <form action="addFriend" method="post">
                 <input type="hidden" value="${addFriend}" name="friendId">
