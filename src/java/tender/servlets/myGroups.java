@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tender.model.groups;
 
 /**
  *
@@ -32,15 +33,7 @@ public class myGroups extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet myGroups</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet myGroups at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            request.getRequestDispatcher("myGroups.jsp").forward(request, response);
         }
     }
 
@@ -70,8 +63,14 @@ public class myGroups extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        processRequest(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            groups findGroup=new groups();
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+            //findGroup.getGroups(pk);
+            out.println(findGroup.getGroups(pk));
+            //request.getRequestDispatcher("myGroups.jsp").forward(request, response);
+        }
+        //processRequest(request, response);
     }
 
     /**

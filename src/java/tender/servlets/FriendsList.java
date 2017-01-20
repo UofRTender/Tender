@@ -77,9 +77,7 @@ public class FriendsList extends HttpServlet {
         if (confirmedFriends.size() > 0) {
             request.setAttribute("confirmed", confirmedFriends);
         }
-
         request.getRequestDispatcher("friendsList.jsp").forward(request, response);
-
     }
 
     /**

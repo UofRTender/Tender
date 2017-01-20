@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tender.model.friends;
+import tender.model.groups;
 import tender.model.user;
 import tender.model.user;
 
@@ -60,7 +61,13 @@ public class createGroup extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String[] friends = request.getParameterValues("friend");
+        String groupName = request.getParameter("group_name");
+        String pk = request.getSession(false).getAttribute("personPK").toString();
+
+        groups newGroup = new groups();
+        newGroup.makeGroup(groupName, pk, friends);
+        response.sendRedirect("myGroups");
     }
 
     /**
@@ -74,14 +81,17 @@ public class createGroup extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pk = request.getSession(false).getAttribute("personPK").toString();
-        friends friend = new friends();
-        ArrayList<user> confirmedFriends;
-        confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
-        if (confirmedFriends.size() > 0) {
-            request.setAttribute("confirmed", confirmedFriends);
+        try (PrintWriter out = response.getWriter()) {
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+            friends friend = new friends();
+            ArrayList<user> confirmedFriends;
+            confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
+
+            if (confirmedFriends.size() > 0) {
+                request.setAttribute("confirmed", confirmedFriends);
+            }
+            request.getRequestDispatcher("createGroup.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("createGroup.jsp").forward(request, response);
 
     }
 
