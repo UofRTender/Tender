@@ -7,6 +7,7 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +68,8 @@ public class myGroups extends HttpServlet {
             groups findGroup=new groups();
             String pk = request.getSession(false).getAttribute("personPK").toString();
             //findGroup.getGroups(pk);
-            out.println(findGroup.getGroups(pk));
+            HashMap groups=findGroup.getGroups(pk);
+            
             //request.getRequestDispatcher("myGroups.jsp").forward(request, response);
         }
         //processRequest(request, response);

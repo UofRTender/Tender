@@ -32,7 +32,7 @@ public class groups {
         }
     }
 
-    public String getGroups(String pk) {
+    public HashMap getGroups(String pk) {
         ArrayList<String> groupPK = new ArrayList<>();
         HashMap groupInfo=new HashMap();
         String test="";
@@ -48,6 +48,6 @@ public class groups {
             groupInfo.put(groupPK.get(i), check.getValue("groups", "name", userInfo));
         }
         
-        return groupInfo.toString();
+        return groupInfo;
     }
 }
