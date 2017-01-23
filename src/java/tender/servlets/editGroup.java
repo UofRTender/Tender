@@ -15,13 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import tender.model.friends;
 import tender.model.groups;
 import tender.model.user;
-import tender.model.user;
 
 /**
  *
  * @author marlon
  */
-public class createGroup extends HttpServlet {
+public class editGroup extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class createGroup extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet createGroup</title>");
+            out.println("<title>Servlet editGroup</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet createGroup at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet editGroup at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,26 +60,41 @@ public class createGroup extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String newName = request.getParameter("group_name");
         String[] friends = request.getParameterValues("friend");
-        String groupName = request.getParameter("group_name");
         String pk = request.getSession(false).getAttribute("personPK").toString();
+        String groupPK = request.getParameter("gpk");
+        groups updateGroup = new groups();
 
-        if (groupName == null || groupName.equals("")) {
-            request.setAttribute("error", "please provide a name for your group");
-            doPost(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            if (newName == null || newName.equals("")) {
+                if (friends == null) {
+                    //nothing
+                    out.println("nothing");
+                    /*request.setAttribute("error", "group updated");
+                    doPost(request, response);*/
+                } else {
+                    for (String friend : friends) {
+                        updateGroup.addMember(groupPK, friend);
+                    }
+                    request.setAttribute("error", "group name and group member changed");
+                    response.sendRedirect("myGroups");
+                }
+            } else if (friends == null) {
+                //edit name
+                updateGroup.updateName(groupPK, newName);
+                request.setAttribute("error", "group name updated");
+                response.sendRedirect("myGroups");
+            } else {
+                //edit both
+                updateGroup.updateName(groupPK, newName);
+                for (String friend : friends) {
+                    updateGroup.addMember(groupPK, friend);
+                }
+                request.setAttribute("error", "group name and group member changed");
+                response.sendRedirect("myGroups");
+            }
         }
-        if (friends == null) {
-            friends = new String[0];
-        }
-        groups newGroup = new groups();
-        newGroup.makeGroup(groupName, pk, friends);
-        response.sendRedirect("myGroups");
-
-        /*groups newGroup = new groups();
-            newGroup.makeGroup(groupName, pk, friends);
-            request.getRequestDispatcher("myGroups.jsp").include(request, response);*/
-        //response.sendRedirect("myGroups");
     }
 
     /**
@@ -94,18 +108,17 @@ public class createGroup extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
-            String pk = request.getSession(false).getAttribute("personPK").toString();
-            friends friend = new friends();
-            ArrayList<user> confirmedFriends;
-            confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
+        String pk = request.getSession(false).getAttribute("personPK").toString();
+        friends friend = new friends();
+        ArrayList<user> confirmedFriends;
+        confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
 
-            if (confirmedFriends.size() > 0) {
-                request.setAttribute("confirmed", confirmedFriends);
-            }
-            request.getRequestDispatcher("createGroup.jsp").forward(request, response);
+        if (confirmedFriends.size() > 0) {
+            request.setAttribute("confirmed", confirmedFriends);
         }
-
+        request.setAttribute("gpk", request.getParameter("gpk"));
+        request.getRequestDispatcher("editgroup.jsp").forward(request, response);
+        //processRequest(request, response);
     }
 
     /**

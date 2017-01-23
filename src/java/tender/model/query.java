@@ -178,14 +178,14 @@ public class query {
         } catch (Exception e) {
             System.out.println(e);
         }
-
+        //return execute;
     }
 
     public ArrayList getManyRows(String table, String column, HashMap conditions) {
         query();
         ArrayList rows = new ArrayList();
         String query = "select * from " + table + " where ";
-        
+
         for (int i = 0; i < conditions.size(); i++) {
             query += conditions.keySet().toArray()[i];
             query += "=";
@@ -200,7 +200,7 @@ public class query {
             Connection conn = DriverManager.getConnection(jdbcURL, user, DBpassword);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            
+
             while (rs.next()) {
                 rows.add(rs.getArray(column));
             }
@@ -210,5 +210,30 @@ public class query {
 
         }
         return rows;
+    }
+
+    public void delete(String table, HashMap conditions) {
+        query();
+        String execute = "delete from " + table + " where ";
+        try {
+
+            Class.forName(jdbcDriver).newInstance();
+            Connection conn = DriverManager.getConnection(jdbcURL, user, DBpassword);
+            Statement stmt = conn.createStatement();
+            for (int i = 0; i < conditions.size(); i++) {
+                execute += conditions.keySet().toArray()[i];
+                execute += "=";
+                execute += "'" + conditions.values().toArray()[i] + "'";
+                if (i < conditions.size() - 1) {
+                    execute += " and ";
+                }
+            }
+            execute += ";";
+            stmt.executeUpdate(execute);
+
+            conn.close();
+        }catch(Exception e){
+            
+        }
     }
 }

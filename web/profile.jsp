@@ -43,7 +43,7 @@
         <form action="FriendsList" method="get">
             <input type="submit" value="Friends List"/>
         </form>
-        <form action="myGroups" method="post">
+        <form action="myGroups" method="get">
             <input type="submit" value="My Groups"/>
         </form>
         <c:if test="${not empty addFriend}">
