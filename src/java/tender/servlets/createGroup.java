@@ -61,22 +61,24 @@ public class createGroup extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            String[] friends = request.getParameterValues("friend");
+            String groupName = request.getParameter("group_name");
+            String pk = request.getSession(false).getAttribute("personPK").toString();
 
-        String[] friends = request.getParameterValues("friend");
-        String groupName = request.getParameter("group_name");
-        String pk = request.getSession(false).getAttribute("personPK").toString();
-
-        if (groupName == null || groupName.equals("")) {
-            request.setAttribute("error", "please provide a name for your group");
-            doPost(request, response);
+            if (groupName == null || groupName.equals("")) {
+                request.setAttribute("error", "please provide a name for your group");
+                doPost(request, response);
+            }
+            if (friends == null) {
+                friends = new String[0];
+            }
+            groups newGroup = new groups();
+            newGroup.makeGroup(groupName, pk, friends);
+            response.sendRedirect("myGroups");
         }
-        if (friends == null) {
-            friends = new String[0];
-        }
-        groups newGroup = new groups();
-        newGroup.makeGroup(groupName, pk, friends);
-        response.sendRedirect("myGroups");
-
         /*groups newGroup = new groups();
             newGroup.makeGroup(groupName, pk, friends);
             request.getRequestDispatcher("myGroups.jsp").include(request, response);*/
@@ -95,15 +97,19 @@ public class createGroup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-            String pk = request.getSession(false).getAttribute("personPK").toString();
-            friends friend = new friends();
-            ArrayList<user> confirmedFriends;
-            confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
+            if (request.getSession(false).getAttribute("personPK") == null) {
+                response.sendRedirect("notLoggedIn");
+            } else {
+                String pk = request.getSession(false).getAttribute("personPK").toString();
+                friends friend = new friends();
+                ArrayList<user> confirmedFriends;
+                confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
 
-            if (confirmedFriends.size() > 0) {
-                request.setAttribute("confirmed", confirmedFriends);
+                if (confirmedFriends.size() > 0) {
+                    request.setAttribute("confirmed", confirmedFriends);
+                }
+                request.getRequestDispatcher("createGroup.jsp").forward(request, response);
             }
-            request.getRequestDispatcher("createGroup.jsp").forward(request, response);
         }
 
     }

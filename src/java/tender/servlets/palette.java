@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tender.model.Palette;
 import tender.model.query;
 
 /**
@@ -32,23 +33,29 @@ public class palette extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        query update = new query();
-        //ArrayList foods=new ArrayList();
-        HashMap id = new HashMap();
-        id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            response.setContentType("text/html;charset=UTF-8");
+            query update = new query();
+            //Palette userPalette=new Palette();
+            //userPalette.updatePreferences(request.getSession(false).getAttribute("personPK").toString());
+            //ArrayList foods=new ArrayList();
+            HashMap id = new HashMap();
+            id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
 
-        try {
-            for (Object foods : update.getManyRows("palette", "foodtype", id)) {
-                id.put("foodtype", foods);
-                update.update("palette", "preference", id, request.getParameter(foods.toString()));
-                id.clear();
-                id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
+            try {
+                for (Object foods : update.getManyRows("palette", "foodtype", id)) {
+                    id.put("foodtype", foods);
+                    update.update("palette", "preference", id, request.getParameter(foods.toString()));
+                    id.clear();
+                    id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
+                }
+            } catch (Exception e) {
+
             }
-        }catch(Exception e){
-            
+            response.sendRedirect("profile");
         }
-        response.sendRedirect("profile");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -63,15 +70,14 @@ public class palette extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        query select = new query();
-        HashMap id = new HashMap();
-        id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
-
-        request.setAttribute("foodType", select.getManyRows("palette", "foodtype", id));
-        request.setAttribute("preference", select.getManyRows("palette", "preference", id));
-
-        request.getRequestDispatcher("palette.jsp").forward(request, response);
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            PrintWriter out = response.getWriter();
+            Palette userPalette=new Palette();
+            request.setAttribute("foodPreferences", userPalette.getFoodPreference(request.getSession(false).getAttribute("personPK").toString()));
+            request.getRequestDispatcher("palette.jsp").forward(request, response);
+        }
     }
 
     /**

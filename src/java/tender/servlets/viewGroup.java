@@ -59,23 +59,27 @@ public class viewGroup extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
-            String id = request.getParameter("id");
-            groups members = new groups();
-            user user;
-            ArrayList<user> groupMembers = new ArrayList<>();
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            try (PrintWriter out = response.getWriter()) {
+                String id = request.getParameter("id");
+                groups members = new groups();
+                user user;
+                ArrayList<user> groupMembers = new ArrayList<>();
 
-            for (Object groupMember : members.getGroupMembers(id)) {
-                user = new user();
-                user.user(Integer.parseInt(groupMember.toString()));
-                groupMembers.add(user);
+                for (Object groupMember : members.getGroupMembers(id)) {
+                    user = new user();
+                    user.user(Integer.parseInt(groupMember.toString()));
+                    groupMembers.add(user);
+                }
+                request.setAttribute("pk", id);
+                request.setAttribute("groupName", members.getName(id));
+                request.setAttribute("members", groupMembers);
+                request.getRequestDispatcher("viewGroup.jsp").forward(request, response);
             }
-            request.setAttribute("pk", id);
-            request.setAttribute("groupName", members.getName(id));
-            request.setAttribute("members", groupMembers);
-            request.getRequestDispatcher("viewGroup.jsp").forward(request, response);
+            processRequest(request, response);
         }
-        processRequest(request, response);
     }
 
     /**
@@ -89,11 +93,15 @@ public class viewGroup extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
-            String pk = request.getSession(false).getAttribute("personPK").toString();
-            groups members = new groups();
-            members.leaveGroup(request.getParameter("gpk"), pk);
-            response.sendRedirect("myGroups");
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            try (PrintWriter out = response.getWriter()) {
+                String pk = request.getSession(false).getAttribute("personPK").toString();
+                groups members = new groups();
+                members.leaveGroup(request.getParameter("gpk"), pk);
+                response.sendRedirect("myGroups");
+            }
         }
     }
 

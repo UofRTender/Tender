@@ -33,10 +33,6 @@
         <servlet-class>tender.servlets.logout</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>nextpage</servlet-name>
-        <servlet-class>tender.servlets.nextpage</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>notLoggedIn</servlet-name>
         <servlet-class>tender.servlets.notLoggedIn</servlet-class>
     </servlet>
@@ -80,6 +76,18 @@
         <servlet-name>editGroup</servlet-name>
         <servlet-class>tender.servlets.editGroup</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>restaurantSelectionProto</servlet-name>
+        <servlet-class>tender.servlets.restaurantSelectionProto</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tender</servlet-name>
+        <servlet-class>tender.servlets.tender</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>tender.servlets.test</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -99,10 +107,6 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>nextpage</servlet-name>
-        <url-pattern>/nextpage</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>notLoggedIn</servlet-name>
@@ -147,6 +151,18 @@
     <servlet-mapping>
         <servlet-name>editGroup</servlet-name>
         <url-pattern>/editGroup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>restaurantSelectionProto</servlet-name>
+        <url-pattern>/restaurantSelectionProto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tender</servlet-name>
+        <url-pattern>/tender</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

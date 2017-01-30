@@ -28,7 +28,7 @@
             <input type="submit" value="upload"/>
         </form>
 
-        <form action="restaurantSelection" method="post">
+        <form action="tender" method="post">
             <input type="submit" value="Restaurant Selection"/>
         </form>
 

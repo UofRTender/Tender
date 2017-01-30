@@ -32,14 +32,18 @@ public class myGroups extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        groups findGroup = new groups();
-        String pk = request.getSession(false).getAttribute("personPK").toString();
-        //findGroup.getGroups(pk);
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            groups findGroup = new groups();
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+            //findGroup.getGroups(pk);
 
-        HashMap groups = findGroup.getGroups(pk);
+            HashMap groups = findGroup.getGroups(pk);
 
-        request.setAttribute("groups", groups);
-        request.getRequestDispatcher("myGroups.jsp").forward(request, response);
+            request.setAttribute("groups", groups);
+            request.getRequestDispatcher("myGroups.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

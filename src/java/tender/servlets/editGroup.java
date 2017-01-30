@@ -60,39 +60,43 @@ public class editGroup extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String newName = request.getParameter("group_name");
-        String[] friends = request.getParameterValues("friend");
-        String pk = request.getSession(false).getAttribute("personPK").toString();
-        String groupPK = request.getParameter("gpk");
-        groups updateGroup = new groups();
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            String newName = request.getParameter("group_name");
+            String[] friends = request.getParameterValues("friend");
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+            String groupPK = request.getParameter("gpk");
+            groups updateGroup = new groups();
 
-        try (PrintWriter out = response.getWriter()) {
-            if (newName == null || newName.equals("")) {
-                if (friends == null) {
-                    //nothing
-                    out.println("nothing");
-                    /*request.setAttribute("error", "group updated");
+            try (PrintWriter out = response.getWriter()) {
+                if (newName == null || newName.equals("")) {
+                    if (friends == null) {
+                        //nothing
+                        out.println("nothing");
+                        /*request.setAttribute("error", "group updated");
                     doPost(request, response);*/
+                    } else {
+                        for (String friend : friends) {
+                            updateGroup.addMember(groupPK, friend);
+                        }
+                        request.setAttribute("error", "group name and group member changed");
+                        response.sendRedirect("myGroups");
+                    }
+                } else if (friends == null) {
+                    //edit name
+                    updateGroup.updateName(groupPK, newName);
+                    request.setAttribute("error", "group name updated");
+                    response.sendRedirect("myGroups");
                 } else {
+                    //edit both
+                    updateGroup.updateName(groupPK, newName);
                     for (String friend : friends) {
                         updateGroup.addMember(groupPK, friend);
                     }
                     request.setAttribute("error", "group name and group member changed");
                     response.sendRedirect("myGroups");
                 }
-            } else if (friends == null) {
-                //edit name
-                updateGroup.updateName(groupPK, newName);
-                request.setAttribute("error", "group name updated");
-                response.sendRedirect("myGroups");
-            } else {
-                //edit both
-                updateGroup.updateName(groupPK, newName);
-                for (String friend : friends) {
-                    updateGroup.addMember(groupPK, friend);
-                }
-                request.setAttribute("error", "group name and group member changed");
-                response.sendRedirect("myGroups");
             }
         }
     }
@@ -108,17 +112,21 @@ public class editGroup extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pk = request.getSession(false).getAttribute("personPK").toString();
-        friends friend = new friends();
-        ArrayList<user> confirmedFriends;
-        confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+            friends friend = new friends();
+            ArrayList<user> confirmedFriends;
+            confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
 
-        if (confirmedFriends.size() > 0) {
-            request.setAttribute("confirmed", confirmedFriends);
+            if (confirmedFriends.size() > 0) {
+                request.setAttribute("confirmed", confirmedFriends);
+            }
+            request.setAttribute("gpk", request.getParameter("gpk"));
+            request.getRequestDispatcher("editgroup.jsp").forward(request, response);
+            //processRequest(request, response);
         }
-        request.setAttribute("gpk", request.getParameter("gpk"));
-        request.getRequestDispatcher("editgroup.jsp").forward(request, response);
-        //processRequest(request, response);
     }
 
     /**

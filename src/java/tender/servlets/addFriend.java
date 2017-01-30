@@ -32,14 +32,18 @@ public class addFriend extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String pk = request.getSession(false).getAttribute("personPK").toString();
-            String remotePK=request.getParameter("friendId");
-            friends friendRequest = new friends();
-            friendRequest.friends(Integer.parseInt(pk),Integer.parseInt(remotePK));
-            
-            if(!friendRequest.checkRequest()){
-                friendRequest.makeFriendRequest();
+            if (request.getSession(false).getAttribute("personPK") == null) {
+                response.sendRedirect("notLoggedIn");
+            } else {
+                /* TODO output your page here. You may use following sample code. */
+                String pk = request.getSession(false).getAttribute("personPK").toString();
+                String remotePK = request.getParameter("friendId");
+                friends friendRequest = new friends();
+                friendRequest.friends(Integer.parseInt(pk), Integer.parseInt(remotePK));
+
+                if (!friendRequest.checkRequest()) {
+                    friendRequest.makeFriendRequest();
+                }
             }
             //response.sendRedirect("FriendsList");
         }

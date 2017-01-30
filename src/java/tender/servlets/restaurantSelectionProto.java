@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author marlon
  */
-public class notLoggedIn extends HttpServlet {
+public class restaurantSelectionProto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,8 +31,8 @@ public class notLoggedIn extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            request.getRequestDispatcher("notloggedin.jsp").forward(request, response);
+             request.getRequestDispatcher("restaurantSelection.jsp").forward(request, response);
+            
         }
     }
 

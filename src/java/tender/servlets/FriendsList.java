@@ -37,18 +37,22 @@ public class FriendsList extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         /* TODO output your page here. You may use following sample code. */
-        friends newFriend = new friends();
-        String pk = request.getSession(false).getAttribute("personPK").toString();
-        String friendPk = request.getParameter("pendingID");
-        String accepted = request.getParameter("accept");
-
-        if (accepted != null) {
-            newFriend.acceptRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
         } else {
-            newFriend.rejectRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
-        }
+            friends newFriend = new friends();
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+            String friendPk = request.getParameter("pendingID");
+            String accepted = request.getParameter("accept");
 
-        doGet(request, response);
+            if (accepted != null) {
+                newFriend.acceptRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
+            } else {
+                newFriend.rejectRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
+            }
+
+            doGet(request, response);
+        }
 
     }
 
@@ -64,20 +68,24 @@ public class FriendsList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        friends friend = new friends();
-        ArrayList<user> pendingRequests;
-        ArrayList<user> confirmedFriends;
-        int pk = Integer.parseInt(request.getSession(false).getAttribute("personPK").toString());
+        if (request.getSession(false).getAttribute("personPK") == null) {
+            response.sendRedirect("notLoggedIn");
+        } else {
+            friends friend = new friends();
+            ArrayList<user> pendingRequests;
+            ArrayList<user> confirmedFriends;
+            int pk = Integer.parseInt(request.getSession(false).getAttribute("personPK").toString());
 
-        pendingRequests = friend.getPendingFriends(pk);
-        confirmedFriends = friend.getConfirmedFriends(pk);
-        if (pendingRequests.size() > 0) {
-            request.setAttribute("pending", pendingRequests);
+            pendingRequests = friend.getPendingFriends(pk);
+            confirmedFriends = friend.getConfirmedFriends(pk);
+            if (pendingRequests.size() > 0) {
+                request.setAttribute("pending", pendingRequests);
+            }
+            if (confirmedFriends.size() > 0) {
+                request.setAttribute("confirmed", confirmedFriends);
+            }
+            request.getRequestDispatcher("friendsList.jsp").forward(request, response);
         }
-        if (confirmedFriends.size() > 0) {
-            request.setAttribute("confirmed", confirmedFriends);
-        }
-        request.getRequestDispatcher("friendsList.jsp").forward(request, response);
     }
 
     /**
