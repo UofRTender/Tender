@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 
@@ -28,14 +28,21 @@
                 margin-top: 50px;
             }
         </style>
+        <script type="text/javascript">
+            var address= "258 Read Avenue";
+            var city= "Regina";
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuBvKTgXdc8RWLqkyT4TECNj7vNKoP9NE&libraries=places"></script>
         <script type="text/javascript" src="javascript/maps.js"></script>
     </head>
     <body>
-
-
-        <button type="button" onclick="initMap()">
-            True Random</button>
+        <button type="button" onclick="initMapRandom()">
+            True Random
+        </button>
+        <button type="button" onclick="initMapPallette()">
+            Palette Specific
+        </button>
         <div id="map"></div>
         <div id="results"></div>
     </body>

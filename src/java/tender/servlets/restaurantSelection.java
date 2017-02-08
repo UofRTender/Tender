@@ -31,6 +31,8 @@ public class restaurantSelection extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            request.setAttribute("address", request.getSession(false).getAttribute("personAddress").toString());
+            request.setAttribute("city", request.getSession(false).getAttribute("personCity").toString());
             /* TODO output your page here. You may use following sample code. */
             request.getRequestDispatcher("restaurantSelection.jsp").forward(request, response);
         }
