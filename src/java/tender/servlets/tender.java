@@ -7,10 +7,16 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tender.model.Palette;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import tender.model.RestaurantRelations;
 
 /**
  *
@@ -51,10 +57,44 @@ public class tender extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) { 
-            String pk = request.getSession(false).getAttribute("personPK").toString();
-            
-            out.print("barbeque");
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            //String pk = request.getSession(false).getAttribute("personPK").toString();
+            String pk = "2";
+
+            Palette myPalette = new Palette();
+
+            JSONObject json = new JSONObject();
+
+            // put an "array"
+            JSONArray arr = new JSONArray();
+            for (Object like : myPalette.getLikedFood(pk)) {
+                arr.put(like);
+            }
+            json.put("liked", arr);
+
+            arr = new JSONArray();
+            for (Object favourite : new RestaurantRelations().getFavourites(pk)) {
+                arr.put(favourite);
+            }
+            json.put("favourites", arr);
+
+            arr = new JSONArray();
+            int i = 0;
+            for (Object history : new RestaurantRelations().getHistory(pk)) {
+                if (i < 5) {
+                    arr.put(history);
+                    break;
+                }
+                i++;
+            }
+            json.put("history", arr);
+            // finally output the json string		
+            out.print(json.toString());
+            //out.println(myPalette.getFoodPreference("2")+"\n");
+            /*out.println(myPalette.getLikedFood("2")+"\n");
+            out.println(myPalette.getDislikedFood("2")+"\n");*/
+
         } catch (Exception e) {
 
         }

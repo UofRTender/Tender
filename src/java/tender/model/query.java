@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -205,6 +206,7 @@ public class query {
                 rows.add(rs.getArray(column));
             }
             conn.close();
+
             return rows;
         } catch (Exception e) {
 
@@ -232,8 +234,8 @@ public class query {
             stmt.executeUpdate(execute);
 
             conn.close();
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
 }

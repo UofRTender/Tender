@@ -40,7 +40,7 @@
         <button type="button" onclick="initMapRandom()">
             True Random
         </button>
-        <button type="button" onclick="initMapPallette()">
+        <button type="button" onclick="initMapPalette()">
             Palette Specific
         </button>
         <div id="map"></div>
