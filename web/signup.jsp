@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
         <title>Signup</title>
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/signin.css">
@@ -16,73 +16,94 @@
     </head>
 
     <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>                     
+                </button>
+                <a class="navbar-brand" href="#">Tender</a>
+              </div>
+              <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="https://142.3.21.236/Tender/profile">Profile</a></li>
+                    <li><a href="https://142.3.21.236/Tender/tender">Navigation</a></li>
+                    <li><a href="https://142.3.21.236/Tender/palette?">Palette</a></li>
+                </ul>
+              </div>
+            </div>
+        </nav>
       <form action="signup" method="post">
-        <div id="containerBox" class = "container align-self-center">
+        
+        <div id="containerBox" class = "container align-self-center col-sm-4 col-sm-offset-4">
             <div class="col-4 text-center">
                 <h1 class="form-login-heading">Tender Sign Up</h1>
             </div>
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4 table-responsive">
+            
+            <div class="table-responsive">
                 <table class="table table-hover table-condensed">
                     <tr>
-                        <th></th>
+                        
                         <th scope="row">Email: </th>
                         <th scope="row"><input type="text" name="email"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th>Confirm Email: </th>
                         <th><input type="text" name="conEmail"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th>Password: </th>
                         <th><input type="text" name="password"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th>Confirm Password: </th>
                         <th><input type="text" name="conPassword"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th>First Name: </th>
                         <th><input type="text" name="firstName"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th>Last Name: </th>
                         <th><input type="text" name="lastName"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th>Address: </th>
                         <th><input type="text" name="address"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                       
                         <th>City: </th>
                         <th><input type="text" name="city"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th>Country: </th>
                         <th><input type="text" name="country"></th>
-                        <th></th>
+                        
                     </tr>
                     <tr>
-                        <th></th>
+                        
                         <th>Province: </th>
                         <th><input type="text" name="firstName"></th>
-                        <th></th>
+                        
                     </tr>
                 </table>
                 <input class="center-block btn btn-lg btn-primary" type="submit" value="submit">
@@ -93,7 +114,8 @@
                 
 
         
-         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-         <script src=”bootstrap.js”></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+         <!--<script src=”bootstrap.js”></script>-->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
 </html>
