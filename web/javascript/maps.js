@@ -38,7 +38,10 @@ function initMapRandom() {
             trueRandomReturn(findRestaurant);
 
             console.log("returned");
-        });
+        }, function (error) {
+            alert(error.message);
+            alert(error.code);
+        },{timeout: 30000});
     } else {
         alert("default");
         setDefault();
@@ -46,16 +49,20 @@ function initMapRandom() {
 
 }
 
-
 function findRestaurant() {
     var num = Math.floor((Math.random() * restaruants.length));
+    var node = document.getElementById("results");
+    node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
+    node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].rating + "</p>";
     console.log("restaruants");
     console.log(num);
-    destination=restaruants[num].geometry.location;
+    destination = restaruants[num].geometry.location;
     console.log(restaruants[num].name);
     console.log(restaruants[num].geometry.location);
+
     calculateAndDisplayRoute();
 }
+
 function trueRandomReturn() {
     console.log(source);
     var service = new google.maps.places.PlacesService(map);
@@ -68,19 +75,19 @@ function trueRandomReturn() {
 
 function callbackRandom(results, status, pagination) {
     console.log("callback");
-    var node = document.getElementById("results");
+    //var node = document.getElementById("results");
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         //var num = Math.floor((Math.random() * results.length));
         for (var i = 0; i < results.length; i++) {
             restaruants.push(results[i]);
-            node.innerHTML = node.innerHTML + "<p>name: " + results[i].name + "</p>";
+            //node.innerHTML = node.innerHTML + "<p>name: " + results[i].name + "</p>";
         }
-        if(pagination.hasNextPage){
+        if (pagination.hasNextPage) {
             pagination.nextPage();
-        }else{
+        } else {
             findRestaurant();
         }
-        
+
 
         //node.innerHTML = node.innerHTML + "name: " + results[num].name + "<p>" + "place_id " + results[num].rating + " id " + results[num].id + "</p>";
         /*destination = results[num].geometry.location;
@@ -128,18 +135,19 @@ function PaletteReturn(pos) {
  });
  }*/
 
-function calculateAndDisplayRoute() {+
-    directionsService.route({
-        origin: source,
-        destination: destination,
-        travelMode: 'DRIVING'
-    }, function (response, status) {
-        if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-        } else {
-            window.alert('Directions request failed due to ' + status);
-        }
-    });
+function calculateAndDisplayRoute() {
+    +
+            directionsService.route({
+                origin: source,
+                destination: destination,
+                travelMode: 'DRIVING'
+            }, function (response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
     console.log("restaruants");
     console.log(restaruants);
 }

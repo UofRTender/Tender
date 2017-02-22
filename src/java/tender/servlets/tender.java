@@ -58,6 +58,7 @@ public class tender extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
+        //processRequest(request, response);
         try (PrintWriter out = response.getWriter()) {
             //String pk = request.getSession(false).getAttribute("personPK").toString();
             String pk = "2";

@@ -17,19 +17,20 @@
         <title>Edit Group</title>
     </head>
     <body>
+        <c:import url="HTMLPartials/navBar.jsp"/>
         <c:if test="${not empty error}">
             <c:out value="${error}"></c:out>
         </c:if>
         <form action="editGroup" method="get">
             <input type="hidden" name="gpk" value="${gpk}">
             <p>New Group Name: <input type="text" name="group_name"></p>
-            <c:if test="${not empty confirmed}">
-                <c:forEach var="conf" items="${confirmed}">
+                <c:if test="${not empty confirmed}">
+                    <c:forEach var="conf" items="${confirmed}">
                     <p><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out>
                         <input type="checkbox" name="friend" value="${conf.pk}"><br>
-                </c:forEach>
-            </c:if>
-            <input type="submit" value="submit">   
+                    </c:forEach>
+                </c:if>
+                <input type="submit" value="submit">   
         </form>
     </body>
 </html>

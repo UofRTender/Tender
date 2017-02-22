@@ -14,9 +14,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><c:out value="${groupName}"></c:out></title>
-        </head>
-        <body>
+        <title><c:out value="${groupName}"/></title>
+
+    </head>
+    <body>
+        <c:import url="HTMLPartials/navBar.jsp"/>
         <c:forEach var="user" items="${members}">
             <a href="profile?friendToAdd=${user.pk}"><c:out value="${user.firstName}"></c:out> <c:out value="${user.lastName}"></c:out></a><br>
         </c:forEach>

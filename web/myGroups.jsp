@@ -17,6 +17,7 @@
         <title>Groups</title>
     </head>
     <body>
+        <c:import url="HTMLPartials/navBar.jsp"/>
         <c:forEach var="group" items="${groups}">
             <a href="viewGroup?id=${group.key}"><c:out value="${group.value}"></c:out></a><br>
         </c:forEach>

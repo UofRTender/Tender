@@ -10,9 +10,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Palette</title>
+        <title>Palette</title>     
     </head>
     <body>
+        <c:import url="HTMLPartials/navBar.jsp"/>
         <h1>Palette</h1>
         <form action="palette" method="post">
             <c:forEach var="food" items="${foodPreferences}" varStatus="index">
@@ -28,7 +29,7 @@
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
-                
+
                 <input type="submit" value="Update Palette"/>
         </form>
         <form action="">

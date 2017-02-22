@@ -8,10 +8,15 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-
     <head>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuBvKTgXdc8RWLqkyT4TECNj7vNKoP9NE&libraries=places"></script>
+        <script type="text/javascript" src="javascript/maps.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Tender</title>
+        <script type="text/javascript">
+            var address = "258 Read Avenue";
+            var city = "Regina";
+        </script>
 
         <style>
             /* Always set the map height explicitly to define the size of the div
@@ -20,7 +25,7 @@
                 height: 100%;
             }
             /* Optional: Makes the sample page fill the window. */
-            html, body {
+            html, body{
                 height: 70%;
                 margin-left: 150px;
                 padding: 0;
@@ -28,22 +33,17 @@
                 margin-top: 50px;
             }
         </style>
-        <script type="text/javascript">
-            var address= "258 Read Avenue";
-            var city= "Regina";
-        </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuBvKTgXdc8RWLqkyT4TECNj7vNKoP9NE&libraries=places"></script>
-        <script type="text/javascript" src="javascript/maps.js"></script>
+
     </head>
     <body>
+        <c:import url="HTMLPartials/navBar.jsp"/>
         <button type="button" onclick="initMapRandom()">
             True Random
         </button>
         <button type="button" onclick="initMapPalette()">
             Palette Specific
         </button>
-        <div id="map"></div>
         <div id="results"></div>
+        <div id="map"></div>
     </body>
 </html>

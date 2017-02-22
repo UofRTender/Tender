@@ -17,6 +17,7 @@
         <title>Friends List</title>
     </head>
     <body>
+        <c:import url="HTMLPartials/navBar.jsp"/>
         <h1>Friends List</h1>
 
         <c:if test="${not empty pending}">
