@@ -41,7 +41,7 @@ function initMapRandom() {
         }, function (error) {
             alert(error.message);
             alert(error.code);
-        },{timeout: 30000});
+        }, {timeout: 30000});
     } else {
         alert("default");
         setDefault();
@@ -52,8 +52,16 @@ function initMapRandom() {
 function findRestaurant() {
     var num = Math.floor((Math.random() * restaruants.length));
     var node = document.getElementById("results");
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].rating + "</p>";
+    node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value="+restaruants[num].place_id+">";
+    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+
+    checkFavourites();
+
     console.log("restaruants");
     console.log(num);
     destination = restaruants[num].geometry.location;
@@ -61,6 +69,7 @@ function findRestaurant() {
     console.log(restaruants[num].geometry.location);
 
     calculateAndDisplayRoute();
+
 }
 
 function trueRandomReturn() {

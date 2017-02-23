@@ -11,6 +11,7 @@
     <head>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuBvKTgXdc8RWLqkyT4TECNj7vNKoP9NE&libraries=places"></script>
         <script type="text/javascript" src="javascript/maps.js"></script>
+        <script type="text/javascript" src="javascript/backEnd.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Tender</title>
         <script type="text/javascript">

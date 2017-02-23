@@ -50,7 +50,6 @@ public class FriendsList extends HttpServlet {
             } else {
                 newFriend.rejectRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
             }
-
             doGet(request, response);
         }
 

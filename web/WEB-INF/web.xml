@@ -84,6 +84,14 @@
         <servlet-name>tender</servlet-name>
         <servlet-class>tender.servlets.tender</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>addFavourites</servlet-name>
+        <servlet-class>tender.servlets.addFavourites</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addHistory</servlet-name>
+        <servlet-class>tender.servlets.addHistory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -155,6 +163,14 @@
     <servlet-mapping>
         <servlet-name>tender</servlet-name>
         <url-pattern>/tender</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addFavourites</servlet-name>
+        <url-pattern>/addFavourites</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addHistory</servlet-name>
+        <url-pattern>/addHistory</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

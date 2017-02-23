@@ -7,12 +7,9 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +19,8 @@ import tender.model.query;
  *
  * @author marlon
  */
-public class restaurantSelectionProto extends HttpServlet {
+@WebServlet(name = "addHistory", urlPatterns = {"/addHistory"})
+public class addHistory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,20 +35,16 @@ public class restaurantSelectionProto extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            //Date date = format.parse();
-            String pk = "2";
-            String id = request.getParameter("restaurant");
-
-            query newHistory = new query();
-
-            HashMap info = new HashMap();
-            //info.put("restaurant_pk", id);
-            info.put("user_id", pk);
-            ArrayList history = newHistory.getManyRows("history", "timestamp", info);
-            out.println(history.get(history.size() - 1));
-
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet addHistory</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet addHistory at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -66,7 +60,19 @@ public class restaurantSelectionProto extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            String pk="2";
+            String id = request.getParameter("restaurant");
+            
+            query newHistory = new query();
+            
+            HashMap info = new HashMap();
+            info.put("restaurant_pk", id);
+            info.put("user_id", pk);
+            info.put("timestamp", "now");
+            newHistory.insert("history", info);
+        }
+        //processRequest(request, response);
     }
 
     /**
