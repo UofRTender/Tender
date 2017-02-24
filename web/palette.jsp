@@ -14,24 +14,30 @@
     </head>
     <body>
         <c:import url="HTMLPartials/navBar.jsp"/>
-        <h1>Palette</h1>
-        <form action="palette" method="post">
-            <c:forEach var="food" items="${foodPreferences}" varStatus="index">
-                <p><c:out value="${food.key}"></c:out>
-                    <c:choose>
-                        <c:when test="${food.value=='t'}">
-                            <input type="radio" name="${food.key}" value="1" checked> Like
-                            <input type="radio" name="${food.key}" value="0"> Dislike <br>
-                        </c:when>
-                        <c:otherwise>
-                            <input type="radio" name="${food.key}" value="1"> Like
-                            <input type="radio" name="${food.key}" value="0" checked> Dislike <br>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-
-                <input type="submit" value="Update Palette"/>
-        </form>
-        <form action="">
+        <div id="containerBox" class="container algin-self-center col-sm-4 col-sm-offset-4">
+            <h1 class="text-center">Palette</h1>
+            <form action="palette" method="post">
+                <table>
+                        <c:forEach var="food" items="${foodPreferences}" varStatus="index">
+                            <tr>
+                                <th><c:out value="${food.key}"></c:out></th>
+                            
+                            <c:choose>
+                                <c:when test="${food.value=='t'}">
+                                    <label class="radio-inline"><input type="radio" name="${food.key}" value="1" checked> Like</label>
+                                    <label class="radio-inline"><input type="radio" name="${food.key}" value="0"> Dislike</label>
+                                </c:when>
+                                <c:otherwise>
+                                    <label class="radio-inline"><input type="radio" name="${food.key}" value="1"> Like</label>
+                                    <label class="radio-inline"><input type="radio" name="${food.key}" value="0" checked> Dislike</label>
+                                </c:otherwise>
+                            </c:choose>
+                            </tr>
+                        </c:forEach>
+                        <input type="submit" value="Update Palette"/>
+                    </table>
+            </form>
+            
+        </div>
     </body>
 </html>
