@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import javax.servlet.ServletException;
@@ -37,9 +38,13 @@ public class restaurantSelectionProto extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            //Date date = format.parse();
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            Date date = new Date();
+            
+            date.setDate(date.getDate()+1);
+            format.format(date);
+            
+            
             String pk = "2";
             String id = request.getParameter("restaurant");
 
@@ -49,8 +54,11 @@ public class restaurantSelectionProto extends HttpServlet {
             //info.put("restaurant_pk", id);
             info.put("user_id", pk);
             ArrayList history = newHistory.getManyRows("history", "timestamp", info);
-            out.println(history.get(history.size() - 1));
-
+            
+            out.println(history.get(history.size() - 1) + "<br>");
+            out.println("tomorrow: "+new java.sql.Timestamp(date.getTime())+"<br>");
+            
+        } catch (Exception e) {
         }
     }
 

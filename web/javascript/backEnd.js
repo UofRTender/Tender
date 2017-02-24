@@ -1,10 +1,24 @@
 function addHistory() {
     $.get('addHistory', 
     {
+        job: "add",
         restaurant: document.getElementById('id').value
     }, function (data) {
         console.log("History");
         console.log(data);
+    });
+}
+function persist(){
+    $.get('addHistory', 
+    {
+        job: "check",
+        //restaurant: document.getElementById('id').value
+    }, function (data) {
+        if(data!="true"){
+            console.log("persist");
+            console.log(data.id);
+            initMapOld(data);
+        }
     });
 }
 

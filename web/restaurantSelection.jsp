@@ -36,7 +36,7 @@
         </style>
 
     </head>
-    <body>
+    <body onload="persist()">
         <c:import url="HTMLPartials/navBar.jsp"/>
         <button type="button" onclick="initMapRandom()">
             True Random

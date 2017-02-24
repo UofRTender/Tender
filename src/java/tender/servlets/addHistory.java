@@ -7,12 +7,16 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import tender.model.query;
 
 /**
@@ -39,7 +43,7 @@ public class addHistory extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet addHistory</title>");            
+            out.println("<title>Servlet addHistory</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet addHistory at " + request.getContextPath() + "</h1>");
@@ -60,17 +64,43 @@ public class addHistory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            String pk="2";
-            String id = request.getParameter("restaurant");
-            
+            String pk = "2";
+            String job = request.getParameter("job");
+
             query newHistory = new query();
-            
             HashMap info = new HashMap();
-            info.put("restaurant_pk", id);
             info.put("user_id", pk);
-            info.put("timestamp", "now");
-            newHistory.insert("history", info);
+
+            if (job.equals("add")) {
+                String id = request.getParameter("restaurant");
+                info.put("restaurant_pk", id);
+                info.put("timestamp", "now");
+                newHistory.insert("history", info);
+            } else {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date currentDate = new Date();
+                format.format(currentDate);
+
+                ArrayList history = newHistory.getManyRows("history", "timestamp", info);
+                String selected = history.get(history.size() - 1).toString();//last visited 
+                
+                Date lastVisited = format.parse(selected);
+                lastVisited.setDate(lastVisited.getDate() + 1);
+                //out.println(lastVisited);
+                if (currentDate.after(lastVisited)) {
+                    out.println("true");//new place
+                } else {
+                    info.put("timestamp", selected);
+                    String lastPlace = newHistory.getValue("history", "restaurant_pk", info);
+                    JSONObject json = new JSONObject();
+                    json.put("id", lastPlace);
+                    out.println(json.toString());//no new place
+                }
+            }
+        } catch (Exception e) {
+            
         }
         //processRequest(request, response);
     }

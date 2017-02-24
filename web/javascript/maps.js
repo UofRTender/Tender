@@ -35,7 +35,7 @@ function initMapRandom() {
             map.setCenter();
             console.log("calling random");
 
-            trueRandomReturn(findRestaurant);
+            trueRandomReturn();
 
             console.log("returned");
         }, function (error) {
@@ -57,7 +57,7 @@ function findRestaurant() {
     }
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].rating + "</p>";
-    node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value="+restaruants[num].place_id+">";
+    node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
     node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
 
     checkFavourites();
@@ -96,13 +96,6 @@ function callbackRandom(results, status, pagination) {
         } else {
             findRestaurant();
         }
-
-
-        //node.innerHTML = node.innerHTML + "name: " + results[num].name + "<p>" + "place_id " + results[num].rating + " id " + results[num].id + "</p>";
-        /*destination = results[num].geometry.location;
-         console.log(results[num].name);
-         console.log(results);
-         calculateAndDisplayRoute();*/
     }
 }
 
@@ -136,13 +129,6 @@ function PaletteReturn(pos) {
         console.log(data);
     });
 }
-/*service.textSearch({
- query: data,
- location: pos,
- radius:500,
- type: 'restaurant'
- });
- }*/
 
 function calculateAndDisplayRoute() {
     +
@@ -182,4 +168,62 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setContent(browserHasGeolocation ?
             'Error: The Geolocation service failed.' :
             'Error: Your browser doesn\'t support geolocation.');
+}
+
+function initMapOld(placeid) {
+    //console.log("init");
+    restaruants = [];
+    map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15
+    });
+
+    infoWindow = new google.maps.InfoWindow();
+    directionsDisplay.setMap(map);
+
+    if (navigator.geolocation) {
+        //console.log("geo Enable");
+        navigator.geolocation.getCurrentPosition(function (position) {
+            //console.log("start");
+            source = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            //console.log("set position");
+            infoWindow.setPosition(source);
+            //console.log("set center");
+            map.setCenter();
+            console.log("check placeid")
+            console.log(placeid);
+            getOldRestaurant(placeid);
+        }, function (error) {
+            alert(error.message);
+            alert(error.code);
+        }, {timeout: 30000});
+    }
+}
+
+function getOldRestaurant(placeid) {
+    console.log("old");
+    console.log(placeid.id);
+
+    var service = new google.maps.places.PlacesService(map);
+
+    service.getDetails({
+        placeId: placeid.id
+    }, callbackOld);
+}
+
+function callbackOld(place, status) {
+    destination = place.geometry.location;
+    var node = document.getElementById("results");
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
+    node.innerHTML = node.innerHTML + "<p>name: " + place.name + "</p>";
+    node.innerHTML = node.innerHTML + "<p>rating: " + place.rating + "</p>";
+    node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + place.place_id + ">";
+    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+
+    checkFavourites();
+    calculateAndDisplayRoute()
 }
