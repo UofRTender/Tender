@@ -66,41 +66,83 @@ public class addHistory extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            String pk = "2";
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+
             String job = request.getParameter("job");
+            String table = request.getParameter("table");
+            String groupId = request.getParameter("id");
 
             query newHistory = new query();
             HashMap info = new HashMap();
-            info.put("user_id", pk);
 
-            if (job.equals("add")) {
-                String id = request.getParameter("restaurant");
-                info.put("restaurant_pk", id);
-                info.put("timestamp", "now");
-                newHistory.insert("history", info);
+            if (table.equals("history")) {
+                info.put("user_id", pk);
             } else {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date currentDate = new Date();
-                format.format(currentDate);
+                info.put("group_pk", groupId);
+            }
 
-                ArrayList history = newHistory.getManyRows("history", "timestamp", info);
-                String selected = history.get(history.size() - 1).toString();//last visited 
-                
-                Date lastVisited = format.parse(selected);
-                lastVisited.setDate(lastVisited.getDate() + 1);
-                //out.println(lastVisited);
-                if (currentDate.after(lastVisited)) {
-                    out.println("true");//new place
-                } else {
-                    info.put("timestamp", selected);
-                    String lastPlace = newHistory.getValue("history", "restaurant_pk", info);
+            switch (job) {
+                case "add": {
+                    String id = request.getParameter("restaurant");
+                    info.put("restaurant_pk", id);
+                    newHistory.delete("temphistory", info);
+                    info.put("timestamp", "now");
+                    newHistory.insert(table, info);
+                    break;
+                }
+                case "check":
                     JSONObject json = new JSONObject();
-                    json.put("id", lastPlace);
-                    out.println(json.toString());//no new place
+                    if (table.equals("temphistory")) {
+                        String id=newHistory.getValue(table, "restaurant_pk", info);
+                        if (!request.getParameter("oldid").equals(id)) {
+                            json.put("id", id);
+                            json.put("old", id);
+                            json.put("load", "true");
+                        }else{
+                            json.put("old", "id");
+                            json.put("load", "false");
+                        }
+                        out.println(json.toString());
+                    } else {
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date currentDate = new Date();
+                        format.format(currentDate);
+
+                        if (newHistory.exists(table, info)) {
+                            ArrayList history = newHistory.getManyRows(table, "timestamp", info);
+                            String selected = history.get(history.size() - 1).toString();//last visited
+                            Date lastVisited = format.parse(selected);
+                            lastVisited.setDate(lastVisited.getDate() + 1);
+
+                            //out.println(lastVisited);
+                            if (currentDate.after(lastVisited)) {
+                                String t = "true";
+                                json.put("new", t);
+                                out.println(json.toString());//new place
+                            } else {
+                                info.put("timestamp", selected);
+                                String lastPlace = newHistory.getValue(table, "restaurant_pk", info);
+                                json.put("new", "false");
+                                json.put("id", lastPlace);
+                                out.println(json.toString());//no new place
+                            }
+                        } else {
+                            String t = "true";
+                            json.put("new", t);
+                            out.println(json.toString());//new place
+                        }
+                    }
+                    break;
+                default: {
+                    newHistory.delete("temphistory", info);
+                    String id = request.getParameter("restaurant");
+                    info.put("restaurant_pk", id);
+                    newHistory.insert(table, info);
+                    break;
                 }
             }
         } catch (Exception e) {
-            
+
         }
         //processRequest(request, response);
     }

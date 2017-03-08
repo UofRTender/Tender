@@ -7,8 +7,6 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -60,8 +58,7 @@ public class tender extends HttpServlet {
         response.setContentType("application/json");
         //processRequest(request, response);
         try (PrintWriter out = response.getWriter()) {
-            //String pk = request.getSession(false).getAttribute("personPK").toString();
-            String pk = "2";
+            String pk = request.getSession(false).getAttribute("personPK").toString();
 
             Palette myPalette = new Palette();
 

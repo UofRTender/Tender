@@ -73,6 +73,7 @@ public class viewGroup extends HttpServlet {
                     user.user(Integer.parseInt(groupMember.toString()));
                     groupMembers.add(user);
                 }
+                
                 request.setAttribute("pk", id);
                 request.setAttribute("groupName", members.getName(id));
                 request.setAttribute("members", groupMembers);

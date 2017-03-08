@@ -17,7 +17,6 @@
         
     </head>
     <body>
-        
         <div class = "container text-center col-sm-4"></div>
         
         <div id="containerBox" class = "color container text-center col-sm-4">
@@ -37,8 +36,6 @@
             </form>
 
         </div>
-        
-        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src=”js/bootstrap.js”></script>
         

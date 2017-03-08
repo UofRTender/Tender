@@ -53,10 +53,6 @@
         <servlet-class>tender.servlets.addFriend</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FriendsList</servlet-name>
-        <servlet-class>tender.servlets.FriendsList</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>addFriend</servlet-name>
         <servlet-class>tender.servlets.addFriend</servlet-class>
     </servlet>
@@ -131,10 +127,6 @@
     <servlet-mapping>
         <servlet-name>friendsList</servlet-name>
         <url-pattern>/friendsList</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>FriendsList</servlet-name>
-        <url-pattern>/FriendsList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>addFriend</servlet-name>
