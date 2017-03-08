@@ -17,25 +17,27 @@
         <div id="containerBox" class="container algin-self-center col-sm-4 col-sm-offset-4">
             <h1 class="text-center">Palette</h1>
             <form action="palette" method="post">
-                <table>
+                <div class="table-responsive">
+                    <table class="table">
                         <c:forEach var="food" items="${foodPreferences}" varStatus="index">
                             <tr>
-                                <th><c:out value="${food.key}"></c:out></th>
+                                <th class="text-capitalize"><c:out value="${food.key}"></c:out></th>
                             
                             <c:choose>
                                 <c:when test="${food.value=='t'}">
-                                    <label class="radio-inline"><input type="radio" name="${food.key}" value="1" checked> Like</label>
-                                    <label class="radio-inline"><input type="radio" name="${food.key}" value="0"> Dislike</label>
+                                    <td><label><input type="radio" name="${food.key}" value="1" checked> Like</label></td>
+                                    <td><label><input type="radio" name="${food.key}" value="0"> Dislike</label></td>
                                 </c:when>
                                 <c:otherwise>
-                                    <label class="radio-inline"><input type="radio" name="${food.key}" value="1"> Like</label>
-                                    <label class="radio-inline"><input type="radio" name="${food.key}" value="0" checked> Dislike</label>
+                                        <td><label><input type="radio" name="${food.key}" value="1"> Like</label></td>
+                                        <td><label><input type="radio" name="${food.key}" value="0" checked> Dislike</label></td>
                                 </c:otherwise>
                             </c:choose>
                             </tr>
                         </c:forEach>
-                        <input type="submit" value="Update Palette"/>
+                        <input class="btn-sm btn-danger" type="submit" value="Update Palette"/>
                     </table>
+                </div>
             </form>
             
         </div>

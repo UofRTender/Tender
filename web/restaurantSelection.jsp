@@ -23,27 +23,25 @@
             /* Always set the map height explicitly to define the size of the div
              * element that contains the map. */
             #map {
-                height: 100%;
+                padding: 20%;
             }
             /* Optional: Makes the sample page fill the window. */
-            html, body{
-                height: 70%;
-                margin-left: 150px;
-                padding: 0;
-                margin-right: 150px;
-                margin-top: 50px;
-            }
+            
         </style>
     </head>
     <body onload="persist()">
         <c:import url="HTMLPartials/navBar.jsp"/>
-        <button type="button" onclick="initMapRandom()">
-            True Random
-        </button>
-        <button type="button" onclick="initMapPalette()">
-            Palette Specific
-        </button>
-        <div id="results"></div>
-        <div id="map"></div>
+        <div id="containerBox" class = "container col-sm-6 col-sm-offset-3" style="width:50%; height:80%;">
+            <button type="button" onclick="initMapRandom()">
+                True Random
+            </button>
+            <button type="button" onclick="initMapPalette()">
+                Palette Specific
+            </button>
+            <div id="results"></div>
+        
+            <div id="map"></div>
+        </div>
+
     </body>
 </html>

@@ -1,4 +1,4 @@
-<%-- 
+<%--    
     Document   : myGroups
     Created on : 17-Jan-2017, 2:04:35 PM
     Author     : marlon
@@ -18,11 +18,25 @@
     </head>
     <body>
         <c:import url="HTMLPartials/navBar.jsp"/>
-        <c:forEach var="group" items="${groups}">
-            <a href="viewGroup?id=${group.key}"><c:out value="${group.value}"></c:out></a><br>
-        </c:forEach>
-        <form action="createGroup" method="post">
-            <input type="submit" value="Create a Group"/>
-        </form>
+        
+        <div id="containerBox" class="container col-sm-4 col-sm-offset-4">
+            <div class="table">
+                <table class="table table-condensed">
+                    <tr>
+                        <th>Groups</th>
+                    </tr>
+                    <tr>
+                        <c:forEach var="group" items="${groups}">
+                            <td><a href="viewGroup?id=${group.key}"><c:out value="${group.value}"></c:out></a></td>
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <form action="createGroup" method="post">
+                            <td><input class="btn-danger btn-sm" type="submit" value="Create a Group"/></td>
+                        </form>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </body>
 </html>

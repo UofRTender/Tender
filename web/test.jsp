@@ -1,6 +1,6 @@
-<%-- 
-    Document   : friendsList
-    Created on : 13-Jan-2017, 12:51:15 PM
+<%--    
+    Document   : myGroups
+    Created on : 17-Jan-2017, 2:04:35 PM
     Author     : marlon
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -14,41 +14,30 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Friends List</title>
+        <title>Groups</title>
     </head>
     <body>
         <c:import url="HTMLPartials/navBar.jsp"/>
-        <div id="containerBox" class = "container align-self-center col-sm-4 col-sm-offset-4">
-            <h1>Friends List</h1>
-            
-            
-            <c:if test="${not empty pending}">
-                <table>
+        
+        <div id="containerBox" class="container algin-self-center col-sm-4 col-sm-offset-4">
+            <div class="table-responsive">
+                <table class="table table-condensed">
                     <thead>
-                        <th>Pending friend requests</th>
+                        <th>Groups</th>
                     </thead>
                     <tbody>
-                        <c:forEach var="pend" items="${pending}">
-                            <form action="FriendsList" method="post">
-                                <input type="hidden" value="${pend.pk}" name="pendingID">
-                                <td><c:out value="${pend.firstName}"></c:out> <c:out value="${pend.lastName}"></c:out>
-                                        <input type="submit" name="accept" value="Confirm Request">
-                                        <input type="submit" name="decline "value="Decline Request"></td>
+                        <tr>
+                            <c:forEach var="group" items="${groups}">
+                                <td><a href="viewGroup?id=${group.key}"><c:out value="${group.value}"></c:out></a></td>
+                            </c:forEach>
+                        </tr>
+                        <tr>
+                            <form action="createGroup" method="post">
+                                <input class="algin-self-center btn-danger btn-sm" type="submit" value="Create a Group"/>
                             </form>
-                        </c:forEach>
+                        </tr>
+                    </tbody>
                 </table>
-            </c:if>
-
-            <c:if test="${not empty confirmed}">
-                <p>Friends</p>
-                <c:forEach var="conf" items="${confirmed}">
-                    <form method="get" action="profile">
-                        <input type="hidden" name="friendToAdd" value="${conf.pk}"/> 
-                        <p><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out>
-                                <input type="submit" value="view profile"></p>
-                        </form>
-                </c:forEach>
-            </c:if>
         </div>
     </body>
 </html>

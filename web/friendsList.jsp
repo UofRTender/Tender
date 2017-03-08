@@ -1,6 +1,6 @@
 <%-- 
-    Document   : friendsList
-    Created on : 13-Jan-2017, 12:51:15 PM
+    Document   : viewGroup
+    Created on : 22-Jan-2017, 3:40:16 PM
     Author     : marlon
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -14,33 +14,47 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Friends List</title>
+        <title><c:out value="${groupName}"/></title>
+
     </head>
     <body>
+        
         <c:import url="HTMLPartials/navBar.jsp"/>
-        <h1>Friends List</h1>
-
-        <c:if test="${not empty pending}">
-            <p>Pending friend requests</p>
-            <c:forEach var="pend" items="${pending}">
-                <form action="FriendsList" method="post">
-                    <input type="hidden" value="${pend.pk}" name="pendingID">
-                    <p><c:out value="${pend.firstName}"></c:out> <c:out value="${pend.lastName}"></c:out>
-                            <input type="submit" name="accept" value="Confirm Request">
-                            <input type="submit" name="decline "value="Decline Request"></p>
-                    </form>
-            </c:forEach>
-        </c:if>
-
-        <c:if test="${not empty confirmed}">
-            <p>Friends</p>
-            <c:forEach var="conf" items="${confirmed}">
-                <form method="get" action="profile">
-                    <input type="hidden" name="friendToAdd" value="${conf.pk}"/> 
-                    <p><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out>
-                            <input type="submit" value="view profile"></p>
-                    </form>
-            </c:forEach>
-        </c:if>
+        
+        <div id="containerBox" class = "container align-self-center col-sm-4 col-sm-offset-4">
+        
+            <div class="table-responsive">
+                <table class="table table-condensed">
+                    <thead>
+                        <th>Pending friend requests</th>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="pend" items="${pending}">
+                            <form action="FriendsList" method="post">
+                                <input type="hidden" value="${pend.pk}" name="pendingID">
+                                <tr>
+                                    <td class="text-capitalize"><c:out value="${pend.firstName}"></c:out> <c:out value="${pend.lastName}"></c:out></td>
+                                    <td><input class="btn-sm btn-danger" type="submit" name="accept" value="Confirm Request"></td>
+                                    <td><input class="btn-sm btn-danger" type="submit" name="decline "value="Decline Request"></td>
+                                </tr>
+                            </form>
+                        </c:forEach>
+                    <c:if test="${not empty confirmed}">
+                        <thead>
+                            <th>Friends</th> 
+                        </thead>
+                        <c:forEach var="conf" items="${confirmed}">
+                            <form method="get" action="profile">
+                                <input type="hidden" name="friendToAdd" value="${conf.pk}"/> 
+                                <tr>
+                                    <td><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out></td>
+                                    <td><input class="btn-sm btn-danger" type="submit" value="View Profile"></td>
+                                </tr>
+                            </form>
+                        </c:forEach>
+                    </c:if>
+                </table>
+            </div>
+        </div>
     </body>
 </html>
