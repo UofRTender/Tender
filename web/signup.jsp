@@ -84,7 +84,7 @@
 
                         </tr>
                     </table>
-                    <input class="center-block btn btn-lg btn-primary" type="submit" value="submit">
+                    <input class="center-block btn btn-lg btn-danger" type="submit" value="submit">
                     <label></label>
                 </div>
             </div>

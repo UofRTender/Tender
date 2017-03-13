@@ -16,15 +16,28 @@
         <c:if test="${not empty error}">
             <c:out value="${error}"></c:out>
         </c:if>
-        <form action="createGroup" method="get">
-            <p>Group Name: <input type="text" name="group_name"></p>
-                <c:if test="${not empty confirmed}">
-                    <c:forEach var="conf" items="${confirmed}">
-                    <p><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out>
-                        <input type="checkbox" name="friend" value="${conf.pk}"><br>
-                    </c:forEach>
-                </c:if>
-                <input type="submit" value="submit">   
-        </form>
+        <div id="containerBox" class="container col-sm-4 col-sm-offset-4">
+            <form action="createGroup" method="get">
+                <table class="table-condensed">
+                    <tr>
+                        <td>Group Name: <input type="text" name="group_name"></td>
+                    </tr>
+                    <c:if test="${not empty confirmed}">
+                        <c:forEach var="conf" items="${confirmed}">
+                            <tr>
+                                <td><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out>
+                                    <input type="checkbox" name="friend" value="${conf.pk}"></td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
+                    <tr>
+                        <td>
+                            <input class = "btn-sm btn-danger" type="submit" value="submit">   
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
     </body>
 </html>

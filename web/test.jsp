@@ -1,43 +1,27 @@
-<%--    
-    Document   : myGroups
-    Created on : 17-Jan-2017, 2:04:35 PM
+<%-- 
+    Document   : notloggedin
+    Created on : 22-Jan-2017, 9:11:00 PM
     Author     : marlon
 --%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%
-    response.setHeader("Cache-Control", "no-cache");
-    response.setHeader("Cache-Control", "no-store");
-    response.setDateHeader("Expires", 0);
-%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Groups</title>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/login.css">
+        <link rel="stylesheet" href="css/tableCSS.css">
+        <title>Please Login</title>
     </head>
     <body>
-        <c:import url="HTMLPartials/navBar.jsp"/>
-        
-        <div id="containerBox" class="container algin-self-center col-sm-4 col-sm-offset-4">
-            <div class="table-responsive">
-                <table class="table table-condensed">
-                    <thead>
-                        <th>Groups</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <c:forEach var="group" items="${groups}">
-                                <td><a href="viewGroup?id=${group.key}"><c:out value="${group.value}"></c:out></a></td>
-                            </c:forEach>
-                        </tr>
-                        <tr>
-                            <form action="createGroup" method="post">
-                                <input class="algin-self-center btn-danger btn-sm" type="submit" value="Create a Group"/>
-                            </form>
-                        </tr>
-                    </tbody>
-                </table>
+        <div id="containerBox" class = "container align-self-center col-sm-4 col-sm-offset-4">
+            <h1 class="text-center">You have attempted to access a web page in an illegal manner</h1>
+            <img src="images/craig-gelowitz.jpg" class="center-block img-responsive" alt="Cinque Terre">
+            <h2 class="text-center">Craig disapproves of this behavior</h2>
+            <p>Please <a href="login">Click Here</a> To Login</p>   
         </div>
     </body>
 </html>

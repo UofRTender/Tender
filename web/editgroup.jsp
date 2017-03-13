@@ -18,19 +18,34 @@
     </head>
     <body>
         <c:import url="HTMLPartials/navBar.jsp"/>
-        <c:if test="${not empty error}">
-            <c:out value="${error}"></c:out>
-        </c:if>
-        <form action="editGroup" method="get">
-            <input type="hidden" name="gpk" value="${gpk}">
-            <p>New Group Name: <input type="text" name="group_name"></p>
-                <c:if test="${not empty confirmed}">
-                    <c:forEach var="conf" items="${confirmed}">
-                    <p><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out>
-                        <input type="checkbox" name="friend" value="${conf.pk}"><br>
-                    </c:forEach>
-                </c:if>
-                <input type="submit" value="submit">   
-        </form>
+        <div id="containerBox" class="container col-sm-4 col-sm-offset-4">
+            <c:if test="${not empty error}">
+                <c:out value="${error}"></c:out>
+            </c:if>
+            <form action="editGroup" method="get">
+                <div class="table-responsive">
+                    <table class="table-condensed">
+                        <tr>
+                            <td>New Group Name: <input type="text" name="group_name"></td>
+                        </tr>
+                        <c:if test="${not empty confirmed}">
+                            <c:forEach var="conf" items="${confirmed}">
+                                <tr>
+                                    <td><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out>
+                                        <input type="checkbox" name="friend" value="${conf.pk}"></td>
+                                </tr>
+                            </c:forEach>
+                        </c:if>
+
+                        <tr>
+                            <td>
+                                <input type="hidden" name="gpk" value="${gpk}">
+                                <input type="submit" value="submit">   
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </div>
     </body>
 </html>

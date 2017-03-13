@@ -17,9 +17,9 @@
         
     </head>
     <body>
-        <div class = "container text-center col-sm-4"></div>
         
-        <div id="containerBox" class = "color container text-center col-sm-4">
+        
+        <div id="containerBox" class = "container text-center col-sm-offset-4 col-sm-4">
             
             <form class="form-login" action="login" method="post">
                 
@@ -29,9 +29,9 @@
                     
                 <input class="form-control" type="password" name="password" placeholder="Password" required>
                 
-                <input class="btn btn-lg btn-primary" type="submit" value="Login"/>
+                <input class="btn btn-lg btn-danger" type="submit" value="Login"/>
                 
-                <a class="btn btn-lg btn-primary" href="signup.jsp"/>Sign Up</a>
+                <a class="btn btn-lg btn-danger" href="signup.jsp"/>Sign Up</a>
                 
             </form>
 

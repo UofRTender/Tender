@@ -34,7 +34,6 @@
                 margin-top: 50px;
             }
         </style>
-
     </head>
     <body onload="persist()">
         <c:import url="HTMLPartials/navBar.jsp"/>
