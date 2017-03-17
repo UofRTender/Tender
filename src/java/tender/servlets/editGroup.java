@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tender.model.friends;
 import tender.model.groups;
+import tender.model.query;
 import tender.model.user;
 
 /**
@@ -115,15 +116,36 @@ public class editGroup extends HttpServlet {
         if (request.getSession(false).getAttribute("personPK") == null) {
             response.sendRedirect("notLoggedIn");
         } else {
+            PrintWriter out = response.getWriter();
+            String gpk = request.getParameter("gpk");
+            ArrayList<user> groupMembers = new ArrayList<>();
+            groups members = new groups();
+            ArrayList<user> possibleMembers = new ArrayList<>();
             String pk = request.getSession(false).getAttribute("personPK").toString();
+
+            for (Object groupMember : members.getGroupMembers(gpk)) {
+                user user = new user();
+                user.user(Integer.parseInt(groupMember.toString()));
+                groupMembers.add(user);
+            }
+
             friends friend = new friends();
             ArrayList<user> confirmedFriends;
             confirmedFriends = friend.getConfirmedFriends(Integer.parseInt(pk));
 
             if (confirmedFriends.size() > 0) {
-                request.setAttribute("confirmed", confirmedFriends);
+                for (user conf : confirmedFriends) {
+                    //out.println("confirmed friend " + conf.getPk());
+                        if (!members.isMember(gpk, conf.getPk())) {
+                            //out.println("possilbe " + conf.getPk());
+                            possibleMembers.add(conf);
+                        }
+                    
+                }
             }
-            request.setAttribute("gpk", request.getParameter("gpk"));
+
+            request.setAttribute("confirmed", possibleMembers);
+            request.setAttribute("gpk", gpk);
             request.getRequestDispatcher("editgroup.jsp").forward(request, response);
             //processRequest(request, response);
         }

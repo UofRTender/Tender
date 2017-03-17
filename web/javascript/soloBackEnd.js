@@ -2,8 +2,10 @@ function addHistory() {
     $.get('addHistory',
             {
                 job: "add",
-                restaurant: document.getElementById('id').value,
-                table: "history"
+                restaurant: restaruants[num].location,
+                table: "history",
+                name: restaruants[num].name,
+                palette: palette.palette
             }, function (data) {
         console.log("History");
         console.log(data);
@@ -11,15 +13,18 @@ function addHistory() {
 }
 
 function persist() {
+    console.log("persist");
     $.get('addHistory',
             {
                 job: "check",
                 table: "history"
                         //restaurant: document.getElementById('id').value
             }, function (data) {
-        if (data != "true") {
+        if (data.new != "true") {
             console.log("persist");
-            console.log(data.id);
+            console.log(data);
+            palette=data.palette;
+            
             initMapOld(data);
         }
     });
@@ -29,7 +34,9 @@ function addFavourites() {
     $.get('addFavourites',
             {
                 job: "add",
-                restaurant: document.getElementById("id").value
+                name: restaruants[num].name,
+                //palette: palette.palette,
+                restaurant: restaruants[num].location
             },
             function (data) {
                 console.log("favourites");
@@ -43,7 +50,7 @@ function checkFavourites() {
     $.get('addFavourites',
             {
                 job: "check",
-                restaurant: document.getElementById("id").value
+                restaurant: restaruants[num].location
             },
             function (data) {
                 console.log("check");
@@ -57,14 +64,4 @@ function checkFavourites() {
                 }
 
             });
-}
-
-function test() {
-    //setInterval(function () {
-        $.get('addHistory', {
-            job: "check",
-            table: "group",
-            id: document.getElementById("gname").value
-        });
-    //}, 10000);
 }

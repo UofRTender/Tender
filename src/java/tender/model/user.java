@@ -114,4 +114,8 @@ public class user {
     public String getProvince() {
         return province;
     }
+    
+    public String getString(){
+        return this.getFirstName()+this.getLastName();
+    }
 }

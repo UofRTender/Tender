@@ -7,6 +7,8 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import tender.model.Palette;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import tender.model.Favourites;
 import tender.model.RestaurantRelations;
+import tender.model.query;
 
 /**
  *
@@ -56,43 +60,94 @@ public class tender extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
+        //response.setContentType("text/html;charset=UTF-8");
         //processRequest(request, response);
         try (PrintWriter out = response.getWriter()) {
-            String pk = request.getSession(false).getAttribute("personPK").toString();
-
+            String pk = "2";///request.getSession(false).getAttribute("personPK").toString();
+            boolean check = true;
+            query query = new query();
             Palette myPalette = new Palette();
-
-            JSONObject json = new JSONObject();
-
-            // put an "array"
+            ArrayList likes = myPalette.getLikedFood(pk);
+            ArrayList<ArrayList> likeCount = new ArrayList<>();
+            ArrayList<ArrayList> potentialPalette = new ArrayList<>();
+            ArrayList mostRecent = new ArrayList();
+            JSONObject tender = new JSONObject();
             JSONArray arr = new JSONArray();
-            for (Object like : myPalette.getLikedFood(pk)) {
-                arr.put(like);
-            }
-            json.put("liked", arr);
+            HashMap temp = new HashMap();
 
             arr = new JSONArray();
             for (Object favourite : new RestaurantRelations().getFavourites(pk)) {
                 arr.put(favourite);
             }
-            json.put("favourites", arr);
-
+            tender.put("favourites", arr);
             arr = new JSONArray();
-            int i = 0;
+            int k = 0;
             for (Object history : new RestaurantRelations().getHistory(pk)) {
-                if (i < 5) {
+                if (k < 5) {
                     arr.put(history);
+                } else {
                     break;
                 }
-                i++;
+                k++;
             }
-            json.put("history", arr);
-            // finally output the json string		
-            out.print(json.toString());
-            //out.println(myPalette.getFoodPreference("2")+"\n");
-            /*out.println(myPalette.getLikedFood("2")+"\n");
-            out.println(myPalette.getDislikedFood("2")+"\n");*/
 
+            tender.put("history", arr);
+            //out.println(likes+"<br>");
+            for (Object like : likes) {
+                temp.clear();
+                temp.put("type", like);
+                temp.put("user_id", pk);
+                likeCount.add(query.getManyRows("history", "pk", temp));
+            }
+            if (likeCount.isEmpty()) {
+                tender.put("palette", likes.get((int) Math.floor(Math.random() * likes.size())));
+                out.println(tender);
+            } else {
+                //out.println(likeCount+"<br>");
+                temp.clear();
+                for (int i = 0; i < likeCount.size(); i++) {
+                    if (likeCount.get(i).isEmpty()) {
+                        tender.put("palette", likes.get(i));
+                        check = false;
+                        out.println(tender);
+                        break;
+                    } else if (potentialPalette.isEmpty() || likeCount.get(i).size() < potentialPalette.get(0).size()) {
+                        potentialPalette.clear();
+                        potentialPalette.add(likeCount.get(i));
+                    } else if (likeCount.get(i).size() == potentialPalette.get(0).size()) {
+                        potentialPalette.add(likeCount.get(i));
+                    }
+                }
+
+                //out.println(potentialPalette+"<br>");
+                for (ArrayList candidates : potentialPalette) {
+                    int largest = 0;
+                    for (Object candidate : candidates) {
+                        int challenger = Integer.parseInt(candidate.toString());
+                        if (challenger > largest) {
+                            largest = challenger;
+                        }
+                    }
+                    mostRecent.add(largest);
+                }
+
+                int winner = 0;
+                //out.println(mostRecent+"<br>");
+                for (Object small : mostRecent) {
+                    //out.println(small);
+                    if (Integer.parseInt(small.toString()) < winner || winner == 0) {
+                        winner = Integer.parseInt(small.toString());
+                    }
+                }
+                //out.println("winner "+Integer.toString(winner)+"<br>");
+                temp.clear();
+
+                temp.put("pk", Integer.toString(winner));
+                if (check) {
+                    tender.put("palette", query.getValue("history", "type", temp));
+                    out.println(tender);
+                }
+            }
         } catch (Exception e) {
 
         }

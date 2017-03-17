@@ -103,7 +103,7 @@ public class friends {
     }
 
     public ArrayList<user> getConfirmedFriends(int pk) {
-        ArrayList<user> pendingFriends = new ArrayList<user>();
+        ArrayList<user> confirmedFriends = new ArrayList<user>();
         query check = new query();
         HashMap addee_pk = new HashMap();
         user requester = new user();
@@ -112,19 +112,21 @@ public class friends {
         addee_pk.put("confirmed", "1");
 
         for (Object adder : check.getManyRows("friends", "adder_pk", addee_pk)) {
+            requester = new user();
             requester.user(Integer.parseInt(adder.toString()));
-            pendingFriends.add(requester);
+            confirmedFriends.add(requester);
         }
         
         addee_pk.clear();
         addee_pk.put("adder_pk", pk);
         addee_pk.put("confirmed", "1");
         for (Object adder : check.getManyRows("friends", "addee_pk", addee_pk)) {
+            requester = new user();
             requester.user(Integer.parseInt(adder.toString()));
-            pendingFriends.add(requester);
+            confirmedFriends.add(requester);
         }
         
-        return pendingFriends;
+        return confirmedFriends;
     }
     
     public void acceptRequest(int pk, int friendPk){

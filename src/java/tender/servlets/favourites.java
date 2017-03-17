@@ -13,15 +13,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tender.model.friends;
+import tender.model.Favourites;
 import tender.model.query;
-import tender.model.user;
 
 /**
  *
  * @author marlon
  */
-public class FriendsList extends HttpServlet {
+public class favourites extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,24 +34,18 @@ public class FriendsList extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        /* TODO output your page here. You may use following sample code. */
-        if (request.getSession(false).getAttribute("personPK") == null) {
-            response.sendRedirect("notLoggedIn");
-        } else {
-            friends newFriend = new friends();
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             String pk = request.getSession(false).getAttribute("personPK").toString();
-            String friendPk = request.getParameter("pendingID");
-            String accepted = request.getParameter("accept");
+            Favourites favour = new Favourites(pk);
+            HashMap favourite = favour.getFavourites();
+            
+            //out.println(favourite);
+            request.setAttribute("favourites", favourite);
+           
+            request.getRequestDispatcher("favourites.jsp").forward(request, response);
 
-            if (accepted != null) {
-                newFriend.acceptRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
-            } else {
-                newFriend.rejectRequest(Integer.parseInt(pk), Integer.parseInt(friendPk));
-            }
-            doGet(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -67,28 +60,7 @@ public class FriendsList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getSession(false).getAttribute("personPK") == null) {
-            response.sendRedirect("notLoggedIn");
-        } else {
-            PrintWriter out = response.getWriter();
-            friends friend = new friends();
-            ArrayList<user> pendingRequests;
-            ArrayList<user> confirmedFriends;
-            int pk = Integer.parseInt(request.getSession(false).getAttribute("personPK").toString());
-            out.println(pk);
-            pendingRequests = friend.getPendingFriends(pk);
-            confirmedFriends = friend.getConfirmedFriends(pk);
-
-            if (pendingRequests.size() > 0) {
-                request.setAttribute("pending", pendingRequests);
-            }
-            if (confirmedFriends.size() > 0) {
-                request.setAttribute("confirmed", confirmedFriends);
-            }   
-            
-            //out.println(confirmedFriends);
-            request.getRequestDispatcher("friendsList.jsp").forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -108,7 +108,10 @@ public class query {
             }
 
             conn.close();
-            return rowCount == 1;
+            if (rowCount > 0) {
+                return true;
+            }
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -237,5 +240,46 @@ public class query {
         } catch (Exception e) {
 
         }
+    }
+
+    public String exists2(String table, HashMap values) {
+        Boolean result = false;
+        query();
+        try {
+            Class.forName(jdbcDriver).newInstance();
+            Connection conn = DriverManager.getConnection(jdbcURL, user, DBpassword);
+            Statement stmt = conn.createStatement();
+
+            String query = "select ";
+            for (int i = 0; i < values.size(); i++) {
+                query += values.keySet().toArray()[i];
+                if (i < values.size() - 1) {
+                    query += ",";
+                }
+            }
+            query += " from " + table + " where ";
+            for (int i = 0; i < values.size(); i++) {
+                query += values.keySet().toArray()[i];
+                query += "=";
+                query += "'" + values.values().toArray()[i] + "'";
+                if (i < values.size() - 1) {
+                    query += " and ";
+                }
+            }
+            query += ";";
+            ResultSet rs = stmt.executeQuery(query);
+
+            int rowCount = 0;
+            while (rs.next()) {
+                rowCount++;
+            }
+
+            conn.close();
+            return query;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return "fail";
     }
 }

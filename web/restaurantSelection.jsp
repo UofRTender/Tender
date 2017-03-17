@@ -14,16 +14,6 @@
         <script type="text/javascript" src="javascript/soloBackEnd.js"></script>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
         <title>Tender</title>
-        <script type="text/javascript">
-            var address = "258 Read Avenue";
-            var city = "Regina";
-            google.maps.event.addDomListener(window, "resize", function() {
-                var center = map.getCenter();
-                google.maps.event.trigger(map, "resize");
-                map.setCenter(center); 
-            });
-        </script>
-
         <style>
             /* Always set the map height explicitly to define the size of the div
              * element that contains the map. */

@@ -49,8 +49,8 @@
         <servlet-class>tender.servlets.restaurantSelection</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>friendsList</servlet-name>
-        <servlet-class>tender.servlets.addFriend</servlet-class>
+        <servlet-name>FriendsList</servlet-name>
+        <servlet-class>tender.servlets.FriendsList</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>addFriend</servlet-name>
@@ -87,6 +87,14 @@
     <servlet>
         <servlet-name>addHistory</servlet-name>
         <servlet-class>tender.servlets.addHistory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>favourites</servlet-name>
+        <servlet-class>tender.servlets.favourites</servlet-class>
+    </servlet>
+        <servlet>
+        <servlet-name>history</servlet-name>
+        <servlet-class>tender.servlets.history</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
@@ -125,8 +133,8 @@
         <url-pattern>/restaurantSelection</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>friendsList</servlet-name>
-        <url-pattern>/friendsList</url-pattern>
+        <servlet-name>FriendsList</servlet-name>
+        <url-pattern>/FriendsList</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>addFriend</servlet-name>
@@ -163,6 +171,14 @@
     <servlet-mapping>
         <servlet-name>addHistory</servlet-name>
         <url-pattern>/addHistory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>favourites</servlet-name>
+        <url-pattern>/favourites</url-pattern>
+    </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>history</servlet-name>
+        <url-pattern>/history</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -95,4 +95,12 @@ public class groups {
         restraints.put("groups_id", pk);
         update.insert("mygroups", restraints);
     }
+    
+    public boolean isMember(String pk, String userPK){
+        query check = new query();
+        HashMap restraints = new HashMap();
+        restraints.put("person_pk", userPK);
+        restraints.put("groups_id", pk);
+        return check.exists("mygroups", restraints);
+    }
 }

@@ -64,10 +64,16 @@ public class addFavourites extends HttpServlet {
             String pk = "2";
             String id = request.getParameter("restaurant");
             String job = request.getParameter("job");
+            String name = request.getParameter("name");
+            String palette = request.getParameter("palette");
+            
             query newFavourites = new query();
             HashMap info = new HashMap();
             info.put("restaurant_pk", id);
             info.put("user_id", pk);
+            info.put("name", name);
+            info.put("type", palette);
+            
             if (job.equals("add")) {
                 if (newFavourites.exists("favourites", info)) {
                     out.write("already exists");

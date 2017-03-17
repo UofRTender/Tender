@@ -13,27 +13,34 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript" src="javascript/action.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Groups</title>
     </head>
     <body>
         <c:import url="HTMLPartials/navBar.jsp"/>
-        
+
         <div id="containerBox" class="container col-sm-4 col-sm-offset-4">
-            <div class="table">
-                <table class="table table-condensed">
+            <div id='divtable' class="table">
+                <table id='table' class="table table-condensed">
                     <tr>
                         <th>Groups</th>
                     </tr>
+
+                    <c:forEach var="group" items="${groups}">
+                        <tr id="${group.key}" onmouseover="showGroupButtons(this)" onmouseout='removeGroupButtons()'>
+                            <td>
+                                <a href="viewGroup?id=${group.key}">
+                                    <c:out value="${group.value}"></c:out>
+                                    </a>
+                                </td>
+                            </tr>
+                    </c:forEach>
+
                     <tr>
-                        <c:forEach var="group" items="${groups}">
-                            <td><a href="viewGroup?id=${group.key}"><c:out value="${group.value}"></c:out></a></td>
-                        </c:forEach>
-                    </tr>
-                    <tr>
-                        <form action="createGroup" method="post">
-                            <td><input class="btn-danger btn-sm" type="submit" value="Create a Group"/></td>
-                        </form>
+                    <form action="createGroup" method="post">
+                        <td><input class="btn-danger btn-sm" type="submit" value="Create a Group"/></td>
+                    </form>
                     </tr>
                 </table>
             </div>

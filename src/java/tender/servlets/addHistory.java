@@ -84,21 +84,25 @@ public class addHistory extends HttpServlet {
             switch (job) {
                 case "add": {
                     String id = request.getParameter("restaurant");
+                    String name = request.getParameter("name");
+                    String type = request.getParameter("palette");
                     info.put("restaurant_pk", id);
                     newHistory.delete("temphistory", info);
                     info.put("timestamp", "now");
+                    info.put("type", type);
+                    info.put("name", name);
                     newHistory.insert(table, info);
                     break;
                 }
                 case "check":
                     JSONObject json = new JSONObject();
                     if (table.equals("temphistory")) {
-                        String id=newHistory.getValue(table, "restaurant_pk", info);
+                        String id = newHistory.getValue(table, "restaurant_pk", info);
                         if (!request.getParameter("oldid").equals(id)) {
                             json.put("id", id);
                             json.put("old", id);
                             json.put("load", "true");
-                        }else{
+                        } else {
                             json.put("old", "id");
                             json.put("load", "false");
                         }
@@ -107,28 +111,31 @@ public class addHistory extends HttpServlet {
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date currentDate = new Date();
                         format.format(currentDate);
-
+                        json.put("info", info.toString());
                         if (newHistory.exists(table, info)) {
                             ArrayList history = newHistory.getManyRows(table, "timestamp", info);
                             String selected = history.get(history.size() - 1).toString();//last visited
                             Date lastVisited = format.parse(selected);
+
                             lastVisited.setDate(lastVisited.getDate() + 1);
 
+                            //json.put("newdate", lastVisited.toString());
                             //out.println(lastVisited);
+                            json.put("current", currentDate.toString());
+                            json.put("last", lastVisited);
                             if (currentDate.after(lastVisited)) {
-                                String t = "true";
-                                json.put("new", t);
+                                json.put("new", "true");
                                 out.println(json.toString());//new place
                             } else {
                                 info.put("timestamp", selected);
                                 String lastPlace = newHistory.getValue(table, "restaurant_pk", info);
                                 json.put("new", "false");
                                 json.put("id", lastPlace);
+                                json.put("palette", newHistory.getValue(table, "type", info));
                                 out.println(json.toString());//no new place
                             }
                         } else {
-                            String t = "true";
-                            json.put("new", t);
+                            json.put("new", "true");
                             out.println(json.toString());//new place
                         }
                     }
