@@ -11,6 +11,15 @@ var directionsService = new google.maps.DirectionsService;
 var directionsDisplay = new google.maps.DirectionsRenderer;
 var restaruants = [];
 var PaletteRequest;
+var palette;
+var num = 0;
+function rankings(name, score, location, geometry) {
+    this.name = name;
+    this.score = score;
+    this.location = location;
+    this.geometry = geometry;
+    this.untouchable = score;
+}
 
 function initMapRandom() {
     //console.log("init");
@@ -87,7 +96,8 @@ function findRestaurant() {
     node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
     node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
 
-    checkFavourites();
+    currentRestaurant = restaruants[num].place_id;
+    //checkFavourites();
     //console.log("addtemp");
     addTemp();
     //console.log("restaruants");
@@ -126,41 +136,106 @@ function initMapPalette() {
 
 function PaletteReturn() {
     var service = new google.maps.places.PlacesService(map);
-    $.get('tender', function (data) {
+    $.get('groupTender', function (data) {
         console.log(data);
-        for (var i = 0; i < data.liked.length; i++) {
-            type=data.liked;
-            console.log(i);
-            PaletteRequest = {
-                location: source,
-                radius: '100',
-                query: data.liked[i],
-                openNow: true,
-                type: ['restaurant','food']
-            };
-           
-            service.textSearch(PaletteRequest, callbackPalette);
-            if(i==data.liked.length-1){
-                findPaletteRestaurant(data);
-            }
-        }
+        palette = data;
+        PaletteRequest = {
+            location: source,
+            radius: '100',
+            query: palette.palette,
+            openNow: true,
+            type: ['restaurant', 'food']
+        };
+
+        service.textSearch(PaletteRequest, callbackPalette);
+        /*if(i==data.liked.length-1){
+         findPaletteRestaurant(data);
+         }*/
+
     });
 }
 
 function callbackPalette(results, status, pagination) {
-    console.log(PaletteRequest["query"]);
+    //console.log(PaletteRequest["query"]);
     for (var i = 0; i < results.length; i++) {
-        restaruants.push(results[i]);
+        restaruants.push(new rankings(results[i].name, results[i].rating, results[i].place_id, results[i].geometry.location));
     }
-    if (pagination.hasNextPage) {
-        //pagination.nextPage();
-    }else{
-        restaruants.push();
-    }
+    findPaletteRestaurant();
+    /*for (var i = 0; i < results.length; i++) {
+     restaruants.push(results[i]);
+     }
+     if (pagination.hasNextPage) {
+     //pagination.nextPage();
+     }else{
+     restaruants.push();
+     }*/
 }
 
-function findPaletteRestaurant(data){
+function findPaletteRestaurant(data) {
     console.log("find");
+    console.log(restaruants);
+    num = 0;
+    var average = 0.0;
+
+    for (var i = 0; i < restaruants.length; i++) {
+        if (restaruants[i].score != undefined) {
+            average = average + restaruants[i].score;
+        } else {
+            average = average + 3;
+        }
+    }
+    average = average / restaruants.length;
+    console.log("average+average" + average);
+    for (var i = 0; i < restaruants.length; i++) {
+        if (palette.groupHistory.length == 0 && palette.indivHistory.length == 0) {
+            console.log("random number");
+            num = Math.floor(Math.random() * restaruants.length);
+        } else {
+            if (palette.groupHistory.length != 0) {
+                for (var k = 0; k < palette.groupHistory.length; k++) {
+                    if (palette.groupHistory[k] == restaruants[i].location) {
+                        restaruants[i].score -= average * (k + 1) / 10;
+                    }
+                }
+            }
+
+            if (palette.indivHistory.length != 0) {
+                for (var k = 0; k < palette.indivHistory.length; k++) {
+                    if (palette.indivHistory[k] == restaruants[i].location) {
+                        restaruants[i].score -= average * (k + 1) / 100;
+                    }
+                }
+            }
+        }
+        if (palette.favourites.length != 0) {
+            for (var k = 0; k < palette.favourites.length; k++) {
+                if (palette.indivHistory[k] == restaruants[i].location) {
+                    restaruants[i].score *= 1.1;
+                }
+            }
+        }
+        var maximum = 0;
+        if (num == 0) {
+            for (var i = 0; i < restaruants.length; i++) {
+                if (restaruants[i].score > maximum) {
+                    maximum = restaruants[i].score;
+                    num = i;
+                }
+            }
+        }
+    }
+    console.log(restaruants);
+    var node = document.getElementById("results");
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
+    node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
+    node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
+    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    destination = restaruants[num].geometry;
+    addTemp();
+    calculateAndDisplayRoute();
+    console.log("post adjust score");
     console.log(restaruants);
 }
 
@@ -208,33 +283,35 @@ function getOldRestaurant(placeid) {
 }
 
 function callbackOld(place, status) {
+    restaruants.push(new rankings(place.name, place.rating, place.place_id, place.geometry.location));
     destination = place.geometry.location;
+    
     var node = document.getElementById("results");
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
-    node.innerHTML = node.innerHTML + "<p>name: " + place.name + "</p>";
-    node.innerHTML = node.innerHTML + "<p>rating: " + place.rating + "</p>";
-    node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + place.place_id + ">";
-    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    node.innerHTML = node.innerHTML + "<p>name: " + restaruants[0].name + "</p>";
+    node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[0].untouchable + "</p>";
+    //node.removeChild(node);
+    //node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
 
-    checkFavourites();
-    updatePage();
+    //checkFavourites();
     calculateAndDisplayRoute();
+    updatePage();
 }
 
 function calculateAndDisplayRoute() {
-            directionsService.route({
-                origin: source,
-                destination: destination,
-                travelMode: 'DRIVING'
-            }, function (response, status) {
-                if (status === 'OK') {
-                    directionsDisplay.setDirections(response);
-                } else {
-                    window.alert('Directions request failed due to ' + status);
-                }
-            });
+    directionsService.route({
+        origin: source,
+        destination: destination,
+        travelMode: 'DRIVING'
+    }, function (response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
     console.log("restaruants");
     console.log(restaruants);
 }

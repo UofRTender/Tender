@@ -4,10 +4,11 @@ function addHistory() {
     $.get('addHistory',
             {
                 job: "add",
-                restaurant: document.getElementById('id').value,
+                restaurant: restaruants[num].location,
                 id: document.getElementById('gname').value,
-                table: "grouphistory"
-
+                table: "grouphistory",
+                palette: palette.palette,
+                name:restaruants[num].name
             }, function (data) {
         console.log("History");
         console.log(data);
@@ -23,14 +24,11 @@ function persist() {
                 table: "grouphistory"
             },
             function (data) {
-                //alert(data.new);
-                //console.log("persist return");
-                //console.log(data.new);
+                console.log(data);
                 if (data.new != "true") {
-                    //console.log("persist");
-                    //console.log(data.id);
                     initMapOld(data);
                 } else {
+                    console.log("updated "+data.new);
                     updatePage();
                 }
             }
@@ -89,7 +87,7 @@ function updatePage() {
             var intId = setInterval(function () {
                 persist();
                 updatePage();
-            }, 20000);
+            }, 20000000);
         }
     });
 }
@@ -98,12 +96,16 @@ function addTemp() {
     console.log("addtemp");
     $.get('addHistory', {
         job: "temp",
+        restaurant:restaruants[num].location,
         table: "temphistory",
         id: document.getElementById("gname").value,
-        restaurant: document.getElementById('id').value
     }, function (data) {
         updatePage();
         console.log("TEMPHistory");
         console.log(data);
     })
+}
+
+function voteChange(){
+    
 }

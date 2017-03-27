@@ -36,7 +36,7 @@ public class MyProfile extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession(false);
-
+        
         if (request.getParameterMap().containsKey("friendToAdd") && (request.getParameter("friendToAdd") != null || !request.getParameter("friendToAdd").equals(""))) {
             request.setAttribute("test", session);
             String pk = request.getSession(false).getAttribute("personPK").toString();

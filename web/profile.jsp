@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <title> <c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/> </title>
     <c:import url="HTMLPartials/navBar.jsp"/>
 
     <div id="containerBox" class = "container algin-self-center col-sm-4 col-sm-offset-4">

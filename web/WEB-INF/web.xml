@@ -92,9 +92,17 @@
         <servlet-name>favourites</servlet-name>
         <servlet-class>tender.servlets.favourites</servlet-class>
     </servlet>
-        <servlet>
+    <servlet>
         <servlet-name>history</servlet-name>
         <servlet-class>tender.servlets.history</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>removeFavourite</servlet-name>
+        <servlet-class>tender.servlets.removeFavourite</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>groupTender</servlet-name>
+        <servlet-class>tender.servlets.groupTender</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
@@ -176,9 +184,17 @@
         <servlet-name>favourites</servlet-name>
         <url-pattern>/favourites</url-pattern>
     </servlet-mapping>
-        <servlet-mapping>
+    <servlet-mapping>
         <servlet-name>history</servlet-name>
         <url-pattern>/history</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>removeFavourite</servlet-name>
+        <url-pattern>/removeFavourite</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>groupTender</servlet-name>
+        <url-pattern>/groupTender</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -1,4 +1,6 @@
 function addHistory() {
+    var node = document.getElementById("results");
+    node.removeChild(node.childNodes[2]);
     $.get('addHistory',
             {
                 job: "add",
@@ -7,6 +9,7 @@ function addHistory() {
                 name: restaruants[num].name,
                 palette: palette.palette
             }, function (data) {
+
         console.log("History");
         console.log(data);
     });
@@ -23,8 +26,8 @@ function persist() {
         if (data.new != "true") {
             console.log("persist");
             console.log(data);
-            palette=data.palette;
-            
+            palette = data.palette;
+
             initMapOld(data);
         }
     });
@@ -50,7 +53,8 @@ function checkFavourites() {
     $.get('addFavourites',
             {
                 job: "check",
-                restaurant: restaruants[num].location
+                restaurant: restaruants[num].location,
+                name: restaruants[num].name
             },
             function (data) {
                 console.log("check");

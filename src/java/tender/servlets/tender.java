@@ -63,7 +63,7 @@ public class tender extends HttpServlet {
         //response.setContentType("text/html;charset=UTF-8");
         //processRequest(request, response);
         try (PrintWriter out = response.getWriter()) {
-            String pk = "2";///request.getSession(false).getAttribute("personPK").toString();
+            String pk = request.getSession(false).getAttribute("personPK").toString();
             boolean check = true;
             query query = new query();
             Palette myPalette = new Palette();
@@ -80,6 +80,7 @@ public class tender extends HttpServlet {
                 arr.put(favourite);
             }
             tender.put("favourites", arr);
+            
             arr = new JSONArray();
             int k = 0;
             for (Object history : new RestaurantRelations().getHistory(pk)) {
@@ -93,12 +94,14 @@ public class tender extends HttpServlet {
 
             tender.put("history", arr);
             //out.println(likes+"<br>");
+            
             for (Object like : likes) {
                 temp.clear();
                 temp.put("type", like);
                 temp.put("user_id", pk);
                 likeCount.add(query.getManyRows("history", "pk", temp));
             }
+            
             if (likeCount.isEmpty()) {
                 tender.put("palette", likes.get((int) Math.floor(Math.random() * likes.size())));
                 out.println(tender);

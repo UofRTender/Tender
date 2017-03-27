@@ -28,7 +28,7 @@
                     </tr>
 
                     <c:forEach var="group" items="${groups}">
-                        <tr id="${group.key}" onmouseover="showGroupButtons(this)" onmouseout='removeGroupButtons()'>
+                        <tr id="${group.key}" onmouseover="showGroupButtons(this)">
                             <td>
                                 <a href="viewGroup?id=${group.key}">
                                     <c:out value="${group.value}"></c:out>

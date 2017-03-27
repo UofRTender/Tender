@@ -59,12 +59,16 @@ public class viewGroup extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getSession(false).getAttribute("personPK") == null) {
-            response.sendRedirect("notLoggedIn");
-        } else {
-            try (PrintWriter out = response.getWriter()) {
+        groups members = new groups();
+        try (PrintWriter out = response.getWriter()) {
+            if (request.getSession(false).getAttribute("personPK") == null) {
+                response.sendRedirect("notLoggedIn");
+            } else if (!members.isMember(request.getParameter("id"), request.getSession(false).getAttribute("personPK").toString())) {
+                out.println("youre not a member of this group");
+            } else {
+
                 String id = request.getParameter("id");
-                groups members = new groups();
+
                 user user;
                 ArrayList<user> groupMembers = new ArrayList<>();
 
@@ -73,13 +77,14 @@ public class viewGroup extends HttpServlet {
                     user.user(Integer.parseInt(groupMember.toString()));
                     groupMembers.add(user);
                 }
-                
+
                 request.setAttribute("pk", id);
                 request.setAttribute("groupName", members.getName(id));
                 request.setAttribute("members", groupMembers);
                 request.getRequestDispatcher("viewGroup.jsp").forward(request, response);
+
+                processRequest(request, response);
             }
-            processRequest(request, response);
         }
     }
 

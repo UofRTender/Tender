@@ -7,6 +7,7 @@ package tender.model;
 
 import static java.lang.Boolean.parseBoolean;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,13 +21,17 @@ public class Palette {
     public HashMap getFoodPreference(String pk) {
         HashMap foodPreference = new HashMap();
         query select = new query();
+        
         HashMap id = new HashMap();
         id.put("user_id", pk);
-
-        for (Object food : select.getManyRows("palette", "foodtype", id)) {
-            id.put("foodtype", food);
-            foodPreference.put(food, select.getValue("palette", "preference", id));
-            id.remove("foodtype");
+        
+        ArrayList pks= select.getManyRows("palette", "pk", id);
+        //Collections.sort(pks);
+        
+        for(Object info:pks){
+            id.clear();
+            id.put("pk", info);
+            foodPreference.put(select.getValue("palette", "foodtype", id),select.getValue("palette", "preference", id));
         }
         
         return foodPreference;

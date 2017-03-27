@@ -98,12 +98,12 @@ public class addHistory extends HttpServlet {
                     JSONObject json = new JSONObject();
                     if (table.equals("temphistory")) {
                         String id = newHistory.getValue(table, "restaurant_pk", info);
-                        if (!request.getParameter("oldid").equals(id)) {
+                        if (!request.getParameter("oldid").equals(id) && !id.equals("")) {
                             json.put("id", id);
                             json.put("old", id);
                             json.put("load", "true");
                         } else {
-                            json.put("old", "id");
+                            json.put("old", id);
                             json.put("load", "false");
                         }
                         out.println(json.toString());

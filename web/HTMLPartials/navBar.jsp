@@ -29,11 +29,12 @@
                 <li><a href="/Tender/profile">Profile</a></li>
                 <li><a href="/Tender/tender">Navigation</a></li>
                 <li><a href="/Tender/palette">Palette</a></li>
-                <li><a href="/Tender/favourite">Favourites</a></li>
-                <li><a hrer="/Tender/history">History</a></li>
+                <li><a href="/Tender/favourites">Favourites</a></li>
+                <li><a href="/Tender/history">History</a></li>
+                
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href=""><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+                <li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
             </ul>
         </div>
     </div>

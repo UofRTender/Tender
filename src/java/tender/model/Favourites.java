@@ -26,13 +26,12 @@ public class Favourites {
     public HashMap getFavourites() {
         conditions.clear();
         conditions.put("user_id", pk);
-        HashMap data = new HashMap();
-        //data.put("test",query.getManyRows("favourites", "pk", conditions));
+        HashMap data= new HashMap();
+
         for (Object favourite : query.getManyRows("favourites", "pk", conditions)) {
             conditions.clear();
             conditions.put("pk", favourite.toString());
-            //data.put("pk", conditions);
-            data.put("name", query.getValue("favourites", "name", conditions));
+            data.put(favourite.toString(), query.getValue("favourites", "name", conditions));
         }
         return data;
     }

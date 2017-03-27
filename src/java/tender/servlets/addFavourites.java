@@ -61,18 +61,18 @@ public class addFavourites extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
-            String pk = "2";
+            String pk = request.getSession(false).getAttribute("personPK").toString();;
             String id = request.getParameter("restaurant");
             String job = request.getParameter("job");
             String name = request.getParameter("name");
-            String palette = request.getParameter("palette");
+            //String palette = request.getParameter("palette");
             
             query newFavourites = new query();
             HashMap info = new HashMap();
             info.put("restaurant_pk", id);
             info.put("user_id", pk);
             info.put("name", name);
-            info.put("type", palette);
+            //info.put("type", palette);
             
             if (job.equals("add")) {
                 if (newFavourites.exists("favourites", info)) {

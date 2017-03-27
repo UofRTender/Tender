@@ -5,9 +5,6 @@
  */
 function showGroupButtons(info) {
     removeGroupButtons();
-    var out = document.getElementById('containerBox');
-    var div = document.getElementById('divtable');
-    var table = document.getElementById('table');
     var node = document.getElementById(info.id);
 
     var td1 = document.createElement("TD");
@@ -33,7 +30,7 @@ function showGroupButtons(info) {
     node.appendChild(td1);
     //table.appendChild(node);
     /*div.appendChild(table);
-    out.appendChild(div);*/
+     out.appendChild(div);*/
 
     var td2 = document.createElement("TD");
     td2.className = 'removeable';
@@ -58,7 +55,7 @@ function showGroupButtons(info) {
     node.appendChild(td2);
     //table.appendChild(node);
     /*div.appendChild(table);
-    out.appendChild(div);*/
+     out.appendChild(div);*/
 
     var td3 = document.createElement("TD");
     td3.className = 'removeable';
@@ -91,4 +88,15 @@ function removeGroupButtons() {
     while (remove[0]) {
         remove[0].parentNode.removeChild(remove[0]);
     }
+}
+
+function removeFavourites(info) {
+    var node = document.getElementById(info.id);
+    $.get('removeFavourite',
+            {
+                place: node.id,
+            },
+            function (data) {
+                console.log(data);
+            });
 }

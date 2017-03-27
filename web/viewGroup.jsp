@@ -54,9 +54,9 @@
         <button type="button" onclick="initMapRandom()">
             True Random
         </button>
-        <!--<button type="button" onclick="initMapPalette()">
+        <button type="button" onclick="initMapPalette()">
             Palette Specific
-        </button>-->
+        </button>
 
         <div id="results"></div>
         <div id="map"></div>

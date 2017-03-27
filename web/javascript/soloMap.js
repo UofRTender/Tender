@@ -12,6 +12,7 @@ var directionsDisplay = new google.maps.DirectionsRenderer;
 var restaruants = [];
 var palette;
 var num = 0;
+
 function rankings(name, score, location, geometry) {
     this.name = name;
     this.score = score;
@@ -22,7 +23,7 @@ function rankings(name, score, location, geometry) {
 
 function initMapRandom() {
     console.log("init");
-    palette="null";
+    palette = "null";
     restaruants = [];
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15
@@ -64,7 +65,7 @@ function trueRandomReturn() {
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
         location: source,
-        radius: 10000,
+        radius: 5000,
         type: ['restaurant']
     }, callbackRandom);
 }
@@ -80,10 +81,10 @@ function callbackRandom(results, status, pagination) {
         }
         findRestaurant();
         /*if (pagination.hasNextPage) {
-            pagination.nextPage();
-        } else {
-            findRestaurant();
-        }*/
+         pagination.nextPage();
+         } else {
+         findRestaurant();
+         }*/
     }
 }
 
@@ -142,8 +143,8 @@ function PaletteReturn() {
     var service = new google.maps.places.PlacesService(map);
     $.get('tender', function (data) {
         palette = data;
-        console.log(data.palette);
-        console.log("palette " + palette.palette);
+        //console.log(data);
+       console.log("palette " + palette.palette);
         var PaletteRequest = {
             location: source,
             radius: '10000',
@@ -172,15 +173,18 @@ function callbackPalette(results, status, pagination) {
 }
 
 function findPaletteRestaurant(data) {
-    console.log("find");
-    console.log("pre adjust score");
+    /*console.log("find");
+    console.log("pre adjust score");*/
     console.log(restaruants);
+    num = 0;
     var average = 0.0;
-    
+
     for (var i = 0; i < restaruants.length; i++) {
         if (restaruants[i].score != undefined) {
             average = average + restaruants[i].score;
         } else {
+            restaruants[i].score=average/i;
+            restaruants[i].untouchable=average/i;
             average = average + 3;
         }
         //console.log(i+" "+restaruants[i].score);
@@ -191,7 +195,8 @@ function findPaletteRestaurant(data) {
     //console.log("average " + average);
     for (var i = 0; i < restaruants.length; i++) {
         if (palette.history.length != 0) {
-            console.log("history!=0")
+            //console.log("history!=0");
+            //console.log(palette.history);
             for (var k = 0; k < palette.history.length; k++) {
                 if (palette.history[k] == restaruants[i].location) {
                     for (var j = 0; j < palette.favourites.length; j++) {
@@ -200,46 +205,44 @@ function findPaletteRestaurant(data) {
                         }
                     }
                     switch (k) {
-                        case 0:
+                        case 9:
                             restaruants[i].score -= average;
                             break;
-                        case 1:
+                        case 8:
                             restaruants[i].score -= average * 0.9;
                             break;
-                        case 2:
+                        case 7:
                             restaruants[i].score -= average * 0.8;
                             break;
-                        case 3:
+                        case 6:
                             restaruants[i].score -= average * 0.7;
                             break;
-                        case 4:
+                        case 5:
                             restaruants[i].score -= average * 0.6;
                             break;
-                        case 5:
+                        case 4:
                             restaruants[i].score -= average * 0.5;
                             break;
-                        case 6:
+                        case 3:
                             restaruants[i].score -= average * 0.4;
                             break;
-                        case 7:
+                        case 2:
                             restaruants[i].score -= average * 0.3;
                             break;
-                        case 8:
+                        case 1:
                             restaruants[i].score -= average * 0.2
                             break;
-                        case 9:
+                        case 0:
                             restaruants[i].score -= average * 0.1;
                             break;
-
-
                     }
                 } else {
                     for (var j = 0; j < palette.favourites.length; j++) {
-                        console.log("else");
-                        console.log(palette.favourites[j]);
-                        console.log(restaruants[i].location);
+                        //console.log("else");
+                        //console.log(palette.favourites[j]);
+                        //console.log(restaruants[i].location);
                         if (palette.favourites[j] == restaruants[i].location) {
-                            console.log("favourited");
+                            //console.log("favourited");
                             restaruants[i].score *= 1.1;
                         }
                     }
@@ -247,13 +250,15 @@ function findPaletteRestaurant(data) {
             }
         } else {
             if (palette.favourites.length != 0) {
+                //console.log("no favourites");
                 for (var j = 0; j < palette.favourites.length; j++) {
                     if (palette.favourites[j] == restaruants[i].location) {
                         restaruants[i].score *= 1.1;
                     }
                 }
             } else {
-                num = Math.floor(Math.random() * restaruants[i].length);
+                //console.log("random number");
+                num = Math.floor(Math.random() * restaruants.length);
             }
         }
     }
@@ -270,10 +275,11 @@ function findPaletteRestaurant(data) {
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
+    console.log(num);
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
     node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
-
+    
     checkFavourites();
 
     /*console.log("restaruants");
@@ -340,7 +346,7 @@ function callbackOld(place, status) {
     restaruants.push(new rankings(place.name, place.rating, place.place_id, place.geometry.location));
     console.log("test");
     console.log(restaruants);
-    num=0;
+    num = 0;
     destination = place.geometry.location;
     var node = document.getElementById("results");
     while (node.firstChild) {
@@ -349,7 +355,7 @@ function callbackOld(place, status) {
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[0].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[0].untouchable + "</p>";
     //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + place.place_id + ">";
-    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    //node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
 
     checkFavourites();
     calculateAndDisplayRoute()

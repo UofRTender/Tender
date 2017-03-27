@@ -9,13 +9,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript" src="javascript/action.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Favourites</title>
     </head>
     <body>
+        <c:import url="HTMLPartials/navBar.jsp"/>
         <h1>Your Favourites</h1>
         <c:forEach var="favoured" items="${favourites}">
-            <p id="${favoured.key}"><c:out value="${favoured.value}"></c:out></p>
+            <p><c:out value="${favoured.value}"></c:out> <button type="button" id="${favoured.key}" onclick="removeFavourites(this)">x</button></p>
         </c:forEach>
     </body>
 </html>

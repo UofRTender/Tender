@@ -7,21 +7,22 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tender.model.Palette;
+import org.json.JSONException;
+import org.json.JSONObject;
 import tender.model.query;
 
 /**
  *
  * @author marlon
  */
-public class palette extends HttpServlet {
+public class removeFavourite extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,28 +35,18 @@ public class palette extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getSession(false).getAttribute("personPK") == null) {
-            response.sendRedirect("notLoggedIn");
-        } else {
-            response.setContentType("text/html;charset=UTF-8");
-            query update = new query();
-            //Palette userPalette=new Palette();
-            //userPalette.updatePreferences(request.getSession(false).getAttribute("personPK").toString());
-            //ArrayList foods=new ArrayList();
-            HashMap id = new HashMap();
-            id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
-            
-            try {
-                for (Object foods : update.getManyRows("palette", "foodtype", id)) {
-                    id.put("foodtype", foods);
-                    update.update("palette", "preference", id, request.getParameter(foods.toString()));
-                    id.clear();
-                    id.put("user_id", request.getSession(false).getAttribute("personPK").toString());
-                }
-            } catch (Exception e) {
-
-            }
-            response.sendRedirect("profile");
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet removeFavourite</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet removeFavourite at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -71,13 +62,21 @@ public class palette extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getSession(false).getAttribute("personPK") == null) {
-            response.sendRedirect("notLoggedIn");
-        } else {
-            PrintWriter out = response.getWriter();
-            Palette userPalette=new Palette();
-            request.setAttribute("foodPreferences", userPalette.getFoodPreference(request.getSession(false).getAttribute("personPK").toString()));
-            request.getRequestDispatcher("palette.jsp").forward(request, response);
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+            String place = request.getParameter("place");
+            JSONObject json = new JSONObject();
+            HashMap conditions = new HashMap();
+            query execute = new query();
+            conditions.put("pk", place);
+            conditions.put("user_id", pk);
+
+            json.put("worked", "yes");
+
+            execute.delete("favourites", conditions);
+            out.println(json.toString());
+        } catch (Exception e) {
         }
     }
 
