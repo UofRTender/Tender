@@ -66,10 +66,12 @@ public class login extends HttpServlet {
                         out.println("login unsuccessful");
                     }
                 }
+
             } catch (Exception e) {
                 out.println(e);
             }
         }
+        //}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,7 +86,18 @@ public class login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(false);
+        //if (session.getAttribute("personPK") != null || session.getAttribute("personPK") != "") {
+        try (PrintWriter out = response.getWriter()) {
+            if (session == null || session.getAttribute("personPK")=="null" || session.getAttribute("personPK")==null) {
+                processRequest(request, response);
+            } else {
+                response.sendRedirect("profile");
+            }
+
+        }
+        //}
+
     }
 
     /**

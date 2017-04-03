@@ -15,9 +15,16 @@
     </head>
     <body>
         <c:import url="HTMLPartials/navBar.jsp"/>
-        <h1>Your Favourites</h1>
-        <c:forEach var="favoured" items="${favourites}">
-            <p><c:out value="${favoured.value}"></c:out> <button type="button" id="${favoured.key}" onclick="removeFavourites(this)">x</button></p>
-        </c:forEach>
+        <div id="containerBox" class = "container algin-self-center col-sm-4 col-sm-offset-4">
+            <h1>Your Favourites</h1>
+            <table class="table table-hover table-condensed">
+                <c:forEach var="favoured" items="${favourites}">
+                    <tr>
+                        <td><c:out value="${favoured.value}"></c:out></td> 
+                        <td><button type="button" id="${favoured.key}" onclick="removeFavourites(this)">x</button></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </body>
 </html>

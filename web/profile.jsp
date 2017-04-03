@@ -44,11 +44,11 @@
 
             <tr>
                 <td>
-                    <form action="profile" method="get">
+                    <form action="search" method="get">
                         <div class="form-group">
                             <label class="text-center" for="usr">Friend Search:</label>
                             <input name="friendToAdd" type="text" class="form-control" id="usr">
-                        </div>
+                        </div> 
                         <input class="btn btn-block btn-danger" type="submit" value="Search"/>
                     </form>
                 </td>

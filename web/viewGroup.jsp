@@ -16,6 +16,7 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuBvKTgXdc8RWLqkyT4TECNj7vNKoP9NE&libraries=places"></script>
         <script type="text/javascript" src="javascript/groupMaps.js"></script>
         <script type="text/javascript" src="javascript/groupBackEnd.js"></script>
+        <script type="text/javascript" src="javascript/action.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><c:out value="${groupName}"/></title>
 
@@ -39,6 +40,7 @@
         <c:import url="HTMLPartials/navBar.jsp"/>
         <input type="hidden" id="gname" value="${pk}"/>
         <h1><c:out value="${groupName}"/></h1>
+        
         <c:forEach var="user" items="${members}">
             <a href="profile?friendToAdd=${user.pk}"><c:out value="${user.firstName}"></c:out> <c:out value="${user.lastName}"></c:out></a><br>
         </c:forEach>
@@ -50,7 +52,9 @@
             <input type="hidden" name="gpk" value="${pk}"/>
             <input type="submit" value="edit group"/>
         </form>
-
+        <button type="button" onclick="viewGroupHistory()">
+            History
+        </button>
         <button type="button" onclick="initMapRandom()">
             True Random
         </button>

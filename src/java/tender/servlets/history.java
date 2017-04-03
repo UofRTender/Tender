@@ -7,6 +7,7 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,11 +35,12 @@ public class history extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String pk = request.getSession(false).getAttribute("personPK").toString();
-            History history = new History(pk);
-            HashMap returnHistory = history.getHistory();
             
+            ArrayList<History> history=new ArrayList<>();
+            history=new History(pk).getHistory("history","user_id");
+            //out.println(history.toString());
      
-            request.setAttribute("entireHistory", returnHistory);
+            request.setAttribute("entireHistory", history);
             //out.println(returnHistory);
             request.getRequestDispatcher("history.jsp").forward(request, response);
 

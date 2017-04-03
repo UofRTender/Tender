@@ -146,4 +146,9 @@ public class friends {
         conditions.put("adder_pk", friendPk);
         update.update("friends", "confirmed", conditions, "0");
     }
+    
+    @Override
+    public String toString(){
+        return relationship.toString();
+    }
 }

@@ -86,14 +86,14 @@ function updatePage() {
         } else {
             var intId = setInterval(function () {
                 persist();
-                updatePage();
-            }, 20000000);
+            }, 15000);
         }
     });
 }
 
 function addTemp() {
     console.log("addtemp");
+    
     $.get('addHistory', {
         job: "temp",
         restaurant:restaruants[num].location,

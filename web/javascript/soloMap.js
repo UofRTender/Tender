@@ -63,9 +63,11 @@ function initMapRandom() {
 function trueRandomReturn() {
     console.log(source);
     var service = new google.maps.places.PlacesService(map);
+    var distance = document.getElementById("radius").value*100;
+    //alert(distance);
     service.nearbySearch({
         location: source,
-        radius: 5000,
+        radius: distance,
         type: ['restaurant']
     }, callbackRandom);
 }
@@ -141,13 +143,14 @@ function initMapPalette() {
 
 function PaletteReturn() {
     var service = new google.maps.places.PlacesService(map);
+    var distance = document.getElementById("radius").value*100;
     $.get('tender', function (data) {
         palette = data;
         //console.log(data);
        console.log("palette " + palette.palette);
         var PaletteRequest = {
             location: source,
-            radius: '10000',
+            radius: distance,
             query: palette.palette,
             openNow: true,
             type: ['restaurant']

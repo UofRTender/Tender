@@ -12,6 +12,7 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuBvKTgXdc8RWLqkyT4TECNj7vNKoP9NE&libraries=places"></script>
         <script type="text/javascript" src="javascript/soloMap.js"></script>
         <script type="text/javascript" src="javascript/soloBackEnd.js"></script>
+        <script type="text/javascript" src="javascript/action.js"></script>
         <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
         <title>Tender</title>
         <style>
@@ -26,13 +27,12 @@
                 height: 100%;
                 width: 100%;
             }
-
-
         </style>
     </head>
     <body onload="persist()">
         <c:import url="HTMLPartials/navBar.jsp"/>
         <div id="containerBox" class="container col-sm-6 col-sm-offset-3" style="width:100vh; height:80vh; padding-top: 15px; padding-bottom: 35px;">
+            <input id="radius" type="range" min="0" max="50" value="25" onchange="showValue(this.value)" /><span id="range">25 km</span>
             <button type="button" onclick="initMapRandom()">
                 True Random
             </button>
@@ -42,7 +42,6 @@
             <div id="results"></div>
 
             <div id="map"></div>
-        </div>
-
-    </body>
+        </div> 
+   </body>
 </html>

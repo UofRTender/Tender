@@ -7,17 +7,20 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tender.model.friends;
+import tender.model.query;
+import tender.model.user;
 
 /**
  *
  * @author marlon
  */
-public class addFriend extends HttpServlet {
+public class search extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,20 +35,58 @@ public class addFriend extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            if (request.getSession(false).getAttribute("personPK") == null) {
-                response.sendRedirect("notLoggedIn");
-            } else {
-                /* TODO output your page here. You may use following sample code. */
-                String pk = request.getSession(false).getAttribute("personPK").toString();
-                String remotePK = request.getParameter("friendId");
-                friends friendRequest = new friends();
-                friendRequest.friends(Integer.parseInt(pk), Integer.parseInt(remotePK));
-                
-                if (!friendRequest.checkRequest()) {
-                    friendRequest.makeFriendRequest();
+            String query = request.getParameter("friendToAdd");
+            String[] parseQuery = query.split(" ");
+            boolean add = true;
+
+            query search = new query();
+            ArrayList<user> results = new ArrayList<>();
+            user User = new user();
+            HashMap conditions = new HashMap();
+            for (int i = 0; i < parseQuery.length; i++) {
+                parseQuery[i] = String.valueOf(parseQuery[i].charAt(0)).toUpperCase() + parseQuery[i].substring(1);
+                out.println(parseQuery[i]);
+            }
+            
+            for (int i = 0; i < 3; i++) {
+                for (String info : parseQuery) {
+                    conditions.clear();
+                    switch (i) {
+                        case 0:
+                            conditions.put("firstname", info);
+                            break;
+                        case 1:
+                            conditions.put("lastname", info);
+                            break;
+                        case 2:
+                            conditions.put("email", info);
+                            break;
+                    }
+                    //out.println("<br>"+search.getManyRows2("person", "pk", conditions)+"<br>");
+                    for (Object data : search.getManyRows("person", "pk", conditions)) {
+                        int num = Integer.parseInt(data.toString());
+                        
+                        User = new user();
+                        User.user(num);
+                        for (user person : results) {
+                            if (Integer.parseInt(person.getPk()) == Integer.parseInt(data.toString())) {
+                                add = false;
+                            }
+                        }
+                        if (add) {
+                            results.add(User);
+                        }
+                        add = true;
+                    }
                 }
             }
-            //response.sendRedirect("FriendsList");
+            /*for (user info : results) {
+                out.println(info.getString());
+            }*/
+            //out.println("done");
+            request.setAttribute("users", results);
+            
+            request.getRequestDispatcher("searchresults.jsp").forward(request, response);
         }
     }
 

@@ -74,14 +74,13 @@ function callbackRandom(results, status, pagination) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         //var num = Math.floor((Math.random() * results.length));
         for (var i = 0; i < results.length; i++) {
-            restaruants.push(results[i]);
-            //node.innerHTML = node.innerHTML + "<p>name: " + results[i].name + "</p>";
+            restaruants.push(new rankings(results[i].name, results[i].rating, results[i].place_id, results[i].geometry.location));
         }
-        if (pagination.hasNextPage) {
+        /*if (pagination.hasNextPage) {
             pagination.nextPage();
         } else {
             findRestaurant();
-        }
+        }*/
     }
 }
 
@@ -96,13 +95,13 @@ function findRestaurant() {
     node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
     node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
 
-    currentRestaurant = restaruants[num].place_id;
+    currentRestaurant = restaruants[num].location;
     //checkFavourites();
     //console.log("addtemp");
     addTemp();
     //console.log("restaruants");
     //console.log(num);
-    destination = restaruants[num].geometry.location;
+    destination = restaruants[num].geometry;
     //console.log(restaruants[num].name);
     //console.log(restaruants[num].geometry.location);
 
@@ -141,7 +140,7 @@ function PaletteReturn() {
         palette = data;
         PaletteRequest = {
             location: source,
-            radius: '100',
+            radius: '10000',
             query: palette.palette,
             openNow: true,
             type: ['restaurant', 'food']
@@ -285,7 +284,7 @@ function getOldRestaurant(placeid) {
 function callbackOld(place, status) {
     restaruants.push(new rankings(place.name, place.rating, place.place_id, place.geometry.location));
     destination = place.geometry.location;
-    
+
     var node = document.getElementById("results");
     while (node.firstChild) {
         node.removeChild(node.firstChild);

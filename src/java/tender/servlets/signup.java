@@ -38,18 +38,22 @@ public class signup extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    public String toUpperCase(String word) {
+        return String.valueOf(word.charAt(0)).toUpperCase() + word.substring(1);
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String fname = request.getParameter("first_name");
-        String lname = request.getParameter("last_name");
+        String fname = toUpperCase(request.getParameter("first_name"));
+        String lname = toUpperCase(request.getParameter("last_name"));
         String password = request.getParameter("password");
         String conPassword = request.getParameter("confirm_password");
         String emailAddress = request.getParameter("email");
         String address = request.getParameter("address");
-        String city = request.getParameter("city");
-        String province = request.getParameter("province");
-        String country = request.getParameter("country");
+        String city = toUpperCase(request.getParameter("city"));
+        String province = toUpperCase(request.getParameter("province"));
+        String country = toUpperCase(request.getParameter("country"));
 
         query data = new query();
         HashMap location = new HashMap();
@@ -77,7 +81,6 @@ public class signup extends HttpServlet {
                     byte[] hashOne = sha.digest(password.getBytes());
                     String modPass = hexEncode(hashOne);
                     //out.println(modPass);
-
                     location.put("address", address);
                     location.put("city", city);
                     location.put("country", country);
@@ -90,10 +93,10 @@ public class signup extends HttpServlet {
                     person.put("email", emailAddress);
                     person.put("location_pk", pkLocation);
                     pkPerson = data.insert("person", person);
-                    
-                    HashMap id=new HashMap();
-                    id.put("user_id","1");
-                    
+
+                    HashMap id = new HashMap();
+                    id.put("user_id", "1");
+
                     for (Object foods : data.getManyRows("palette", "foodtype", id)) {
                         palette.put("user_id", pkPerson);
                         palette.put("foodtype", foods);
@@ -102,8 +105,8 @@ public class signup extends HttpServlet {
                         palette.clear();
                     }
 
-                } 
-               out.println(pkLocation + ", " + pkPerson);
+                }
+                out.println(pkLocation + ", " + pkPerson);
 
             } catch (Exception e) {
 

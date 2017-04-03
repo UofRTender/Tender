@@ -5,27 +5,20 @@
  */
 package tender.servlets;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-/*import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;*/
+import tender.model.friends;
+import tender.model.user;
 
 /**
  *
  * @author marlon
  */
-public class upload extends HttpServlet {
+public class remoteProfile extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,26 +33,25 @@ public class upload extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            if (!request.getPart("file").toString().isEmpty()) {
-                Part filePart = request.getPart("file");
-                out.println(filePart);
-                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-                InputStream fileContent = filePart.getInputStream();
-
-                File upload = new File(getServletContext().getInitParameter("uploadDirectory"));
-                File file = new File(upload, request.getSession(false).getAttribute("personPK").toString() + ".jpg");
-                Files.copy(fileContent, file.toPath());
-
-                out.println(getServletContext().getInitParameter("uploadDirectory"));
-                out.println(filePart);
-                out.println(fileName);
-                out.println(request.getSession(false).getAttribute("personPK").toString());
-
-            } else {
-                out.println("invalid image entry");
+            String friendpk = request.getParameter("friendToAdd");
+            String pk = "3"/*request.getSession(false).getAttribute("personPK").toString()*/;
+            if(pk.equals(friendpk)){
+                response.sendRedirect("profile");
             }
-        }
+            user friend = new user();
+            friends friendship = new friends();
+            friendship.friends(Integer.parseInt(friendpk), Integer.parseInt(pk));
+            out.println(friendship.toString()+"<br>");
+            //out.println(friendship.checkStatusOfRequest());
+            if (!pk.equals(friendpk) && friendship.showButton()) {
+                out.println("show the button");
+                request.setAttribute("addFriend", friendpk);
+            }
+            friend.user(Integer.parseInt(friendpk));
 
+            request.setAttribute("friend", friend);
+            request.getRequestDispatcher("remoteProfile.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

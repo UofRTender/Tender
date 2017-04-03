@@ -34,6 +34,7 @@ public class user {
     }
 
     public void user(int pk) {
+        this.user();
         this.pk = pk;
         HashMap user = new HashMap();
         user.put("pk", pk);

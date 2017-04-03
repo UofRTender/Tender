@@ -7,17 +7,18 @@ package tender.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tender.model.friends;
+import tender.model.History;
 
 /**
  *
  * @author marlon
  */
-public class addFriend extends HttpServlet {
+public class groupHistory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,20 +33,17 @@ public class addFriend extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            if (request.getSession(false).getAttribute("personPK") == null) {
-                response.sendRedirect("notLoggedIn");
-            } else {
-                /* TODO output your page here. You may use following sample code. */
-                String pk = request.getSession(false).getAttribute("personPK").toString();
-                String remotePK = request.getParameter("friendId");
-                friends friendRequest = new friends();
-                friendRequest.friends(Integer.parseInt(pk), Integer.parseInt(remotePK));
-                
-                if (!friendRequest.checkRequest()) {
-                    friendRequest.makeFriendRequest();
-                }
-            }
-            //response.sendRedirect("FriendsList");
+            /* TODO output your page here. You may use following sample code. */
+            String pk=request.getParameter("group_id");
+            String name=request.getParameter("name");
+            ArrayList<History> history = new History("4").getHistory("groupHistory", "group_pk");;
+            //out.println(history.toString());
+            request.setAttribute("name", name);
+            request.setAttribute("entireHistory", history);
+            //out.println("test");
+            //out.println(history.toString());
+            request.getRequestDispatcher("groupHistory.jsp").forward(request, response);
+
         }
     }
 

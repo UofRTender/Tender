@@ -100,3 +100,29 @@ function removeFavourites(info) {
                 console.log(data);
             });
 }
+
+function viewGroupHistory() {
+    var id = document.getElementById("gname").value;
+    var name = $('h1').html();
+    $(location).attr('href', 'groupHistory?group_id=' + id + "&name=" + name);
+    /*$.post('groupHistory',{
+     group_id: id
+     },function(data){
+     
+     });*/
+
+}
+
+function showValue(newValue)
+{
+    document.getElementById("range").innerHTML = newValue + " km";
+}
+
+function addFriend(pk) {
+    $.get("addFriend", {
+        friendId: pk
+    }, function (data) {
+        var element = document.getElementById("friendButton");
+        element.parentNode.removeChild(element);
+    });
+}

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : history
-    Created on : 12-Mar-2017, 9:41:16 PM
+    Document   : groupHistory
+    Created on : 1-Apr-2017, 9:19:41 PM
     Author     : marlon
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,12 +9,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>History</title>
+        <title>Group History</title>
     </head>
     <body>
         <c:import url="HTMLPartials/navBar.jsp"/>
         <div id="containerBox" class = "container algin-self-center col-sm-4 col-sm-offset-4">
-            <h1>History</h1>
+            <h1>History - <c:out value="${name}"></c:out></h1>
             <table class="table table-hover table-condensed">
                 <c:forEach var="history" items="${entireHistory}">
                     <tr>
