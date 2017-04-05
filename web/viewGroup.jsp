@@ -42,7 +42,7 @@
         <h1><c:out value="${groupName}"/></h1>
         
         <c:forEach var="user" items="${members}">
-            <a href="profile?friendToAdd=${user.pk}"><c:out value="${user.firstName}"></c:out> <c:out value="${user.lastName}"></c:out></a><br>
+            <a href="remoteProfile?friendToAdd=${user.pk}"><c:out value="${user.firstName}"></c:out> <c:out value="${user.lastName}"></c:out></a><br>
         </c:forEach>
         <form method="post" action="viewGroup">
             <input type="hidden" name="gpk" value="${pk}"/>

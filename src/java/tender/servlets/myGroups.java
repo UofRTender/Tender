@@ -40,8 +40,9 @@ public class myGroups extends HttpServlet {
             //findGroup.getGroups(pk);
 
             HashMap groups = findGroup.getGroups(pk);
-
-            request.setAttribute("groups", groups);
+           
+            request.setAttribute("groups", new groups().getGroup(pk));
+            request.setAttribute("groups2", groups);
             request.getRequestDispatcher("myGroups.jsp").forward(request, response);
         }
     }

@@ -13,19 +13,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import tender.model.Palette;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import tender.model.Favourites;
+import tender.model.Palette;
 import tender.model.RestaurantRelations;
-import tender.model.groups;
 import tender.model.query;
 
 /**
  *
  * @author marlon
  */
-public class tender extends HttpServlet {
+public class paletteFetch extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,30 +38,10 @@ public class tender extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String pk = request.getSession(false).getAttribute("personPK").toString();
-            request.setAttribute("groups", new groups().getGroup(pk));
-            request.getRequestDispatcher("restaurantSelection.jsp").forward(request, response);
-        } catch (Exception e) {
+            response.setContentType("application/json");
+            //response.setContentType("text/html;charset=UTF-8");
+            //processRequest(request, response);
 
-        }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("application/json");
-        //response.setContentType("text/html;charset=UTF-8");
-        processRequest(request, response);
-        /*try (PrintWriter out = response.getWriter()) {
             String pk = request.getSession(false).getAttribute("personPK").toString();
             boolean check = true;
             query query = new query();
@@ -81,7 +59,7 @@ public class tender extends HttpServlet {
                 arr.put(favourite);
             }
             tender.put("favourites", arr);
-            
+
             arr = new JSONArray();
             int k = 0;
             for (Object history : new RestaurantRelations().getHistory(pk)) {
@@ -95,14 +73,14 @@ public class tender extends HttpServlet {
 
             tender.put("history", arr);
             //out.println(likes+"<br>");
-            
+
             for (Object like : likes) {
                 temp.clear();
                 temp.put("type", like);
                 temp.put("user_id", pk);
                 likeCount.add(query.getManyRows("history", "pk", temp));
             }
-            
+
             if (likeCount.isEmpty()) {
                 tender.put("palette", likes.get((int) Math.floor(Math.random() * likes.size())));
                 out.println(tender);
@@ -154,7 +132,23 @@ public class tender extends HttpServlet {
             }
         } catch (Exception e) {
 
-        }*/
+        }
+
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tender.model.History;
+import tender.model.groups;
 
 /**
  *
@@ -42,6 +43,8 @@ public class groupHistory extends HttpServlet {
             request.setAttribute("entireHistory", history);
             //out.println("test");
             //out.println(history.toString());
+            String ppk = request.getSession(false).getAttribute("personPK").toString();
+            request.setAttribute("groups", new groups().getGroup(ppk));
             request.getRequestDispatcher("groupHistory.jsp").forward(request, response);
 
         }

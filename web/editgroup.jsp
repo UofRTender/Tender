@@ -19,6 +19,7 @@
     <body>
         <c:import url="HTMLPartials/navBar.jsp"/>
         <div id="containerBox" class="container col-sm-4 col-sm-offset-4">
+            <h1>Edit group: <c:out value="${name}"></c:out></h1>
             <c:if test="${not empty error}">
                 <c:out value="${error}"></c:out>
             </c:if>

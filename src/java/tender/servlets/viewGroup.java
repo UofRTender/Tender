@@ -77,12 +77,15 @@ public class viewGroup extends HttpServlet {
                     user.user(Integer.parseInt(groupMember.toString()));
                     groupMembers.add(user);
                 }
+                String pk = request.getSession(false).getAttribute("personPK").toString();
 
                 request.setAttribute("pk", id);
                 request.setAttribute("groupName", members.getName(id));
                 request.setAttribute("members", groupMembers);
+                request.setAttribute("groups", new groups().getGroup(pk));
                 request.getRequestDispatcher("viewGroup.jsp").forward(request, response);
 
+                
                 processRequest(request, response);
             }
         }

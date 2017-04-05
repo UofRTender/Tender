@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import tender.model.groups;
 import static tender.model.hash.hexEncode;
 import tender.model.query;
 
@@ -55,11 +56,14 @@ public class login extends HttpServlet {
                     if (data.exists("person", info)) {
                         request.getSession().invalidate();
                         session = request.getSession();
-                        session.setAttribute("personPK", data.getValue("person", "pk", info));
+                        String pk=data.getValue("person", "pk", info);
+                        session.setAttribute("personPK", pk);
                         info.clear();
-                        info.put("pk", session.getAttribute("personPK"));
+                        info.put("pk", pk);
                         session.setAttribute("personAddress", data.getValue("location", "address", info));
                         session.setAttribute("personCity", data.getValue("location", "city", info));
+                        
+                        //session.setAttribute("groups",new groups().getGroup(pk));
                         response.sendRedirect("profile");
                         //request.getRequestDispatcher("/profile").forward(request, response);
                     } else {

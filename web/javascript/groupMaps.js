@@ -13,6 +13,8 @@ var restaruants = [];
 var PaletteRequest;
 var palette;
 var num = 0;
+var currentRestaurant = "0";
+
 function rankings(name, score, location, geometry) {
     this.name = name;
     this.score = score;
@@ -22,7 +24,7 @@ function rankings(name, score, location, geometry) {
 }
 
 function initMapRandom() {
-    //console.log("init");
+    console.log("init");
     restaruants = [];
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15
@@ -32,7 +34,7 @@ function initMapRandom() {
     directionsDisplay.setMap(map);
 
     if (navigator.geolocation) {
-        //console.log("geo Enable");
+        console.log("geo Enable");
         navigator.geolocation.getCurrentPosition(function (position) {
             //console.log("start");
             source = {
@@ -43,7 +45,7 @@ function initMapRandom() {
             infoWindow.setPosition(source);
             //console.log("set center");
             map.setCenter();
-            //console.log("calling random");
+            console.log("calling random");
             trueRandomReturn();
 
             //console.log("returned");
@@ -55,7 +57,6 @@ function initMapRandom() {
         alert("default");
         setDefault();
     }
-
 }
 
 function trueRandomReturn() {
@@ -69,42 +70,41 @@ function trueRandomReturn() {
 }
 
 function callbackRandom(results, status, pagination) {
-    //console.log("callback");
+    console.log("callback");
     //var node = document.getElementById("results");
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         //var num = Math.floor((Math.random() * results.length));
         for (var i = 0; i < results.length; i++) {
             restaruants.push(new rankings(results[i].name, results[i].rating, results[i].place_id, results[i].geometry.location));
         }
+        console.log(restaruants);
+        findRestaurant();
         /*if (pagination.hasNextPage) {
-            pagination.nextPage();
-        } else {
-            findRestaurant();
-        }*/
+         pagination.nextPage();
+         } else {
+         findRestaurant();
+         }*/
     }
 }
 
 function findRestaurant() {
-    var num = Math.floor((Math.random() * restaruants.length));
+    console.log("find restaurant");
+    num = Math.floor((Math.random() * restaruants.length));
     var node = document.getElementById("results");
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
+
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
-    node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].rating + "</p>";
-    node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
+    node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
+    //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
     node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    console.log("print stuff");
+    console.log(num + "  " + restaruants[num].name + "  " + restaruants[num].location);
 
     currentRestaurant = restaruants[num].location;
-    //checkFavourites();
-    //console.log("addtemp");
     addTemp();
-    //console.log("restaruants");
-    //console.log(num);
     destination = restaruants[num].geometry;
-    //console.log(restaruants[num].name);
-    //console.log(restaruants[num].geometry.location);
-
     calculateAndDisplayRoute();
 
 }
@@ -125,6 +125,7 @@ function initMapPalette() {
             };
             infoWindow.setPosition(source);
             map.setCenter(source);
+            //console.log("palette return");
             PaletteReturn(source);
         });
     } else {
@@ -135,7 +136,12 @@ function initMapPalette() {
 
 function PaletteReturn() {
     var service = new google.maps.places.PlacesService(map);
-    $.get('groupTender', function (data) {
+    console.log("palette reutrn");
+    $.get('groupTender',
+            {
+                gpk: document.getElementById("gname").value
+            }
+    , function (data) {
         console.log(data);
         palette = data;
         PaletteRequest = {
@@ -156,9 +162,11 @@ function PaletteReturn() {
 
 function callbackPalette(results, status, pagination) {
     //console.log(PaletteRequest["query"]);
+    console.log("callback palette");
     for (var i = 0; i < results.length; i++) {
         restaruants.push(new rankings(results[i].name, results[i].rating, results[i].place_id, results[i].geometry.location));
     }
+    console.log(restaruants);
     findPaletteRestaurant();
     /*for (var i = 0; i < results.length; i++) {
      restaruants.push(results[i]);
@@ -282,6 +290,7 @@ function getOldRestaurant(placeid) {
 }
 
 function callbackOld(place, status) {
+    restaruants.length = 0;
     restaruants.push(new rankings(place.name, place.rating, place.place_id, place.geometry.location));
     destination = place.geometry.location;
 
@@ -292,11 +301,12 @@ function callbackOld(place, status) {
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[0].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[0].untouchable + "</p>";
     //node.removeChild(node);
-    //node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
 
     //checkFavourites();
-    calculateAndDisplayRoute();
     updatePage();
+    calculateAndDisplayRoute();
+
 }
 
 function calculateAndDisplayRoute() {

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import tender.model.friends;
+import tender.model.groups;
 import tender.model.query;
 import tender.model.user;
 
@@ -60,13 +61,16 @@ public class MyProfile extends HttpServlet {
                     HashMap info = new HashMap();
                     request.setAttribute("test", session);
                     String pk = request.getSession(false).getAttribute("personPK").toString();
-
+                    
+                    //groups group=request.getSession(false).getAttribute("groups");
+                    //out.println(group);
                     user dude = new user();
                     dude.user(Integer.parseInt(pk));
                     info.put("pk", pk);
 
                     request.setAttribute("user", dude);
-
+                    //request.setAttribute("groups", pk);
+                    request.setAttribute("groups", new groups().getGroup(pk));
                     request.getRequestDispatcher("profile.jsp").forward(request, response);
                 }
             }

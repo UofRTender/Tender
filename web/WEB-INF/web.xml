@@ -112,6 +112,10 @@
         <servlet-name>remoteProfile</servlet-name>
         <servlet-class>tender.servlets.remoteProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>paletteFetch</servlet-name>
+        <servlet-class>tender.servlets.paletteFetch</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.htm</url-pattern>
@@ -211,6 +215,10 @@
     <servlet-mapping>
         <servlet-name>remoteProfile</servlet-name>
         <url-pattern>/remoteProfile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>paletteFetch</servlet-name>
+        <url-pattern>/paletteFetch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

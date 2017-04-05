@@ -17,8 +17,6 @@
 
     </head>
     <body>
-
-
         <div id="containerBox" class = "container text-center col-sm-offset-4 col-sm-4">
 
             <form class="form-login" action="login" method="post">
@@ -34,10 +32,8 @@
                 <a class="btn btn-lg btn-danger" href="signup.jsp"/>Sign Up</a>
 
             </form>
-
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src=”js/bootstrap.js”></script>
-
     </body>
 </html>

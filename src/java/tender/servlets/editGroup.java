@@ -146,6 +146,8 @@ public class editGroup extends HttpServlet {
 
             request.setAttribute("confirmed", possibleMembers);
             request.setAttribute("gpk", gpk);
+            request.setAttribute("name", new groups().getName(gpk));
+            request.setAttribute("groups", new groups().getGroup(pk));
             request.getRequestDispatcher("editgroup.jsp").forward(request, response);
             //processRequest(request, response);
         }

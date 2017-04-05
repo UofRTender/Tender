@@ -34,7 +34,7 @@ public class remoteProfile extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String friendpk = request.getParameter("friendToAdd");
-            String pk = "3"/*request.getSession(false).getAttribute("personPK").toString()*/;
+            String pk = request.getSession(false).getAttribute("personPK").toString();
             if(pk.equals(friendpk)){
                 response.sendRedirect("profile");
             }

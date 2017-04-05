@@ -44,7 +44,7 @@
                             <th>Friends</th> 
                         </thead>
                         <c:forEach var="conf" items="${confirmed}">
-                            <form method="get" action="profile">
+                            <form method="get" action="remoteProfile">
                                 <input type="hidden" name="friendToAdd" value="${conf.pk}"/> 
                                 <tr>
                                     <td><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out></td>

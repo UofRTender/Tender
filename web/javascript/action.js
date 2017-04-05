@@ -126,3 +126,21 @@ function addFriend(pk) {
         element.parentNode.removeChild(element);
     });
 }
+
+function signup() {
+    $.get("signup",
+            {
+                first_name: document.getElementById("first_name").value,
+                last_name: document.getElementById("last_name").value,
+                password: document.getElementById("password").value,
+                confirm_password: document.getElementById("confirm_password").value,
+                email: document.getElementById("email").value,
+                address: document.getElementById("address").value,
+                city: document.getElementById("city").value,
+                province: document.getElementById("province").value,
+                country: document.getElementById("country").value
+            },function (data) {
+                var node = document.getElementById("error");
+                node.innerHTML = "<p>" + data.message + "</p>";
+            });
+}

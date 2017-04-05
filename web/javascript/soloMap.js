@@ -144,7 +144,7 @@ function initMapPalette() {
 function PaletteReturn() {
     var service = new google.maps.places.PlacesService(map);
     var distance = document.getElementById("radius").value*100;
-    $.get('tender', function (data) {
+    $.get('paletteFetch', function (data) {
         palette = data;
         //console.log(data);
        console.log("palette " + palette.palette);

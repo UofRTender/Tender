@@ -47,7 +47,7 @@ public class groupTender extends HttpServlet {
             ArrayList<String[]> paletteScore = new ArrayList<>();
             JSONArray arr;
 
-            String gpk = "4";//request.getParameter("gpk");
+            String gpk = "4"/*request.getParameter("gpk")*/;
             ArrayList groupMembers = group.getGroupMembers(gpk);
 
             boolean increment = false;
@@ -69,11 +69,17 @@ public class groupTender extends HttpServlet {
                     }
                 }
             }
+            /*for (String[] t : paletteScore) {
+                for (String x : t) {
+                    out.println(x);
+                }
+            }*/
 
             //RETURNS THE ENTIRE GROUPS TYPE HISTORY
             for (Object type : new History("0").getTypeGroupHistory(gpk)) {
                 groupTypeHistory.add(type.toString());
             }
+            //out.println(groupTypeHistory);
 
             if (groupTypeHistory.isEmpty()) {
                 ArrayList<String[]> max = new ArrayList<>();
@@ -96,13 +102,20 @@ public class groupTender extends HttpServlet {
                     }
                 }
             }
-            
+            /*for (String[] t : paletteScore) {
+                for (String x : t) {
+                    out.println(x);
+                }
+            }*/
+
             ArrayList<String[]> paletteReturn = new ArrayList<>();
             paletteReturn.add(paletteScore.get(0));
-
+            //out.println("palettereturn " + paletteReturn.get(0)[0] + "<br>");
+            //out.println(paletteScore.size() + "<br>");
+            
             for (String[] max : paletteScore) {
-
-                if (Integer.parseInt(paletteReturn.get(0)[1]) < Double.parseDouble(max[1])) {
+                //out.println("i" + max[0] + " " + max[1] + "<br>");
+                if (Double.parseDouble(paletteReturn.get(0)[1]) < Double.parseDouble(max[1])) {
                     paletteReturn.clear();
                     paletteReturn.add(max);
                 }

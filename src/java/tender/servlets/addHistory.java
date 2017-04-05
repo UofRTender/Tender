@@ -141,11 +141,12 @@ public class addHistory extends HttpServlet {
                     }
                     break;
                 default: {
+                    json = new JSONObject();
                     newHistory.delete("temphistory", info);
                     String id = request.getParameter("restaurant");
                     info.put("restaurant_pk", id);
                     newHistory.insert(table, info);
-                    break;
+                    out.println(json.put("r", id));
                 }
             }
         } catch (Exception e) {

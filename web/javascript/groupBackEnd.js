@@ -1,5 +1,3 @@
-var currentRestaurant="0";
-
 function addHistory() {
     $.get('addHistory',
             {
@@ -28,11 +26,46 @@ function persist() {
                 if (data.new != "true") {
                     initMapOld(data);
                 } else {
-                    console.log("updated "+data.new);
                     updatePage();
                 }
             }
     );
+}
+function updatePage() {
+    $.get('addHistory', {
+        job: "check",
+        table: "temphistory",
+        oldid: currentRestaurant,
+        id: document.getElementById("gname").value
+    }, function (data) {
+        //console.log("return");
+        console.log(data);
+        if (data.load == "true") {
+            console.log("currentRes:    "+currentRestaurant);
+            currentRestaurant=data.old;
+            initMapOld(data);
+        } else {
+            console.log();
+            var intId = setInterval(function () {
+                updatePage();
+            }, 20000);
+        }
+    });
+}
+
+function addTemp() {
+    console.log("addtemp");
+    
+    $.get('addHistory', {
+        job: "temp",
+        restaurant:restaruants[num].location,
+        table: "temphistory",
+        id: document.getElementById("gname").value,
+    }, function (data) {
+        //updatePage();
+        console.log("TEMPHistory");
+        console.log(data);
+    })
 }
 
 function addFavourites() {
@@ -63,49 +96,8 @@ function checkFavourites() {
                     node.innerHTML = node.innerHTML + "<p>favourited!!</p>";
                 } else {
                     node.innerHTML = node.innerHTML + "<button type='button' onclick='addFavourites()'>Add to Favourites</button>";
-
                 }
-
             });
 }
 
-function updatePage() {
-    $.get('addHistory', {
-        job: "check",
-        table: "temphistory",
-        oldid: currentRestaurant,
-        id: document.getElementById("gname").value
-    }, function (data) {
-        //console.log("return");
-        //console.log(data.load);
-        //console.log("return");
-        if (data.load == "true") {
-            currentRestaurant=data.old;
-            console.log("currentRes:    "+currentRestaurant);
-            initMapOld(data);
-        } else {
-            var intId = setInterval(function () {
-                persist();
-            }, 15000);
-        }
-    });
-}
 
-function addTemp() {
-    console.log("addtemp");
-    
-    $.get('addHistory', {
-        job: "temp",
-        restaurant:restaruants[num].location,
-        table: "temphistory",
-        id: document.getElementById("gname").value,
-    }, function (data) {
-        updatePage();
-        console.log("TEMPHistory");
-        console.log(data);
-    })
-}
-
-function voteChange(){
-    
-}

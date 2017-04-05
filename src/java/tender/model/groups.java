@@ -14,6 +14,27 @@ import java.util.HashMap;
  */
 public class groups {
 
+    private String name;
+    private String gpk;
+
+    public groups(String gpk, String name) {
+        this.name = name;
+        this.gpk = gpk;
+    }
+
+    public groups() {
+        name = "";
+        gpk = "0";
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPk() {
+        return gpk;
+    }
+
     public void makeGroup(String groupName, String pk, String[] members) {
         query check = new query();
         HashMap groupInfo = new HashMap();
@@ -95,12 +116,26 @@ public class groups {
         restraints.put("groups_id", pk);
         update.insert("mygroups", restraints);
     }
-    
-    public boolean isMember(String pk, String userPK){
+
+    public boolean isMember(String pk, String userPK) {
         query check = new query();
         HashMap restraints = new HashMap();
         restraints.put("person_pk", userPK);
         restraints.put("groups_id", pk);
         return check.exists("mygroups", restraints);
+    }
+
+    public ArrayList<groups> getGroup(String userPK) {
+        ArrayList<groups> group = new ArrayList<>();
+        query query = new query();
+        HashMap conditions = new HashMap();
+        conditions.put("person_pk", userPK);
+        for (Object groupPK : query.getManyRows("mygroups", "groups_id", conditions)) {
+            conditions.clear();
+            conditions.put("pk", groupPK.toString());
+
+            group.add(new groups(groupPK.toString(), query.getValue("groups", "name", conditions)));
+        }
+        return group;
     }
 }

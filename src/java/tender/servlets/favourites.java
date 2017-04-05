@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tender.model.Favourites;
+import tender.model.groups;
 import tender.model.query;
 
 /**
@@ -42,7 +43,8 @@ public class favourites extends HttpServlet {
             
             //out.println(favourite);
             request.setAttribute("favourites", favourite);
-           
+          
+            request.setAttribute("groups", new groups().getGroup(pk));
             request.getRequestDispatcher("favourites.jsp").forward(request, response);
 
         }

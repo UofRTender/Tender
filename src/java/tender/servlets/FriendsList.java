@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tender.model.friends;
+import tender.model.groups;
 import tender.model.query;
 import tender.model.user;
 
@@ -86,6 +87,7 @@ public class FriendsList extends HttpServlet {
                 request.setAttribute("confirmed", confirmedFriends);
             }   
             
+            request.setAttribute("groups", new groups().getGroup(Integer.toString(pk)));
             //out.println(confirmedFriends);
             request.getRequestDispatcher("friendsList.jsp").forward(request, response);
         }

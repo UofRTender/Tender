@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tender.model.History;
+import tender.model.groups;
 
 /**
  *
@@ -39,7 +40,8 @@ public class history extends HttpServlet {
             ArrayList<History> history=new ArrayList<>();
             history=new History(pk).getHistory("history","user_id");
             //out.println(history.toString());
-     
+    
+            request.setAttribute("groups", new groups().getGroup(pk));
             request.setAttribute("entireHistory", history);
             //out.println(returnHistory);
             request.getRequestDispatcher("history.jsp").forward(request, response);

@@ -27,7 +27,7 @@
                         <th>Groups</th>
                     </tr>
 
-                    <c:forEach var="group" items="${groups}">
+                    <c:forEach var="group" items="${groups2}">
                         <tr id="${group.key}" onmouseover="showGroupButtons(this)">
                             <td>
                                 <a href="viewGroup?id=${group.key}">

@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import tender.model.groups;
 import tender.model.query;
 import tender.model.user;
 
@@ -38,7 +39,7 @@ public class search extends HttpServlet {
             String query = request.getParameter("friendToAdd");
             String[] parseQuery = query.split(" ");
             boolean add = true;
-
+            String pk = request.getSession(false).getAttribute("personPK").toString();
             query search = new query();
             ArrayList<user> results = new ArrayList<>();
             user User = new user();
@@ -47,7 +48,7 @@ public class search extends HttpServlet {
                 parseQuery[i] = String.valueOf(parseQuery[i].charAt(0)).toUpperCase() + parseQuery[i].substring(1);
                 out.println(parseQuery[i]);
             }
-            
+
             for (int i = 0; i < 3; i++) {
                 for (String info : parseQuery) {
                     conditions.clear();
@@ -65,7 +66,7 @@ public class search extends HttpServlet {
                     //out.println("<br>"+search.getManyRows2("person", "pk", conditions)+"<br>");
                     for (Object data : search.getManyRows("person", "pk", conditions)) {
                         int num = Integer.parseInt(data.toString());
-                        
+
                         User = new user();
                         User.user(num);
                         for (user person : results) {
@@ -85,7 +86,8 @@ public class search extends HttpServlet {
             }*/
             //out.println("done");
             request.setAttribute("users", results);
-            
+
+            request.setAttribute("groups", new groups().getGroup(pk));
             request.getRequestDispatcher("searchresults.jsp").forward(request, response);
         }
     }

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import tender.model.Palette;
+import tender.model.groups;
 import tender.model.query;
 
 /**
@@ -76,6 +77,8 @@ public class palette extends HttpServlet {
         } else {
             PrintWriter out = response.getWriter();
             Palette userPalette=new Palette();
+            String pk = request.getSession(false).getAttribute("personPK").toString();
+            request.setAttribute("groups", new groups().getGroup(pk));
             request.setAttribute("foodPreferences", userPalette.getFoodPreference(request.getSession(false).getAttribute("personPK").toString()));
             request.getRequestDispatcher("palette.jsp").forward(request, response);
         }
