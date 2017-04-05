@@ -54,11 +54,12 @@
                     </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-left">
+            <form class="navbar-form navbar-left" action="search" method="get">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
+                    <input name="friendToAdd" type="text" class="form-control" id="usr">
                 </div>
-                <button type="submit" class="btn-danger btn-sm">Submit</button>
+                <input class="btn-danger btn-sm" type="submit" value="Search"/>
+                
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>

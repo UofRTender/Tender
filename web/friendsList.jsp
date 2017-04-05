@@ -18,39 +18,41 @@
 
     </head>
     <body>
-        
+
         <c:import url="HTMLPartials/navBar.jsp"/>
-        
+
         <div id="containerBox" class = "container align-self-center col-sm-4 col-sm-offset-4">
-        
+
             <div class="table-responsive">
                 <table class="table table-condensed">
-                    <thead>
+
+                    <c:if test="${not empty pending}">
+                        <thead>
                         <th>Pending friend requests</th>
-                    </thead>
-                    <tbody>
+                        </thead>
                         <c:forEach var="pend" items="${pending}">
                             <form action="FriendsList" method="post">
                                 <input type="hidden" value="${pend.pk}" name="pendingID">
                                 <tr>
                                     <td class="text-capitalize"><c:out value="${pend.firstName}"></c:out> <c:out value="${pend.lastName}"></c:out></td>
-                                    <td><input class="btn-sm btn-danger" type="submit" name="accept" value="Confirm Request"></td>
-                                    <td><input class="btn-sm btn-danger" type="submit" name="decline "value="Decline Request"></td>
-                                </tr>
-                            </form>
+                                        <td><input class="btn-sm btn-danger" type="submit" name="accept" value="Confirm Request"></td>
+                                        <td><input class="btn-sm btn-danger" type="submit" name="decline "value="Decline Request"></td>
+                                    </tr>
+                                </form>
                         </c:forEach>
+                    </c:if>
                     <c:if test="${not empty confirmed}">
                         <thead>
-                            <th>Friends</th> 
+                        <th>Friends</th> 
                         </thead>
                         <c:forEach var="conf" items="${confirmed}">
                             <form method="get" action="remoteProfile">
                                 <input type="hidden" name="friendToAdd" value="${conf.pk}"/> 
                                 <tr>
                                     <td><c:out value="${conf.firstName}"></c:out> <c:out value="${conf.lastName}"></c:out></td>
-                                    <td><input class="btn-sm btn-danger" type="submit" value="View Profile"></td>
-                                </tr>
-                            </form>
+                                        <td><input class="btn-sm btn-danger" type="submit" value="View Profile"></td>
+                                    </tr>
+                                </form>
                         </c:forEach>
                     </c:if>
                 </table>

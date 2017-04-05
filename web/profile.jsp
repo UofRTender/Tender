@@ -10,11 +10,11 @@
     <body>
         <title> <c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/> </title>
         <c:import url="HTMLPartials/navBar.jsp"/>
-
+        <!--<div class="col-sm-4 algin-self-center"><img src="/Tender/images/Tender Logo sm.png" alt="Tender"></div>-->
         <div id="containerBox" class = "container algin-self-center col-sm-4 col-sm-offset-4">
 
             <h1 class="text-center">
-                <th class="text-center"><c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/></th>
+                <th class="text-center"><c:out value="${user.firstName}"/> <c:out value="${user.lastName}"/> #<c:out value="${user.pk}"/></th>
             </h1>
 
             <table class="table table-hover table-condensed">
@@ -42,19 +42,6 @@
                         </form>
                     </td>
                 </tr>
-
-                <tr>
-                    <td>
-                        <form action="search" method="get">
-                            <div class="form-group">
-                                <label class="text-center" for="usr">Friend Search:</label>
-                                <input name="friendToAdd" type="text" class="form-control" id="usr">
-                            </div> 
-                            <input class="btn btn-block btn-danger" type="submit" value="Search"/>
-                        </form>
-                    </td>
-                </tr>
-
                 <tr>
                     <td>
                         <form action="FriendsList" method="get">
@@ -103,5 +90,9 @@
                 </tr>
             </table>
         </div>
+        <div class = "container algin-self-center col-sm-2 col-sm-offset-5">
+            <img src="/Tender/images/Tender Logo sm.png" alt="Tender">
+        </div>
+        <!--<div class="col-sm-4 self-center"><img src="/Tender/images/Tender Logo sm.png" alt="Tender"></div>-->
     </body>
 </html>

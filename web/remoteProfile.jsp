@@ -15,7 +15,7 @@
     </head>
     <body>
         <div id="containerBox" class = "container algin-self-center col-sm-4 col-sm-offset-4">
-            <h1><c:out value="${friend.firstName}"></c:out> <c:out value="${friend.lastName}"></c:out></h1>
+            <h1><c:out value="${friend.firstName}"></c:out> <c:out value="${friend.lastName}"></c:out> #<c:out value="${friend.pk}"></c:out></h1>
             <p><c:out value="${friend.email}"></c:out></p>
             <p><c:out value="${friend.city}"/></p>
             <p><c:out value="${friend.province}"/></p>

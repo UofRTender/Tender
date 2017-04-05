@@ -139,8 +139,12 @@ function signup() {
                 city: document.getElementById("city").value,
                 province: document.getElementById("province").value,
                 country: document.getElementById("country").value
-            },function (data) {
-                var node = document.getElementById("error");
-                node.innerHTML = "<p>" + data.message + "</p>";
-            });
+            }, function (data) {
+        if (data.message === "OK") {
+            $(location).attr('href', 'login');
+        } else {
+            var node = document.getElementById("error");
+            node.innerHTML = "<p>" + data.message + "</p>";
+        }
+    });
 }
