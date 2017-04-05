@@ -63,8 +63,7 @@ function checkFavourites() {
                 if (data == "true") {
                     node.innerHTML = node.innerHTML + "<p>favourited!!</p>";
                 } else {
-                    node.innerHTML = node.innerHTML + "<button type='button' onclick='addFavourites()'>Add to Favourites</button>";
-
+                    node.innerHTML = node.innerHTML + "   <button type='button' class='btn-danger btn-sm' onclick='addFavourites()'>Add to Favourites</button>";
                 }
 
             });

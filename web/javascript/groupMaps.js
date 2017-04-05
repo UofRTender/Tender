@@ -91,16 +91,22 @@ function findRestaurant() {
     console.log("find restaurant");
     num = Math.floor((Math.random() * restaruants.length));
     var node = document.getElementById("results");
+    var container = document.getElementById("containerBox");
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
-
+    node.innerHTML = node.innerHTML + "<h3>Group Tender</h3>";
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
     //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
-    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    node.innerHTML = node.innerHTML + "<button type='button' class='btn-danger btn-sm' onclick='addHistory()'>Add to History</button>";
     console.log("print stuff");
     console.log(num + "  " + restaruants[num].name + "  " + restaruants[num].location);
+     node.style.backgroundColor = "white";
+    node.style.borderRadius = "25px 25px 0px 0px";
+    node.style.boxShadow = "10px 10px 10px"; 
+
+    container.style.borderRadius = "0px 0px 25px 25px";
 
     currentRestaurant = restaruants[num].location;
     addTemp();

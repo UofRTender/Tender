@@ -31,15 +31,16 @@
     </head>
     <body onload="persist()">
         <c:import url="HTMLPartials/navBar.jsp"/>
-        <div id="containerBox" class="container col-sm-6 col-sm-offset-3" style="width:100vh; height:80vh; padding-top: 15px; padding-bottom: 35px;">
+        <div id="results" class="container col-sm-6 col-sm-offset-3" style="width:100vh;"></div>
+        <div id="containerBox" class="container col-sm-6 col-sm-offset-3" style="width:100vh; height:70vh; padding-top: 15px; padding-bottom: 55px;">
             <input id="radius" type="range" min="0" max="50" value="25" onchange="showValue(this.value)" /><span id="range">25 km</span>
-            <button type="button" onclick="initMapRandom()">
+            <button type="button" class="btn-danger btn-sm" onclick="initMapRandom()">
                 True Random
             </button>
-            <button type="button" onclick="initMapPalette()">
+            <button type="button"  class="btn-danger btn-sm" onclick="initMapPalette()">
                 Palette Specific
             </button>
-            <div id="results"></div>
+            
 
             <div id="map"></div>
         </div> 

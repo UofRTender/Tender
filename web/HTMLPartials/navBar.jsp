@@ -41,7 +41,8 @@
                 <li><a href="/Tender/tender">Navigation</a></li>
                 <li><a href="/Tender/palette">Palette</a></li>
                 <li><a href="/Tender/favourites">Favourites</a></li>
-                <li><a href="/Tender/history">History</a></li>
+                <li><a href="/Tender/history">History</a></li>                                
+                        
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -52,8 +53,13 @@
                         </c:forEach>
                     </ul>
                 </li>
-
             </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn-danger btn-sm">Submit</button>
+            </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
             </ul>

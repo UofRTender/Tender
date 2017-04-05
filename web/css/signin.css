@@ -7,6 +7,12 @@ div#containerBox {
     box-shadow: 10px 10px 10px;
 }
 
+div#results {
+    background-color: white;
+    border-radius: 25px;
+    box-shadow: 10px 10px 10px;
+}
+
 .container{
     
 }
