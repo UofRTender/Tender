@@ -16,14 +16,14 @@
     <body>
         <div id="containerBox" class = "container algin-self-center col-sm-4 col-sm-offset-4">
             <h1><c:out value="${friend.firstName}"></c:out> <c:out value="${friend.lastName}"></c:out> #<c:out value="${friend.pk}"></c:out></h1>
-            <p><c:out value="${friend.email}"></c:out></p>
-            <p><c:out value="${friend.city}"/></p>
-            <p><c:out value="${friend.province}"/></p>
-            <p><c:out value="${friend.country}"/></p>
+            <label><c:out value="${friend.email}"></c:out></label><br>
+            <label class="text-capitalize"><c:out value="${friend.city}"/></label><br>
+            <label class="text-capitalize"><c:out value="${friend.province}"/></label><br>
+            <label class="text-capitalize"><c:out value="${friend.country}"/></label><br>
             <c:if test="${not empty addFriend}">
                 <tr>
                     <td>
-                        <input id="friendButton" class="btn btn-block btn-danger" type="submit" value="add friend" onclick="addFriend(${friend.pk})"/>
+                        <input id="friendButton" class="btn btn-lg algin-self-center btn-danger" type="submit" value="Add Friend" onclick="addFriend(${friend.pk})"/>
                     </td>
                 </tr>
             </c:if>

@@ -36,7 +36,7 @@
     <body onload="persist()">
         <c:import url="HTMLPartials/navBar.jsp"/>
         <div id="results" class="container col-sm-6 col-sm-offset-3" style="width:100vh;"></div>
-        <div id="containerBox" class="container col-sm-6 col-sm-offset-3" style="width:100vh; height:70vh; padding-top: 0px; padding-bottom: 120px;">
+        <div id="containerBox" class="container col-sm-6 col-sm-offset-3" style="width:100vh; height:70vh; padding-top: 0px; padding-bottom: 210px;">
             <input type="hidden" id="gname" value="${pk}"/>
             <h1><c:out value="${groupName}"/></h1>
 

@@ -23,8 +23,8 @@
                                 <td id="${user.pk}"><a href="remoteProfile?friendToAdd=${user.pk}">
                                         <c:out value="${user.firstName}"></c:out> <c:out value="${user.lastName}"></c:out> #<c:out value="${user.pk}"></c:out>
                                     </a></td>
-                                <td><c:out value="${user.email}"></c:out></td>
-                                <td><c:out value="${user.city}"></c:out> <c:out value="${user.country}"></c:out></td>
+                                <td class="text-capitalize"><c:out  value="${user.email}"></c:out></td>
+                                <td class="text-capitalize"><c:out value="${user.city}"></c:out> <c:out value="${user.country}"></c:out></td>
                                 </tr>
                         </c:forEach>
                     </table>

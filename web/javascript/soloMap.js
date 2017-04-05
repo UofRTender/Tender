@@ -282,13 +282,22 @@ function findPaletteRestaurant(data) {
         }
     }
     var node = document.getElementById("results");
+    var container = document.getElementById("containerBox");
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
     console.log(num);
+    node.innerHTML = node.innerHTML + "<h3>Solo Tender</h3>";
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
-    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
+    //node.innerHTML = node.innerHTML + "<input type='hidden' id='name' value=" + restaruants[num].name + ">";
+    node.innerHTML = node.innerHTML + "<button type='button' class='btn-danger btn-sm' onclick='addHistory()'>Add to History</button>";
+    node.style.backgroundColor = "white";
+    node.style.borderRadius = "25px 25px 0px 0px";
+    node.style.boxShadow = "10px 10px 10px"; 
+
+    container.style.borderRadius = "0px 0px 25px 25px";
     
     checkFavourites();
 

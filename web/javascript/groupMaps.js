@@ -239,12 +239,21 @@ function findPaletteRestaurant(data) {
     }
     console.log(restaruants);
     var node = document.getElementById("results");
+    var container = document.getElementById("containerBox");
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
+    node.innerHTML = node.innerHTML + "<h3>Solo Tender</h3>";
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
-    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
+    //node.innerHTML = node.innerHTML + "<input type='hidden' id='name' value=" + restaruants[num].name + ">";
+    node.innerHTML = node.innerHTML + "<button type='button' class='btn-danger btn-sm' onclick='addHistory()'>Add to History</button>";
+    node.style.backgroundColor = "white";
+    node.style.borderRadius = "25px 25px 0px 0px";
+    node.style.boxShadow = "10px 10px 10px"; 
+
+    container.style.borderRadius = "0px 0px 25px 25px";
     destination = restaruants[num].geometry;
     addTemp();
     calculateAndDisplayRoute();
@@ -301,13 +310,21 @@ function callbackOld(place, status) {
     destination = place.geometry.location;
 
     var node = document.getElementById("results");
+    var container = document.getElementById("containerBox");
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
-    node.innerHTML = node.innerHTML + "<p>name: " + restaruants[0].name + "</p>";
-    node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[0].untouchable + "</p>";
-    //node.removeChild(node);
-    node.innerHTML = node.innerHTML + "<button type='button' onclick='addHistory()'>Add to History</button>";
+    node.innerHTML = node.innerHTML + "<h3>Solo Tender</h3>";
+    node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
+    node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
+    //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
+    //node.innerHTML = node.innerHTML + "<input type='hidden' id='name' value=" + restaruants[num].name + ">";
+    node.innerHTML = node.innerHTML + "<button type='button' class='btn-danger btn-sm' onclick='addHistory()'>Add to History</button>";
+    node.style.backgroundColor = "white";
+    node.style.borderRadius = "25px 25px 0px 0px";
+    node.style.boxShadow = "10px 10px 10px"; 
+
+    container.style.borderRadius = "0px 0px 25px 25px";
 
     //checkFavourites();
     updatePage();
