@@ -1,13 +1,17 @@
 function addHistory() {
     var node = document.getElementById("results");
-    node.removeChild(node.childNodes[2]);
+    node.removeChild(node.childNodes[3]);
+    console.log("add history");
+    console.log(restaruants[num].location);
+    console.log(restaruants[num].name);
+    console.log(paletter);
     $.get('addHistory',
             {
                 job: "add",
                 restaurant: restaruants[num].location,
                 table: "history",
                 name: restaruants[num].name,
-                palette: palette.palette
+                palette: paletter
             }, function (data) {
 
         console.log("History");

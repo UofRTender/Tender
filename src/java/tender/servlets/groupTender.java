@@ -47,7 +47,7 @@ public class groupTender extends HttpServlet {
             ArrayList<String[]> paletteScore = new ArrayList<>();
             JSONArray arr;
 
-            String gpk = "4"/*request.getParameter("gpk")*/;
+            String gpk = request.getParameter("gpk");
             ArrayList groupMembers = group.getGroupMembers(gpk);
 
             boolean increment = false;
@@ -120,7 +120,7 @@ public class groupTender extends HttpServlet {
                     paletteReturn.add(max);
                 }
             }
-
+            
             tender.put("palette", paletteReturn.get(0)[0]);
             
             //ADDS INDIVIDUAL HISTORIES TO JSON

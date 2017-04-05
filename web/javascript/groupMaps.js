@@ -12,6 +12,7 @@ var directionsDisplay = new google.maps.DirectionsRenderer;
 var restaruants = [];
 var PaletteRequest;
 var palette;
+var paletter;
 var num = 0;
 var currentRestaurant = "0";
 
@@ -25,6 +26,7 @@ function rankings(name, score, location, geometry) {
 
 function initMapRandom() {
     console.log("init");
+    paletter="null";
     restaruants = [];
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15
@@ -102,9 +104,9 @@ function findRestaurant() {
     node.innerHTML = node.innerHTML + "<button type='button' class='btn-danger btn-sm' onclick='addHistory()'>Add to History</button>";
     console.log("print stuff");
     console.log(num + "  " + restaruants[num].name + "  " + restaruants[num].location);
-     node.style.backgroundColor = "white";
+    node.style.backgroundColor = "white";
     node.style.borderRadius = "25px 25px 0px 0px";
-    node.style.boxShadow = "10px 10px 10px"; 
+    node.style.boxShadow = "10px 10px 10px";
 
     container.style.borderRadius = "0px 0px 25px 25px";
 
@@ -143,6 +145,7 @@ function initMapPalette() {
 function PaletteReturn() {
     var service = new google.maps.places.PlacesService(map);
     console.log("palette reutrn");
+    paletter=palette.palette;
     $.get('groupTender',
             {
                 gpk: document.getElementById("gname").value
@@ -153,7 +156,7 @@ function PaletteReturn() {
         PaletteRequest = {
             location: source,
             radius: '10000',
-            query: palette.palette,
+            query: paletter,
             openNow: true,
             type: ['restaurant', 'food']
         };
@@ -172,8 +175,13 @@ function callbackPalette(results, status, pagination) {
     for (var i = 0; i < results.length; i++) {
         restaruants.push(new rankings(results[i].name, results[i].rating, results[i].place_id, results[i].geometry.location));
     }
-    console.log(restaruants);
-    findPaletteRestaurant();
+    if (restaruants.length == 0) {
+        trueRandomReturn();
+    } else {
+        console.log(restaruants);
+        findPaletteRestaurant();
+    }
+
     /*for (var i = 0; i < results.length; i++) {
      restaruants.push(results[i]);
      }
@@ -237,13 +245,14 @@ function findPaletteRestaurant(data) {
             }
         }
     }
+    console.log("number of thing to grab" + num);
     console.log(restaruants);
     var node = document.getElementById("results");
     var container = document.getElementById("containerBox");
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
-    node.innerHTML = node.innerHTML + "<h3>Solo Tender</h3>";
+    node.innerHTML = node.innerHTML + "<h3>Group Tender</h3>";
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
     //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
@@ -251,7 +260,7 @@ function findPaletteRestaurant(data) {
     node.innerHTML = node.innerHTML + "<button type='button' class='btn-danger btn-sm' onclick='addHistory()'>Add to History</button>";
     node.style.backgroundColor = "white";
     node.style.borderRadius = "25px 25px 0px 0px";
-    node.style.boxShadow = "10px 10px 10px"; 
+    node.style.boxShadow = "10px 10px 10px";
 
     container.style.borderRadius = "0px 0px 25px 25px";
     destination = restaruants[num].geometry;
@@ -314,7 +323,7 @@ function callbackOld(place, status) {
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
-    node.innerHTML = node.innerHTML + "<h3>Solo Tender</h3>";
+    node.innerHTML = node.innerHTML + "<h3>Group Tender</h3>";
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[num].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[num].untouchable + "</p>";
     //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + restaruants[num].place_id + ">";
@@ -322,7 +331,7 @@ function callbackOld(place, status) {
     node.innerHTML = node.innerHTML + "<button type='button' class='btn-danger btn-sm' onclick='addHistory()'>Add to History</button>";
     node.style.backgroundColor = "white";
     node.style.borderRadius = "25px 25px 0px 0px";
-    node.style.boxShadow = "10px 10px 10px"; 
+    node.style.boxShadow = "10px 10px 10px";
 
     container.style.borderRadius = "0px 0px 25px 25px";
 

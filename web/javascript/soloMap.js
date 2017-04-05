@@ -11,6 +11,7 @@ var directionsService = new google.maps.DirectionsService;
 var directionsDisplay = new google.maps.DirectionsRenderer;
 var restaruants = [];
 var palette;
+var paletter;
 var num = 0;
 
 function rankings(name, score, location, geometry) {
@@ -23,7 +24,7 @@ function rankings(name, score, location, geometry) {
 
 function initMapRandom() {
     console.log("init");
-    palette = "null";
+    paletter = "null";
     restaruants = [];
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15
@@ -153,12 +154,13 @@ function PaletteReturn() {
     var distance = document.getElementById("radius").value*100;
     $.get('paletteFetch', function (data) {
         palette = data;
+        paletter = data.palette;
         //console.log(data);
        console.log("palette " + palette.palette);
         var PaletteRequest = {
             location: source,
             radius: distance,
-            query: palette.palette,
+            query: paletter,
             openNow: true,
             type: ['restaurant']
         };
@@ -371,6 +373,7 @@ function callbackOld(place, status) {
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
+    node.innerHTML = node.innerHTML + "<h3>Solo Tender</h3>";
     node.innerHTML = node.innerHTML + "<p>name: " + restaruants[0].name + "</p>";
     node.innerHTML = node.innerHTML + "<p>rating: " + restaruants[0].untouchable + "</p>";
     //node.innerHTML = node.innerHTML + "<input type='hidden' id='id' value=" + place.place_id + ">";

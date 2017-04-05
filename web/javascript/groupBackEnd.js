@@ -5,7 +5,7 @@ function addHistory() {
                 restaurant: restaruants[num].location,
                 id: document.getElementById('gname').value,
                 table: "grouphistory",
-                palette: palette.palette,
+                palette: paletter,
                 name:restaruants[num].name
             }, function (data) {
         console.log("History");

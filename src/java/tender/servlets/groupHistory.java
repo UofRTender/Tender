@@ -37,7 +37,7 @@ public class groupHistory extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String pk=request.getParameter("group_id");
             String name=request.getParameter("name");
-            ArrayList<History> history = new History("4").getHistory("groupHistory", "group_pk");;
+            ArrayList<History> history = new History(pk).getHistory("groupHistory", "group_pk");;
             //out.println(history.toString());
             request.setAttribute("name", name);
             request.setAttribute("entireHistory", history);
